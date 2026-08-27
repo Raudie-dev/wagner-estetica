@@ -1,0 +1,33 @@
+{% extends 'base_app2.html' %}
+{% block title %}Perfil - Estética Wagner{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Configuración del Negocio</h1>
+
+<div class="card" style="max-width: 800px;">
+    <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Información General</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Nombre del Negocio</label>
+            <input type="text" name="nombre_negocio" class="form-control" value="{{ config.nombre_negocio }}">
+        </div>
+        <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" name="direccion" class="form-control" value="{{ config.direccion|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+            <label>Horarios de Atención</label>
+            <textarea name="horarios" class="form-control" rows="3">{{ config.horarios|default_if_none:'' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Mensaje de Bienvenida del Bot</label>
+            <textarea name="mensaje_bienvenida_bot" class="form-control" rows="4">{{ config.mensaje_bienvenida_bot|default_if_none:'' }}</textarea>
+            <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Este mensaje se enviará automáticamente a las personas que te escriban por primera vez o si el bot no reconoce el comando. Si lo dejas vacío, no se enviará nada por defecto.</small>
+        </div>
+        <div style="text-align: right; margin-top: 2rem;">
+            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

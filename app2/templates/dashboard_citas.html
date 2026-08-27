@@ -1,0 +1,121 @@
+{% extends 'base_app2.html' %}
+{% block title %}Citas Programadas - Estética Wagner{% endblock %}
+
+{% block extra_head %}
+<!-- FullCalendar CSS & JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<style>
+    .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border-color); }
+    .fc .fc-toolbar-title { font-weight: 300; font-size: 1.5rem; }
+    .fc .fc-button-primary { background-color: var(--color-gold); border-color: var(--color-gold); color: #000; font-weight: 600; text-transform: capitalize; }
+    .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:hover {
+        background-color: var(--color-gold-hover);
+        border-color: var(--color-gold-hover);
+        color: #000;
+    }
+    .fc-daygrid-day-number { color: var(--text-light); text-decoration: none; }
+    .fc-col-header-cell-cushion { color: var(--text-muted); text-decoration: none; }
+    .fc-event { border: none; padding: 2px 4px; border-radius: 3px; cursor: pointer;}
+    .fc-event-main { color: #000; font-weight: 600; font-size: 0.8rem; }
+    
+    .grid-2 { display: grid; grid-template-columns: 3fr 1fr; gap: 2rem; }
+    @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 class="page-title" style="margin-bottom: 0;">Calendario de Citas</h1>
+</div>
+
+<div class="grid-2">
+    <!-- Calendar Column -->
+    <div class="card" style="padding: 1.5rem;">
+        <div id="calendar"></div>
+    </div>
+    
+    <!-- Sidebar / Action Column -->
+    <div>
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Nueva Cita</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <select name="cliente_id" class="form-control" required>
+                        <option value="">Seleccione un cliente...</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fecha y Hora</label>
+                    <input type="datetime-local" name="fecha_hora" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Tratamiento</label>
+                    <select name="servicio" class="form-control" required>
+                        <option value="">Seleccione un servicio...</option>
+                        <option value="Ritual Facial Glow">Ritual Facial Glow</option>
+                        <option value="Escultura Corporal">Escultura Corporal</option>
+                        <option value="BBGlow Perfección">BBGlow Perfección</option>
+                        <option value="Depilación Láser Soprano">Depilación Láser Soprano</option>
+                        <option value="HIFU 7D Lifting">HIFU 7D Lifting</option>
+                        <option value="Glúteos Peptonas">Glúteos Peptonas</option>
+                        <option value="Consulta General">Consulta General</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Agendar Cita</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Próximas 5 citas</h3>
+            {% if citas %}
+                {% for cita in citas|slice:":5" %}
+                <div style="padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
+                    <div style="font-weight: 600; margin-bottom: 5px;">{{ cita.cliente.nombre }}</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px;"><i class="ph ph-clock"></i> {{ cita.fecha_hora|date:"d/m/Y - H:i" }}</div>
+                    <div>
+                        <span class="badge {% if cita.estado == 'Pendiente' %}badge-pending{% else %}badge-confirmed{% endif %}">{{ cita.estado }}</span>
+                        <span style="font-size: 0.85rem; margin-left: 10px;">{{ cita.servicio }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--text-muted); font-size: 0.9rem;">No hay citas programadas.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: [
+                {% for cita in citas %}
+                {
+                    title: '{{ cita.cliente.nombre|escapejs }} - {{ cita.servicio|escapejs }}',
+                    start: '{{ cita.fecha_hora|date:"Y-m-d\TH:i:s" }}',
+                    backgroundColor: '{% if cita.estado == "Pendiente" %}#d4af37{% else %}#2ecc71{% endif %}',
+                    borderColor: 'transparent',
+                    textColor: '#000'
+                },
+                {% endfor %}
+            ]
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

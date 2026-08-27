@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Panel - Estética Wagner{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-panel: #141414;
+            --text-light: #f0f0f0;
+            --text-muted: #888888;
+            --color-gold: #d4af37;
+            --color-gold-hover: #e5c358;
+            --border-color: #2a2a2a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .sidebar-header i { color: var(--color-gold); font-size: 2rem; }
+        .sidebar-header h2 { font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .nav-links {
+            padding: 2rem 0;
+            flex-grow: 1;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 1rem 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid var(--color-gold);
+            color: var(--color-gold);
+        }
+        .nav-link i { font-size: 1.4rem; }
+        
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+        .topbar {
+            height: 70px;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .menu-toggle { display: none; background: none; border: none; color: var(--color-gold); font-size: 1.8rem; cursor: pointer; }
+        
+        .content-area {
+            padding: 2.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        h1.page-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        /* Global UI Elements */
+        .card { background-color: var(--bg-panel); border-radius: 12px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .btn-primary { background-color: var(--color-gold); color: #000; border: none; padding: 0.8rem 1.8rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s; text-decoration: none; display: inline-block; font-size: 0.95rem; }
+        .btn-primary:hover { background-color: var(--color-gold-hover); }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 0.8rem 1rem; background-color: #1a1a1a; border: 1px solid var(--border-color); color: var(--text-light); border-radius: 6px; font-family: inherit; transition: border-color 0.2s;}
+        .form-control:focus { outline: none; border-color: var(--color-gold); }
+        
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        th, td { padding: 1.2rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+        tr:hover td { background-color: rgba(255,255,255,0.02); }
+        
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        .badge-pending { background: rgba(212, 175, 55, 0.2); color: var(--color-gold); }
+        .badge-confirmed { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .badge-completed { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); z-index: 1000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+            .sidebar.show { transform: translateX(0); }
+            .main-content { width: 100%; }
+            .menu-toggle { display: block; }
+            .content-area { padding: 1.5rem; }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="ph-fill ph-crown"></i>
+            <h2>WAGNER</h2>
+        </div>
+        <nav class="nav-links">
+            <a href="{% url 'dashboard_citas' %}" class="nav-link"><i class="ph ph-calendar"></i> Citas Programadas</a>
+            <a href="{% url 'registro_cliente' %}" class="nav-link"><i class="ph ph-users"></i> Clientes</a>
+            <a href="{% url 'configuracion_respuestas' %}" class="nav-link"><i class="ph ph-robot"></i> Configuración Bot</a>
+            <a href="{% url 'configuracion_perfil' %}" class="nav-link"><i class="ph ph-gear"></i> Perfil Negocio</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button class="menu-toggle" id="menuToggle"><i class="ph ph-list"></i></button>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span style="color: var(--text-muted); font-size: 0.9rem;">Bienvenido, <strong style="color: white;">{{ user_admin.nombre }}</strong></span>
+            </div>
+        </header>
+        <div class="content-area">
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="padding: 1rem 1.5rem; background-color: {% if message.tags == 'error' %}rgba(231, 76, 60, 0.1){% else %}rgba(46, 204, 113, 0.1){% endif %}; border: 1px solid {% if message.tags == 'error' %}#e74c3c{% else %}#2ecc71{% endif %}; color: {% if message.tags == 'error' %}#e74c3c{% else %}#2ecc71{% endif %}; border-radius: 6px; margin-bottom: 2rem;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+        
+        // Active link logic
+        const currentUrl = window.location.pathname;
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (currentUrl.includes(link.getAttribute('href'))) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

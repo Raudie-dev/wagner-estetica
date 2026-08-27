@@ -3,111 +3,585 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registros de Prueba</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estética Wagner | Cuidado Premium</title>
+    <meta name="description" content="Centro de estética avanzada. Tratamientos faciales y corporales de alta gama en Buenos Aires.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/wagner-style.css' %}?v=3.11">
 </head>
 <body>
     <!-- Navbar -->
-    <header class="header">
-        <div class="container header-wrapper">
-            <a href="{% url 'index' %}" class="logo">
-                <i class="fas fa-flask-vial me-2"></i>PruebasApp
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand">
+                <i class="ph-fill ph-crown brand-icon"></i>
+                <div class="brand-text-wrapper">
+                    <span class="brand-text">WAGNER</span>
+                    <span class="brand-sub">ESTÉTICA PREMIUM</span>
+                </div>
             </a>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="{% url 'index' %}" class="active"><i class="fas fa-table"></i> Registros</a></li>
-                    <li><a href="#"><i class="fas fa-info-circle"></i> Acerca</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> Contacto</a></li>
-                </ul>
-            </nav>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nuestra Historia</a>
+                <a href="#tratamientos">Tratamientos</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            
+            <div style="display: flex; gap: 1.5rem; color: var(--color-text-light);">
+                <a href="#"><i class="ph ph-magnifying-glass" style="font-size: 1.2rem;"></i></a>
+                <a href="#"><i class="ph ph-user" style="font-size: 1.2rem;"></i></a>
+            </div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section -->
-    <section class="welcome-area" style="padding-top: 120px;">
+    <main>
+        <!-- HERO SECTION -->
+        <section id="inicio" class="hero dark-section">
+            <div class="container w-100">
+                <div class="hero-content">
+                    <span class="overline">TECNOLOGÍA DE VANGUARDIA. TU BELLEZA.</span>
+                    <h1 class="hero-title">
+                        Cuidado Natural, <span>Belleza Genuina</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Tratamientos estéticos premium diseñados con tecnología avanzada para hidratar, equilibrar y revelar tu belleza natural.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#contacto" class="btn btn-light">Descubrir Tratamientos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'wagner-img/hero_aesthetic_bright.jpg' %}" alt="Tratamiento estético premium">
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="nosotros" class="about-section light-section reveal fade-up">
+            <div class="container about-container">
+                <div class="about-images">
+                    <div class="img-card">
+                        <img src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="Cuidado facial orgánico">
+                    </div>
+                    <div class="img-card down">
+                        <img src="{% static 'wagner-img/service_body_sculpt.jpg' %}" alt="Modelado corporal natural">
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="overline">ESTÉTICA ELEVADA</span>
+                    <h2>Armonía perfecta, Enraizada en la Ciencia</h2>
+                    <p class="about-desc">
+                        Nuestros tratamientos fusionan aparatología de nivel internacional con protocolos exclusivos. Diseñamos cada sesión para brindar confort absoluto y resultados visibles desde el primer día, priorizando siempre la salud de tu piel y cuerpo.
+                    </p>
+                    <a href="https://wa.me/{{ config.telefono_whatsapp|default:'5491166380592' }}?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n.%20%23INICIO_BOT" class="btn btn-dark">Conocer Más</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES (BEST SELLERS) SECTION -->
+        <section id="tratamientos" class="services-section light-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="overline">LO MÁS SOLICITADO</span>
+                    <h2>Nuestros Tratamientos</h2>
+                    <i class="ph ph-crown" style="font-size: 1.5rem; color: var(--color-gold); margin-top: 1rem; display: block;"></i>
+                </div>
+                
+                <div class="services-grid">
+                    <!-- Facial -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="Cuidado Facial Premium">
+                        </div>
+                        <div class="service-info">
+                            <h3>Ritual Facial Glow</h3>
+                            <p>Limpieza profunda, hidratación intensiva y regeneración para un rostro luminoso y parejo.</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="Ritual Facial Glow"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Corporal -->
+                    <div class="service-card reveal fade-up delay-1">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_body_sculpt.jpg' %}" alt="Modelado Corporal Avanzado">
+                        </div>
+                        <div class="service-info">
+                            <h3>Escultura Corporal</h3>
+                            <p>Reducción no invasiva, tensado de la piel y modelado para definir tus contornos naturales.</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="Escultura Corporal"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- BBGlow -->
+                    <div class="service-card reveal fade-up delay-2">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_bbglow.jpg' %}" alt="BBGlow Piel de Porcelana">
+                        </div>
+                        <div class="service-info">
+                            <h3>BBGlow (Piel de Porcelana)</h3>
+                            <p>Unifica el tono de tu piel, ilumina e hidrata profundamente para un acabado impecable.</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="BBGlow Perfección"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HIFU 7D -->
+                    <div class="service-card reveal fade-up">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_hifu.jpg' %}" alt="HIFU 7D Lifting">
+                        </div>
+                        <div class="service-info">
+                            <h3>HIFU 7D (Lifting sin Cirugía)</h3>
+                            <p>Disminuye arrugas, flacidez y ojeras mediante ultrasonido focalizado. Modela rostro y cuerpo.</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="HIFU 7D Lifting"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BumBum Brazil / Peptonas -->
+                    <div class="service-card reveal fade-up delay-1">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_peptonas.jpg' %}" alt="Aumento de Glúteos">
+                        </div>
+                        <div class="service-info">
+                            <h3>BumBum Brazil (Peptonas)</h3>
+                            <p>Aumenta, desarrolla y levanta tus glúteos con resultados instantáneos (Peptonas, Endopeel, Body Up).</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="Glúteos Peptonas"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Depilación Definitiva -->
+                    <div class="service-card reveal fade-up delay-2">
+                        <div class="service-img">
+                            <img src="{% static 'wagner-img/service_laser.jpg' %}" alt="Depilación Láser">
+                        </div>
+                        <div class="service-info">
+                            <h3>Depilación Definitiva</h3>
+                            <p>Tratamiento láser avanzado, facial y corporal. Paquetes de 5 zonas o cuerpo completo disponibles.</p>
+                            <div class="service-action">
+                                <span class="service-price">Consultar</span>
+                                <a href="#contacto" class="add-btn book-service-btn" data-service="Depilación Láser Soprano"><i class="ph-bold ph-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="view-all">
+                    <a href="https://wa.me/{{ config.telefono_whatsapp|default:'5491166380592' }}?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n.%20%23INICIO_BOT" class="btn btn-dark">VER TODOS LOS SERVICIOS</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contacto" class="contact-banner dark-section">
+            <div class="contact-bg">
+                <img src="{% static 'wagner-img/service_body_sculpt.jpg' %}" alt="Ritual de relajación" style="transform: scaleX(-1);">
+            </div>
+            <div class="container w-100">
+                <div class="contact-container">
+                    <div class="contact-info-col reveal fade-up">
+                        <span class="overline">RESULTADOS REALES</span>
+                        <h2>Eleva tu Ritual de Cuidado</h2>
+                        <p class="contact-desc">
+                            Experimenta la combinación perfecta de tecnología y bienestar. Reserva tu consulta sin cargo en nuestro espacio diseñado para tu tranquilidad.
+                        </p>
+                        
+                        <ul class="contact-info-list">
+                            <li><i class="ph-fill ph-map-pin"></i> Av. Corrientes 2565, Piso 9, Of. 3, CABA</li>
+                            <li><i class="ph-fill ph-whatsapp-logo"></i> {% if config and config.telefono_whatsapp %}+{{ config.telefono_whatsapp }}{% endif %}</li>
+                            <li><i class="ph-fill ph-clock"></i> Lun a Sáb - 08:00 a 21:00 hs</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-form-col reveal fade-up delay-2">
+                        <form id="appointment-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Nombre y Apellido</label>
+                                <input type="text" id="name" class="form-control" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Teléfono / WhatsApp</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+54 9 11..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Servicio de Interés</label>
+                                <select id="service" class="form-control" required>
+                                    <option value="" disabled selected>Selecciona un tratamiento...</option>
+                                    <option value="Ritual Facial Glow">Ritual Facial Glow</option>
+                                    <option value="Escultura Corporal">Escultura Corporal</option>
+                                    <option value="BBGlow Perfección">BBGlow Perfección</option>
+                                    <option value="Depilación Láser Soprano">Depilación Láser Soprano</option>
+                                    <option value="HIFU 7D Lifting">HIFU 7D Lifting</option>
+                                    <option value="Glúteos Peptonas">Glúteos Peptonas</option>
+                                    <option value="Otro / Consulta General">Otro / Consulta General</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-light form-submit">ENVIAR A WHATSAPP <i class="ph-bold ph-paper-plane-tilt" style="margin-left:8px;"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- FOOTER -->
+    <footer class="footer dark-section">
         <div class="container">
-            <div class="welcome-content">
-                <div class="welcome-text">
-                    <h1><i class="fas fa-database"></i> Consulta de Registros</h1>
-                    <p>
-                        Visualiza y filtra los registros de pruebas de manera sencilla y dinámica.<br>
-                        Utiliza el buscador y los filtros para encontrar la información que necesitas.
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="ph-fill ph-crown" style="font-size: 2rem; color: var(--color-gold);"></i>
+                        <div class="brand-text-wrapper">
+                            <span class="brand-text">WAGNER</span>
+                            <span class="brand-sub">ESTÉTICA</span>
+                        </div>
+                    </div>
+                    <p class="footer-desc">
+                        Expertos en estética avanzada, brindando tratamientos seguros y efectivos en el corazón de Buenos Aires.
                     </p>
                 </div>
-                <div class="welcome-image">
-                    <img src="{% static 'images/data_hero.png' %}" alt="Registros" style="max-width:350px;">
+                
+                <div class="footer-col">
+                    <div class="footer-links">
+                        <h4>Explorar</h4>
+                        <a href="#inicio">Inicio</a>
+                        <a href="#nosotros">Nuestra Historia</a>
+                        <a href="#tratamientos">Tratamientos</a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <div class="footer-links">
+                        <h4>Legales</h4>
+                        <a href="#">Términos y Condiciones</a>
+                        <a href="#">Política de Privacidad</a>
+                        <a href="#">Preguntas Frecuentes</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Estética Wagner. Todos los derechos reservados.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/esteticawagner" target="_blank"><i class="ph-fill ph-instagram-logo"></i></a>
+                    {% if config and config.telefono_whatsapp %}<a href="https://wa.me/{{ config.telefono_whatsapp }}?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n.%20%23INICIO_BOT" target="_blank"><i class="ph-fill ph-whatsapp-logo"></i></a>{% endif %}
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Tabla de registros -->
-    <section class="section section-light" style="padding-top: 40px;">
-        <div class="container">
-            <h2 class="section-title" style="font-size:2rem;"><i class="fas fa-list"></i> Registros de Prueba</h2>
-            <form method="get" class="row g-3 mb-4">
-                <div class="col-md-5">
-                    <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre..." value="{{ busqueda }}">
-                </div>
-                <div class="col-md-3">
-                    <select name="socio" class="form-select">
-                        <option value="">-- Socio --</option>
-                        <option value="si" {% if socio == 'si' %}selected{% endif %}>Sí</option>
-                        <option value="no" {% if socio == 'no' %}selected{% endif %}>No</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn w-100">
-                        <i class="fas fa-search"></i> Filtrar
-                    </button>
-                </div>
-                <div class="col-md-2">
-                    <a href="{% url 'index' %}" class="btn btn-secondary w-100">
-                        <i class="fas fa-eraser"></i> Limpiar
-                    </a>
-                </div>
-            </form>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Socio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for prueba in pruebas %}
-                    <tr>
-                        <td>{{ prueba.nombre }}</td>
-                        <td>{{ prueba.fecha }}</td>
-                        <td>
-                            {% if prueba.socio %}
-                                <span class="badge bg-success">Sí</span>
-                            {% else %}
-                                <span class="badge bg-secondary">No</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3" class="text-center">No hay registros.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer mt-5">
-        <div class="container footer-content">
-            <a href="{% url 'index' %}" class="footer-logo">
-                <i class="fas fa-flask-vial"></i> PruebasApp
-            </a>
-            <p>&copy; {{ now|date:"Y" }} PruebasApp. Todos los derechos reservados.</p>
-        </div>
     </footer>
+
+    <!-- Modal de Detalles de Servicio -->
+    <div id="serviceModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal()"><i class="ph-bold ph-x"></i></div>
+            <div class="modal-img-col">
+                <img id="modalImg" src="" alt="Tratamiento">
+            </div>
+            <div class="modal-info-col">
+                <h3 id="modalTitle">Título</h3>
+                <div class="modal-duration"><i class="ph-bold ph-clock"></i> <span id="modalDuration">45 min</span></div>
+                <p id="modalDesc">Descripción completa del tratamiento.</p>
+                <ul class="modal-benefits" id="modalBenefits">
+                    <!-- Dinámico -->
+                </ul>
+                <div class="modal-cta">
+                    <button id="modalBookBtn" class="btn btn-light" style="width:100%" onclick="bookFromModal()">AGENDAR ESTE TRATAMIENTO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Flotante -->
+    {% if config and config.telefono_whatsapp %}
+    <a href="https://wa.me/{{ config.telefono_whatsapp }}?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n.%20%23INICIO_BOT" target="_blank" class="floating-whatsapp" aria-label="Contactar por WhatsApp">
+        <i class="ph-fill ph-whatsapp-logo"></i>
+    </a>
+    {% endif %}
+
+    <!-- Modal de Registro de WhatsApp -->
+    <div id="whatsappRegisterModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 450px; padding: 2.5rem; flex-direction: column; text-align: center; background: var(--color-bg-dark); color: var(--color-text-light);">
+            <div class="modal-close" onclick="closeWhatsappModal()"><i class="ph-bold ph-x"></i></div>
+            <div style="margin-bottom: 2rem; margin-top: 1rem;">
+                <i class="ph-fill ph-whatsapp-logo" style="font-size: 3.5rem; color: var(--color-wa); margin-bottom: 0.5rem; display: inline-block;"></i>
+                <h3 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-gold); margin-bottom: 0.8rem; line-height: 1.2;">Contactar por WhatsApp</h3>
+                <p style="font-size: 0.95rem; opacity: 0.8; font-weight: 300;">Por favor, ingresanos tu nombre y teléfono para poder brindarte una mejor atención.</p>
+            </div>
+            <form id="whatsapp-register-form" style="text-align: left;">
+                <div class="form-group">
+                    <label for="wa-name">Nombre y Apellido</label>
+                    <input type="text" id="wa-name" class="form-control" placeholder="Ej. Ana Pérez" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label for="wa-phone">Teléfono / WhatsApp</label>
+                    <input type="tel" id="wa-phone" class="form-control" placeholder="Ej. 5491166380592" required>
+                </div>
+                <button type="submit" class="btn btn-wa" style="width: 100%; justify-content: center; padding: 1.2rem;">
+                    ABRIR WHATSAPP <i class="ph-bold ph-paper-plane-tilt" style="font-size: 1.1rem; margin-left: 5px;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Reveal Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -100px 0px',
+                threshold: 0.1
+            });
+            
+            reveals.forEach(reveal => revealObserver.observe(reveal));
+        });
+
+        // Base de Datos de Tratamientos
+        const serviceDetails = {
+            "Ritual Facial Glow": {
+                img: "{% static 'wagner-img/service_facial_glow.jpg' %}",
+                duration: "60 minutos",
+                desc: "Un tratamiento facial diseñado a medida para devolverle la luz a tu rostro. Utilizamos activos botánicos de alta pureza y tecnología no invasiva para limpiar profundamente, extraer impurezas, exfoliar y nutrir la piel desde adentro.",
+                benefits: [
+                    "Piel visiblemente más luminosa e hidratada",
+                    "Reducción de poros dilatados y puntos negros",
+                    "Estimulación de la producción natural de colágeno",
+                    "Relajación profunda con masaje facial de drenaje linfático"
+                ]
+            },
+            "Escultura Corporal": {
+                img: "{% static 'wagner-img/service_body_sculpt.jpg' %}",
+                duration: "50 minutos",
+                desc: "Tratamiento intensivo para moldear tu figura de manera natural y sin cirugía. Combinamos masajes reductores manuales, drenaje linfático y aparatología de última generación para atacar la adiposidad localizada.",
+                benefits: [
+                    "Reducción de medidas desde la primera sesión",
+                    "Mejora visible en la apariencia de la celulitis",
+                    "Efecto tensor en la piel flácida",
+                    "Estimulación de la circulación y eliminación de toxinas"
+                ]
+            },
+            "BBGlow Perfección": {
+                img: "{% static 'wagner-img/service_bbglow.jpg' %}",
+                duration: "90 minutos",
+                desc: "El famoso tratamiento coreano 'efecto piel de porcelana'. Mediante la técnica de microneedling introducimos sueros con color y vitaminas en la epidermis, logrando un tono unificado como si llevaras una base de maquillaje semipermanente perfecta.",
+                benefits: [
+                    "Camufla manchas, ojeras y rojeces",
+                    "Aporta un brillo natural y saludable extremo",
+                    "Hidratación profunda con ácido hialurónico",
+                    "Tratamiento indoloro con resultados que duran meses"
+                ]
+            },
+            "HIFU 7D Lifting": {
+                img: "{% static 'wagner-img/service_hifu.jpg' %}",
+                duration: "75 minutos",
+                desc: "La alternativa número uno al lifting quirúrgico. El Ultrasonido Focalizado de Alta Intensidad (HIFU 7D) penetra en las capas más profundas de la piel para tensar el músculo y generar colágeno nuevo de forma masiva.",
+                benefits: [
+                    "Efecto lifting en rostro, cuello y escote",
+                    "Redefinición del óvalo facial y eliminación de papada",
+                    "Resultados progresivos que mejoran mes a mes",
+                    "Sin agujas, sin cortes y sin tiempo de recuperación"
+                ]
+            },
+            "Glúteos Peptonas": {
+                img: "{% static 'wagner-img/service_peptonas.jpg' %}",
+                duration: "45 minutos",
+                desc: "El tratamiento estrella para aumentar y reafirmar los glúteos. Las peptonas son nutrientes celulares que actúan directamente sobre el músculo, promoviendo su desarrollo natural de forma rápida, segura e indolora.",
+                benefits: [
+                    "Aumento de volumen muscular natural y duradero",
+                    "Elevación y firmeza visible (efecto push-up)",
+                    "Mejora la textura de la piel en la zona",
+                    "Tratamiento 100% biológico, sin riesgos de rechazo"
+                ]
+            },
+            "Depilación Láser Soprano": {
+                img: "{% static 'wagner-img/service_laser.jpg' %}",
+                duration: "30-60 minutos",
+                desc: "Despídete del vello no deseado con la tecnología láser más avanzada, segura y cómoda del mercado. Eficaz en todo tipo de pieles e indolora gracias a su sistema de enfriamiento continuo.",
+                benefits: [
+                    "Eliminación del vello de forma definitiva",
+                    "Soluciona problemas de foliculitis (vellos encarnados)",
+                    "Piel mucho más suave y clara",
+                    "Sesiones rápidas, seguras y sin dolor"
+                ]
+            }
+        };
+
+        const modal = document.getElementById('serviceModal');
+        let currentSelectedService = "";
+
+        // Modal Logic & Card Clicks
+        document.querySelectorAll('.service-card').forEach(card => {
+            const link = card.querySelector('.book-service-btn');
+            if (link) {
+                const serviceName = link.getAttribute('data-service');
+                card.addEventListener('click', (e) => {
+                    if(e.target.closest('a')) e.preventDefault();
+                    openModal(serviceName);
+                });
+            }
+        });
+
+        function openModal(serviceName) {
+            const data = serviceDetails[serviceName];
+            if(!data) return;
+            
+            currentSelectedService = serviceName;
+            document.getElementById('modalImg').src = data.img;
+            document.getElementById('modalTitle').textContent = serviceName;
+            document.getElementById('modalDuration').textContent = data.duration;
+            document.getElementById('modalDesc').textContent = data.desc;
+            
+            const benefitsList = document.getElementById('modalBenefits');
+            benefitsList.innerHTML = '';
+            data.benefits.forEach(b => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="ph-fill ph-check-circle"></i> <span>${b}</span>`;
+                benefitsList.appendChild(li);
+            });
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        function bookFromModal() {
+            closeModal();
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+            const serviceSelect = document.getElementById('service');
+            Array.from(serviceSelect.options).forEach(opt => {
+                if (opt.value === currentSelectedService) {
+                    opt.selected = true;
+                }
+            });
+        }
+
+        // WhatsApp Register Modal Logic
+        const waModal = document.getElementById('whatsappRegisterModal');
+        let currentWaUrl = "";
+
+        function openWhatsappModal(url) {
+            currentWaUrl = url;
+            waModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWhatsappModal() {
+            waModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (waModal) {
+            waModal.addEventListener('click', (e) => {
+                if(e.target === waModal) closeWhatsappModal();
+            });
+
+            document.getElementById('whatsapp-register-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('wa-name').value;
+                const phone = document.getElementById('wa-phone').value;
+                
+                fetch('/app2/api/clientes/registrar/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: name, telefono: phone })
+                }).then(() => {
+                    closeWhatsappModal();
+                    // Generate dynamic text if url doesn't have it
+                    let finalUrl = currentWaUrl;
+                    if (!finalUrl.includes('?text=')) {
+                        finalUrl += `?text=¡Hola! Soy ${encodeURIComponent(name)}. Quiero más información. %23INICIO_BOT`;
+                    }
+                    window.open(finalUrl, '_blank');
+                }).catch(() => {
+                    closeWhatsappModal();
+                    window.open(currentWaUrl, '_blank');
+                });
+            });
+        }
+
+        // Intercept WhatsApp links
+        document.querySelectorAll('a[href^="https://wa.me/"]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                if(el.classList.contains('floating-whatsapp') || el.closest('.social-icons') || el.closest('.about-content') || el.closest('.view-all')){
+                    e.preventDefault();
+                    openWhatsappModal(el.href);
+                }
+            });
+        });
+
+        // Booking Form Submission
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('appointment-form');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const service = document.getElementById('service').value;
+                
+                const message = `¡Hola! Me gustaría agendar un turno.%0A%0A*Nombre:* ${name}%0A*Teléfono:* ${phone}%0A*Servicio:* ${service}%0A%0AAguardo confirmación. ¡Gracias!%0A%0A%23INICIO_BOT`;
+                const whatsappNumber = '{% if config and config.telefono_whatsapp %}{{ config.telefono_whatsapp }}{% endif %}';
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+                
+                fetch('/app2/api/clientes/registrar/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: name, telefono: phone })
+                }).finally(() => {
+                    window.open(whatsappUrl, '_blank');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
