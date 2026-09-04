@@ -1,5 +1,5 @@
 {% extends 'base_app2.html' %}
-{% block title %}Clientes - Estética Wagner{% endblock %}
+{% block title %}Clientes - Lumé Estética Avanzada{% endblock %}
 
 {% block content %}
 <h1 class="page-title">Directorio de Clientes</h1>
@@ -7,7 +7,7 @@
 <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem;">
     <!-- Add Client Form -->
     <div class="card">
-        <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Nuevo Cliente</h3>
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Nuevo Cliente</h3>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label>WhatsApp</label>
                 <input type="text" name="telefono" class="form-control" required placeholder="5491166380592">
-                <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Solo números, con código de país.</small>
+                <small style="color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Solo números, con código de país.</small>
             </div>
             <div class="form-group">
                 <label>Correo Electrónico (opcional)</label>
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label>Notas / Historial Médico</label>
-                <textarea name="notas" class="form-control" rows="4" placeholder="Alergias, preferencias..."></textarea>
+                <textarea name="notas" class="form-control" rows="4" placeholder="Alergias, observaciones de la piel..."></textarea>
             </div>
             <button type="submit" class="btn-primary" style="width: 100%;">Registrar Cliente</button>
         </form>
@@ -33,7 +33,7 @@
     
     <!-- Clients List -->
     <div class="card">
-        <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Clientes Registrados</h3>
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Clientes Registrados</h3>
         <div class="table-responsive">
             <table>
                 <thead>
@@ -48,17 +48,21 @@
                 <tbody>
                     {% for cliente in clientes %}
                     <tr>
-                        <td style="font-weight: 500;">{{ cliente.nombre }}</td>
-                        <td><a href="https://wa.me/{{ cliente.telefono }}" target="_blank" style="color: var(--color-gold); text-decoration: none;"><i class="ph ph-whatsapp-logo"></i> {{ cliente.telefono }}</a></td>
-                        <td><span class="badge" style="background: rgba(255,255,255,0.1);">{{ cliente.citas.count }}</span></td>
-                        <td>{{ cliente.fecha_registro|date:"d/m/Y" }}</td>
+                        <td style="font-weight: 600; color: var(--color-text-main);">{{ cliente.nombre }}</td>
                         <td>
-                            <button class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: transparent; color: var(--color-gold); border: 1px solid var(--color-gold);">Ver Detalles</button>
+                            <a href="https://wa.me/{{ cliente.telefono }}" target="_blank" style="color: var(--color-champagne); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="ph-fill ph-whatsapp-logo" style="font-size: 1.1rem;"></i> {{ cliente.telefono }}
+                            </a>
+                        </td>
+                        <td><span class="badge" style="background: rgba(200, 164, 98, 0.15); color: var(--color-text-main);">{{ cliente.citas.count }}</span></td>
+                        <td style="color: var(--color-text-muted); font-size: 0.85rem;">{{ cliente.fecha_registro|date:"d/m/Y" }}</td>
+                        <td>
+                            <button class="btn-primary" style="padding: 0.45rem 1rem; font-size: 0.72rem; background: var(--color-bg-surface); color: var(--color-text-main); border: 1px solid var(--color-champagne);">Ver Ficha</button>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-muted);">No hay clientes registrados aún.</td>
+                        <td colspan="5" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">No hay clientes registrados aún.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

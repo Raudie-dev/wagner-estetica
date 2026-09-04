@@ -1,5 +1,6 @@
 {% extends 'base_app2.html' %}
-{% block title %}Bot de WhatsApp - Estética Wagner{% endblock %}
+{% load static %}
+{% block title %}Bot de WhatsApp - Lumé Estética Avanzada{% endblock %}
 
 {% block extra_head %}
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -9,25 +10,48 @@
 <h1 class="page-title">Configuración Bot de WhatsApp</h1>
 
 <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
-    <!-- Conexión de WhatsApp -->
-    <div class="card" style="text-align: center;">
-        <h3 style="margin-bottom: 1rem; font-weight: 500;">Estado de Conexión</h3>
-        
-        <div id="bot-status-container" style="min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <div id="loading-spinner"><i class="ph-bold ph-spinner" style="font-size: 2rem; animation: spin 1s linear infinite;"></i><p style="margin-top: 10px;">Comprobando estado...</p></div>
+    <!-- Conexión de WhatsApp & Configuración -->
+    <div>
+        <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 1.2rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Estado de Conexión</h3>
             
-            <div id="qr-container" style="display: none; background: white; padding: 10px; border-radius: 8px; margin-bottom: 1rem;">
-                <canvas id="qr-canvas"></canvas>
+            <div id="bot-status-container" style="min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="loading-spinner">
+                    <i class="ph-bold ph-spinner" style="font-size: 2.2rem; color: var(--color-champagne); animation: spin 1s linear infinite;"></i>
+                    <p style="margin-top: 10px; color: var(--color-text-muted); font-size: 0.9rem;">Comprobando estado del gateway...</p>
+                </div>
+                
+                <div id="qr-container" style="display: none; background: white; padding: 14px; border-radius: 16px; margin-bottom: 1rem; border: 1px solid var(--color-champagne); box-shadow: var(--shadow-soft);">
+                    <canvas id="qr-canvas"></canvas>
+                </div>
+
+                <div id="connected-status" style="display: none;">
+                    <i class="ph-fill ph-check-circle" style="color: #25D366; font-size: 3.8rem; margin-bottom: 0.8rem;"></i>
+                    <p style="color: #142217; font-weight: 700; font-size: 1.2rem; font-family: var(--font-accent); letter-spacing: 1px; text-transform: uppercase;">Conectado y Activo</p>
+                    <button id="btn-unlink" class="btn-primary" style="margin-top: 1.5rem; background-color: #e74c3c; border-color: #e74c3c; color: white;">Desvincular Dispositivo</button>
+                </div>
+                
+                <div id="error-status" style="display: none;">
+                    <i class="ph-fill ph-warning-circle" style="color: #e74c3c; font-size: 3.8rem; margin-bottom: 0.8rem;"></i>
+                    <p style="color: #e74c3c; font-weight: 700; font-size: 1.1rem;">Error al conectar con Gateway</p>
+                    <small style="color: var(--color-text-muted);" id="error-details">Asegúrate de que el microservicio Node.js está activo.</small>
+                </div>
             </div>
-            <div class="card" style="margin-top: 2rem;">
-            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Número para la Web</h3>
+            
+            <p id="qr-instructions" style="display: none; font-size: 0.85rem; color: var(--color-text-muted); margin-top: 1rem; line-height: 1.5;">
+                Abre WhatsApp en tu teléfono > Dispositivos Vinculados > Vincular un dispositivo > Escanea este código.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 1.2rem; font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-text-main);">Número para la Web</h3>
             <form method="POST" action="{% url 'configuracion_respuestas' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="update_phone">
                 <div class="form-group">
                     <label>Número de WhatsApp</label>
                     <input type="text" name="telefono_whatsapp" class="form-control" value="{{ config.telefono_whatsapp|default_if_none:'' }}" placeholder="Ej. 5491166380592">
-                    <small style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Este será el número al que los clientes escribirán al hacer clic en el botón verde flotante de la página principal. Debe contener el código de país sin el símbolo +.</small>
+                    <small style="color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Este será el número al que las clientas escribirán al hacer clic en el botón flotante. Código de país sin signo +.</small>
                 </div>
                 <div style="text-align: right; margin-top: 1rem;">
                     <button type="submit" class="btn-primary">Guardar Número</button>
@@ -36,40 +60,21 @@
         </div>
     </div>
     
-    <div>
-        <div class="card" id="connected-status" style="display: none;">
-                <i class="ph-fill ph-check-circle" style="color: #2ecc71; font-size: 4rem; margin-bottom: 1rem;"></i>
-                <p style="color: #2ecc71; font-weight: bold; font-size: 1.2rem;">Conectado y Activo</p>
-                <button id="btn-unlink" class="btn-primary" style="margin-top: 1.5rem; background-color: #e74c3c; border: 1px solid #c0392b; color: white;">Desvincular Dispositivo</button>
-            </div>
-            
-            <div id="error-status" style="display: none;">
-                <i class="ph-fill ph-warning-circle" style="color: #e74c3c; font-size: 4rem; margin-bottom: 1rem;"></i>
-                <p style="color: #e74c3c; font-weight: bold;">Error al conectar con Gateway</p>
-                <small style="color: var(--text-muted);" id="error-details">Asegúrate de que el microservicio Node.js está corriendo.</small>
-            </div>
-        </div>
-        
-        <p id="qr-instructions" style="display: none; font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem;">
-            Abre WhatsApp en tu teléfono > Dispositivos Vinculados > Vincular un dispositivo > Escanea este código.
-        </p>
-    </div>
-    
     <!-- Respuestas Automáticas -->
     <div class="card">
-        <h3 style="margin-bottom: 1.5rem; font-weight: 500;">Respuestas Automáticas</h3>
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-text-main);">Respuestas Automáticas</h3>
         
-        <form method="POST" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 1px dashed var(--border-color);">
+        <form method="POST" style="background: var(--color-bg-body); padding: 1.8rem; border-radius: 18px; margin-bottom: 2rem; border: 1px dashed var(--color-champagne);">
             {% csrf_token %}
-            <h4 style="margin-bottom: 1rem; font-size: 1rem;">Agregar Nueva Regla</h4>
+            <h4 style="margin-bottom: 1rem; font-family: var(--font-accent); font-size: 0.85rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-champagne);">Agregar Nueva Regla</h4>
             <div class="form-group">
                 <label>Palabra Clave (Keyword)</label>
                 <input type="text" name="keyword" class="form-control" required placeholder="Ej. precios, turnos, hola">
-                <small style="color: var(--text-muted); font-size: 0.8rem;">Si el cliente envía un mensaje que contenga esta palabra (ignorando mayúsculas), el bot responderá.</small>
+                <small style="color: var(--color-text-muted); font-size: 0.8rem;">Si la clienta envía un mensaje que contenga esta palabra, el bot responderá de forma automática.</small>
             </div>
             <div class="form-group">
                 <label>Respuesta</label>
-                <textarea name="respuesta" class="form-control" rows="3" required placeholder="Ej. Nuestros precios son..."></textarea>
+                <textarea name="respuesta" class="form-control" rows="3" required placeholder="Ej. Nuestros tratamientos faciales e hidrocavitación..."></textarea>
             </div>
             <button type="submit" class="btn-primary">Guardar Regla</button>
         </form>
@@ -87,22 +92,27 @@
                 <tbody>
                     {% for resp in respuestas %}
                     <tr>
-                        <td style="font-weight: bold; color: var(--color-gold);">{{ resp.keyword }}</td>
-                        <td style="font-size: 0.9rem;">{{ resp.respuesta|truncatechars:50 }}</td>
+                        <td style="font-weight: 600; color: var(--color-text-main);">{{ resp.keyword }}</td>
+                        <td style="font-size: 0.9rem; color: var(--color-text-sub);">{{ resp.respuesta|truncatechars:50 }}</td>
                         <td>
                             {% if resp.activo %}
                                 <span class="badge badge-confirmed">Activo</span>
                             {% else %}
-                                <span class="badge" style="background: #333; color: #888;">Inactivo</span>
+                                <span class="badge badge-completed">Inactivo</span>
                             {% endif %}
                         </td>
                         <td>
-                            <button class="btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.7rem; background: transparent; color: #e74c3c; border: 1px solid #e74c3c;">Borrar</button>
+                            <form method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="delete_rule">
+                                <input type="hidden" name="rule_id" value="{{ resp.id }}">
+                                <button type="submit" class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.7rem; background: var(--color-bg-surface); color: #e74c3c; border: 1px solid #e74c3c;">Borrar</button>
+                            </form>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No hay respuestas configuradas.</td>
+                        <td colspan="4" style="text-align: center; color: var(--color-text-muted); padding: 2.5rem;">No hay respuestas automáticas configuradas aún.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -112,13 +122,13 @@
 </div>
 
 <!-- Modal Desvincular -->
-<div id="unlinkModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center;">
-    <div style="background: var(--bg-panel); padding: 2rem; border-radius: 12px; max-width: 400px; width: 90%; border: 1px solid var(--border-color); text-align: center;">
-        <i class="ph-fill ph-warning" style="font-size: 3rem; color: #e74c3c; margin-bottom: 1rem;"></i>
-        <h3 style="margin-bottom: 1rem; font-weight: 500;">¿Desvincular Dispositivo?</h3>
-        <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Esto cerrará la sesión actual y será necesario escanear un nuevo código QR para reactivar el bot.</p>
+<div id="unlinkModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20,34,23,0.85); backdrop-filter: blur(12px); z-index: 2000; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: var(--color-bg-surface); padding: 2.5rem; border-radius: 24px; max-width: 440px; width: 100%; border: 1px solid var(--color-champagne); text-align: center; box-shadow: var(--shadow-dark-soft);">
+        <i class="ph-fill ph-warning-circle" style="font-size: 3.5rem; color: #e74c3c; margin-bottom: 1rem;"></i>
+        <h3 style="margin-bottom: 1rem; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-text-main);">¿Desvincular Dispositivo?</h3>
+        <p style="color: var(--color-text-muted); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.6;">Esto cerrará la sesión actual y será necesario escanear un nuevo código QR para reactivar el bot.</p>
         <div style="display: flex; gap: 1rem; justify-content: center;">
-            <button type="button" class="btn-primary" id="btn-cancel-unlink" style="background: transparent; color: var(--text-light); border: 1px solid var(--border-color);">Cancelar</button>
+            <button type="button" class="btn-primary" id="btn-cancel-unlink" style="background: var(--color-bg-surface); color: var(--color-text-main); border: 1px solid var(--color-border);">Cancelar</button>
             <button type="button" class="btn-primary" id="btn-confirm-unlink" style="background: #e74c3c; color: white; border: none;">Sí, Desvincular</button>
         </div>
     </div>
@@ -154,26 +164,22 @@
                     }
                     
                     if (data.qr) {
-                        // Needs to scan QR
                         document.getElementById('qr-container').style.display = 'block';
                         document.getElementById('qr-instructions').style.display = 'block';
                         document.getElementById('connected-status').style.display = 'none';
                         document.getElementById('error-status').style.display = 'none';
                         
-                        QRCode.toCanvas(document.getElementById('qr-canvas'), data.qr, { width: 250 }, function (error) {
+                        QRCode.toCanvas(document.getElementById('qr-canvas'), data.qr, { width: 240 }, function (error) {
                             if (error) console.error(error);
                         });
                         
-                        // Check again in 5 seconds
                         setTimeout(checkStatus, 5000);
                     } else {
-                        // Connected!
                         document.getElementById('connected-status').style.display = 'block';
                         document.getElementById('qr-container').style.display = 'none';
                         document.getElementById('qr-instructions').style.display = 'none';
                         document.getElementById('error-status').style.display = 'none';
                         
-                        // Polling to make sure it doesn't disconnect (less frequent)
                         setTimeout(checkStatus, 15000);
                     }
                 })
@@ -199,41 +205,47 @@
         const btnCancel = document.getElementById('btn-cancel-unlink');
         const btnConfirm = document.getElementById('btn-confirm-unlink');
 
-        btnUnlink.addEventListener('click', function() {
-            modal.style.display = 'flex';
-        });
-
-        btnCancel.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-
-        btnConfirm.addEventListener('click', function() {
-            modal.style.display = 'none';
-            btnUnlink.innerHTML = 'Desvinculando...';
-            btnUnlink.disabled = true;
-            document.getElementById('loading-spinner').style.display = 'flex';
-            document.getElementById('connected-status').style.display = 'none';
-            
-            fetch("{% url 'api_bot_unlink' %}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                btnUnlink.innerHTML = 'Desvincular Dispositivo';
-                btnUnlink.disabled = false;
-                errorCount = 0;
-                checkStatus();
-            })
-            .catch(err => {
-                btnUnlink.innerHTML = 'Desvincular Dispositivo';
-                btnUnlink.disabled = false;
-                alert('Error al desvincular.');
-                checkStatus();
+        if(btnUnlink && modal) {
+            btnUnlink.addEventListener('click', function() {
+                modal.style.display = 'flex';
             });
-        });
+        }
+
+        if(btnCancel && modal) {
+            btnCancel.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+        }
+
+        if(btnConfirm && modal) {
+            btnConfirm.addEventListener('click', function() {
+                modal.style.display = 'none';
+                btnUnlink.innerHTML = 'Desvinculando...';
+                btnUnlink.disabled = true;
+                document.getElementById('loading-spinner').style.display = 'flex';
+                document.getElementById('connected-status').style.display = 'none';
+                
+                fetch("{% url 'api_bot_unlink' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    btnUnlink.innerHTML = 'Desvincular Dispositivo';
+                    btnUnlink.disabled = false;
+                    errorCount = 0;
+                    checkStatus();
+                })
+                .catch(err => {
+                    btnUnlink.innerHTML = 'Desvincular Dispositivo';
+                    btnUnlink.disabled = false;
+                    alert('Error al desvincular.');
+                    checkStatus();
+                });
+            });
+        }
     });
 </script>
 {% endblock %}

@@ -130,6 +130,8 @@ async function startSocketFor(sid = 'default:0') {
           const remoteJid = msg.key.remoteJid || '';
           const pushName = msg.pushName || msg.contact?.name || '';
           const messageText = extractMessageText(msg.message);
+          
+          console.log(`\n[RECIBIDO] Mensaje de ${remoteJid} (${pushName}): ${messageText}`);
 
           // Enviar al webhook de Django y reenviar la respuesta al usuario
           try {
@@ -142,8 +144,16 @@ async function startSocketFor(sid = 'default:0') {
                     'X-Webhook-Secret': process.env.WEBHOOK_SECRET || 'pon-aqui-un-token-largo-y-aleatorio-32chars'
                 }}
             );
+            
+            console.log(`[WEBHOOK] Django respondió con HTTP ${resp.status}`);
+            console.log(`[WEBHOOK] Datos recibidos:`, resp.data);
+
             if (resp && resp.data && resp.data.reply && resp.data.reply.trim() !== '') {
+              console.log(`[ENVIANDO] Respondiendo a ${remoteJid}: ${resp.data.reply}`);
               await sock.sendMessage(remoteJid, { text: resp.data.reply });
+              console.log(`[ENVIADO] Respuesta enviada con éxito.`);
+            } else {
+              console.log(`[IGNORADO] Django no proporcionó una respuesta para este mensaje.`);
             }
           } catch (err) {
             console.error('Error enviando webhook a Django o reenviando mensaje:', err.message || err);

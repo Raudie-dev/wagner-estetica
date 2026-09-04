@@ -4,90 +4,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Panel - Estética Wagner{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>{% block title %}Panel - Lumé Estética Avanzada{% endblock %}</title>
+    
+    <!-- Google Fonts: Cormorant Garamond, Syne & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-panel: #141414;
-            --text-light: #f0f0f0;
-            --text-muted: #888888;
-            --color-gold: #d4af37;
-            --color-gold-hover: #e5c358;
-            --border-color: #2a2a2a;
+            /* Lumé Dashboard Warm Cream Luxe Palette */
+            --color-bg-body: #FAF6F0;
+            --color-bg-surface: #FFFFFF;
+            --color-bg-subtle: #F3EDE4;
+            --color-sidebar: #142217;
+            --color-text-main: #142217;
+            --color-text-sub: #2D3E31;
+            --color-text-muted: #6B786E;
+            --color-champagne: #C8A462;
+            --color-champagne-light: #E6CA92;
+            --color-border: rgba(200, 164, 98, 0.25);
+            
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+            --font-accent: 'Syne', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --radius-btn: 30px;
+            --radius-card: 20px;
+            --shadow-soft: 0 16px 40px rgba(20, 34, 23, 0.05);
+            --shadow-hover: 0 20px 45px rgba(200, 164, 98, 0.18);
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+            font-family: var(--font-body);
+            background-color: var(--color-bg-body);
+            color: var(--color-text-main);
             display: flex;
             min-height: 100vh;
             overflow-x: hidden;
         }
-        /* Sidebar */
+
+        /* Sidebar Styling */
         .sidebar {
-            width: 260px;
-            background-color: var(--bg-panel);
-            border-right: 1px solid var(--border-color);
+            width: 270px;
+            background-color: var(--color-sidebar);
+            color: #FAF6F0;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
+            transition: var(--transition);
+            z-index: 100;
+            border-right: 1px solid rgba(200, 164, 98, 0.2);
         }
         .sidebar-header {
-            padding: 2rem 1.5rem;
+            padding: 2rem 1.8rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-color);
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .sidebar-header i { color: var(--color-gold); font-size: 2rem; }
-        .sidebar-header h2 { font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+        .sidebar-logo-img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);
+            mix-blend-mode: screen;
+        }
         
         .nav-links {
-            padding: 2rem 0;
+            padding: 1.8rem 1rem;
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 1rem 1.5rem;
-            color: var(--text-light);
+            gap: 14px;
+            padding: 0.9rem 1.2rem;
+            color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-            font-weight: 500;
+            transition: var(--transition);
+            border-radius: 14px;
+            font-family: var(--font-accent);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
         }
+        .nav-link i { font-size: 1.3rem; color: var(--color-champagne); transition: var(--transition); }
         .nav-link:hover, .nav-link.active {
-            background-color: rgba(212, 175, 55, 0.05);
-            border-left: 3px solid var(--color-gold);
-            color: var(--color-gold);
+            background: rgba(200, 164, 98, 0.15);
+            color: var(--color-champagne-light);
+            transform: translateX(4px);
         }
-        .nav-link i { font-size: 1.4rem; }
+        .nav-link.active i, .nav-link:hover i {
+            transform: scale(1.15);
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .site-link-btn {
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.75rem 1.2rem; border-radius: var(--radius-btn);
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(200, 164, 98, 0.3);
+            color: var(--color-champagne); text-decoration: none;
+            font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; transition: var(--transition);
+        }
+        .site-link-btn:hover {
+            background: var(--color-champagne); color: #142217;
+        }
         
-        /* Main Content */
+        /* Main Content Layout */
         .main-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            width: calc(100% - 260px);
+            width: calc(100% - 270px);
             min-height: 100vh;
         }
+        
+        /* Topbar Header */
         .topbar {
-            height: 70px;
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
+            height: 80px;
+            background: rgba(250, 246, 240, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
+            padding: 0 2.5rem;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 90;
         }
-        .menu-toggle { display: none; background: none; border: none; color: var(--color-gold); font-size: 1.8rem; cursor: pointer; }
+        .topbar-user {
+            display: flex; align-items: center; gap: 0.9rem;
+        }
+        .user-avatar {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--color-sidebar); color: var(--color-champagne);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-accent); font-weight: 700; font-size: 1rem;
+            border: 1px solid var(--color-champagne);
+        }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { font-weight: 600; font-size: 0.95rem; color: var(--color-text-main); }
+        .user-role { font-size: 0.75rem; color: var(--color-champagne); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+
+        .menu-toggle { display: none; background: none; border: none; color: var(--color-text-main); font-size: 1.8rem; cursor: pointer; }
         
         .content-area {
             padding: 2.5rem;
@@ -96,38 +171,121 @@
         }
         
         h1.page-title {
-            font-size: 1.8rem;
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: var(--color-text-main);
             margin-bottom: 2rem;
-            font-weight: 300;
+            line-height: 1.1;
         }
         
-        /* Global UI Elements */
-        .card { background-color: var(--bg-panel); border-radius: 12px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-        .btn-primary { background-color: var(--color-gold); color: #000; border: none; padding: 0.8rem 1.8rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s; text-decoration: none; display: inline-block; font-size: 0.95rem; }
-        .btn-primary:hover { background-color: var(--color-gold-hover); }
-        .form-group { margin-bottom: 1.2rem; }
-        label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
-        .form-control { width: 100%; padding: 0.8rem 1rem; background-color: #1a1a1a; border: 1px solid var(--border-color); color: var(--text-light); border-radius: 6px; font-family: inherit; transition: border-color 0.2s;}
-        .form-control:focus { outline: none; border-color: var(--color-gold); }
+        /* Global UI Component Cards */
+        .card {
+            background-color: var(--color-bg-surface);
+            border-radius: var(--radius-card);
+            padding: 2.2rem;
+            border: 1px solid var(--color-border);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
         
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-        th, td { padding: 1.2rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-        tr:hover td { background-color: rgba(255,255,255,0.02); }
+        /* Premium Buttons */
+        .btn-primary, .btn-submit {
+            background: var(--color-sidebar);
+            color: #FAF6F0;
+            border: none;
+            padding: 0.85rem 1.8rem;
+            border-radius: var(--radius-btn);
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            box-shadow: 0 4px 15px rgba(20, 34, 23, 0.1);
+        }
+        .btn-primary:hover, .btn-submit:hover {
+            background: var(--color-champagne);
+            color: #142217;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
         
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        .badge-pending { background: rgba(212, 175, 55, 0.2); color: var(--color-gold); }
-        .badge-confirmed { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-        .badge-completed { background: rgba(52, 152, 219, 0.2); color: #3498db; }
-        
-        /* Mobile */
+        /* Form Inputs */
+        .form-group { margin-bottom: 1.4rem; }
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: var(--color-text-sub);
+            font-family: var(--font-accent);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.95rem 1.2rem;
+            background-color: var(--color-bg-body);
+            border: 1px solid rgba(20, 34, 23, 0.15);
+            color: var(--color-text-main);
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-champagne);
+            box-shadow: 0 0 15px rgba(200, 164, 98, 0.2);
+            background-color: #FFFFFF;
+        }
+        select.form-control option { background: var(--color-bg-surface); color: var(--color-text-main); }
+
+        /* Tables Styling */
+        .table-responsive { overflow-x: auto; border-radius: 16px; border: 1px solid var(--color-border); }
+        table { width: 100%; border-collapse: collapse; background: var(--color-bg-surface); }
+        th, td { padding: 1.1rem 1.4rem; text-align: left; border-bottom: 1px solid var(--color-bg-subtle); }
+        th {
+            background-color: var(--color-bg-subtle);
+            color: var(--color-text-main);
+            font-family: var(--font-accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+        }
+        tr:hover td { background-color: var(--color-bg-body); }
+
+        /* Status Badges */
+        .badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.35rem 0.9rem; border-radius: var(--radius-pill);
+            font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .badge-pending { background: rgba(200, 164, 98, 0.18); color: #9E7D3F; border: 1px solid rgba(200, 164, 98, 0.3); }
+        .badge-confirmed { background: rgba(37, 211, 102, 0.15); color: #142217; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .badge-completed { background: rgba(20, 34, 23, 0.1); color: var(--color-text-muted); border: 1px solid rgba(20, 34, 23, 0.2); }
+
+        /* Mobile Styling */
         @media (max-width: 768px) {
-            .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); z-index: 1000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+            .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
             .sidebar.show { transform: translateX(0); }
             .main-content { width: 100%; }
             .menu-toggle { display: block; }
             .content-area { padding: 1.5rem; }
+            .topbar { padding: 0 1.5rem; }
         }
     </style>
     {% block extra_head %}{% endblock %}
@@ -136,29 +294,49 @@
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <i class="ph-fill ph-crown"></i>
-            <h2>WAGNER</h2>
+            <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Lumé Estética Avanzada" class="sidebar-logo-img">
         </div>
+        
         <nav class="nav-links">
-            <a href="{% url 'dashboard_citas' %}" class="nav-link"><i class="ph ph-calendar"></i> Citas Programadas</a>
-            <a href="{% url 'registro_cliente' %}" class="nav-link"><i class="ph ph-users"></i> Clientes</a>
-            <a href="{% url 'configuracion_respuestas' %}" class="nav-link"><i class="ph ph-robot"></i> Configuración Bot</a>
-            <a href="{% url 'configuracion_perfil' %}" class="nav-link"><i class="ph ph-gear"></i> Perfil Negocio</a>
+            <a href="{% url 'dashboard_citas' %}" class="nav-link"><i class="ph-fill ph-calendar"></i> Citas Programadas</a>
+            <a href="{% url 'registro_cliente' %}" class="nav-link"><i class="ph-fill ph-users"></i> Clientes</a>
+            <a href="{% url 'configuracion_perfil' %}" class="nav-link"><i class="ph-fill ph-storefront"></i> Perfil de Negocio</a>
+            <a href="{% url 'gestion_servicios' %}" class="nav-link"><i class="ph-fill ph-sparkle"></i> Servicios</a>
+            <a href="{% url 'configuracion_respuestas' %}" class="nav-link"><i class="ph-fill ph-robot"></i> Bot de WhatsApp</a>
         </nav>
+
+        <div class="sidebar-footer">
+            <a href="/" target="_blank" class="site-link-btn">
+                Ver Sitio Web <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+        </div>
     </aside>
 
     <main class="main-content">
         <header class="topbar">
-            <button class="menu-toggle" id="menuToggle"><i class="ph ph-list"></i></button>
-            <div style="display: flex; gap: 15px; align-items: center;">
-                <span style="color: var(--text-muted); font-size: 0.9rem;">Bienvenido, <strong style="color: white;">{{ user_admin.nombre }}</strong></span>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menú"><i class="ph ph-list"></i></button>
+            
+            <div style="font-family: var(--font-accent); font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-champagne);">
+                PANEL DE ADMINISTRACIÓN — LUMÉ ESTÉTICA
+            </div>
+
+            <div class="topbar-user">
+                <div class="user-avatar">
+                    {{ user_admin.nombre|default:"A"|slice:":1" }}
+                </div>
+                <div class="user-info">
+                    <span class="user-name">{{ user_admin.nombre|default:"Administrador" }}</span>
+                    <span class="user-role">Conserjería Lumé</span>
+                </div>
             </div>
         </header>
+        
         <div class="content-area">
             {% if messages %}
                 {% for message in messages %}
-                    <div style="padding: 1rem 1.5rem; background-color: {% if message.tags == 'error' %}rgba(231, 76, 60, 0.1){% else %}rgba(46, 204, 113, 0.1){% endif %}; border: 1px solid {% if message.tags == 'error' %}#e74c3c{% else %}#2ecc71{% endif %}; color: {% if message.tags == 'error' %}#e74c3c{% else %}#2ecc71{% endif %}; border-radius: 6px; margin-bottom: 2rem;">
-                        {{ message }}
+                    <div style="padding: 1.1rem 1.6rem; background-color: {% if message.tags == 'error' %}rgba(231, 76, 60, 0.1){% else %}rgba(37, 211, 102, 0.12){% endif %}; border: 1px solid {% if message.tags == 'error' %}#e74c3c{% else %}var(--color-champagne){% endif %}; color: var(--color-text-main); border-radius: 16px; margin-bottom: 2rem; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; gap: 0.8rem;">
+                        <i class="ph-fill {% if message.tags == 'error' %}ph-warning-circle{% else %}ph-check-circle{% endif %}" style="font-size: 1.4rem; color: var(--color-champagne);"></i>
+                        <span>{{ message }}</span>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -168,14 +346,19 @@
     </main>
 
     <script>
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('show');
-        });
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        if(menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('show');
+            });
+        }
         
-        // Active link logic
+        // Highlight Active Sidebar Link
         const currentUrl = window.location.pathname;
         document.querySelectorAll('.nav-link').forEach(link => {
-            if (currentUrl.includes(link.getAttribute('href'))) {
+            const linkHref = link.getAttribute('href');
+            if (linkHref && currentUrl.includes(linkHref) && linkHref !== '#') {
                 link.classList.add('active');
             }
         });

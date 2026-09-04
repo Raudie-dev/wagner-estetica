@@ -1,0 +1,104 @@
+{% extends 'base_app2.html' %}
+{% load static %}
+{% block title %}Gestión de Servicios - Lumé Estética Avanzada{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Gestión de Servicios</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+    <!-- Formulario Agregar Servicio -->
+    <div class="card">
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Nuevo Tratamiento</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_service">
+            
+            <div class="form-group">
+                <label>Nombre del Servicio</label>
+                <input type="text" name="nombre_servicio" class="form-control" required placeholder="Ej. Ritual Facial Glow">
+            </div>
+            
+            <div class="form-group">
+                <label>Duración</label>
+                <input type="text" name="duracion" class="form-control" placeholder="Ej. 60 minutos">
+            </div>
+            
+            <div class="form-group">
+                <label>Descripción Corta</label>
+                <textarea name="descripcion" class="form-control" rows="3" placeholder="Descripción que aparecerá en la landing page..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Beneficios (Uno por línea)</label>
+                <textarea name="beneficios" class="form-control" rows="4" placeholder="- Piel más luminosa&#10;- Reducción de manchas"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Imagen del Servicio</label>
+                <input type="file" name="imagen" class="form-control" accept="image/*">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%;">Guardar Servicio</button>
+        </form>
+    </div>
+    
+    <!-- Lista de Servicios -->
+    <div class="card">
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Catálogo de Servicios</h3>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Tratamiento</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servicio in servicios %}
+                    <tr>
+                        <td>
+                            {% if servicio.imagen %}
+                                <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 12px; border: 1px solid var(--color-champagne);">
+                            {% else %}
+                                <div style="width: 52px; height: 52px; background: var(--color-bg-subtle); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--color-champagne);"><i class="ph-fill ph-image" style="font-size: 1.4rem;"></i></div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: var(--color-text-main); font-size: 1.05rem;">{{ servicio.nombre }}</div>
+                            <small style="color: var(--color-text-muted); font-size: 0.8rem;">{{ servicio.duracion|default_if_none:'' }}</small>
+                        </td>
+                        <td>
+                            <form method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="toggle_service">
+                                <input type="hidden" name="service_id" value="{{ servicio.id }}">
+                                {% if servicio.activo %}
+                                    <button type="submit" class="badge badge-confirmed" style="border:none; cursor:pointer;" title="Click para desactivar">Activo</button>
+                                {% else %}
+                                    <button type="submit" class="badge" style="background: var(--color-bg-subtle); color: var(--color-text-muted); border:1px solid rgba(20,34,23,0.15); cursor:pointer;" title="Click para activar">Inactivo</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="delete_service">
+                                <input type="hidden" name="service_id" value="{{ servicio.id }}">
+                                <button type="submit" class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.7rem; background: var(--color-bg-surface); color: #e74c3c; border: 1px solid #e74c3c;" onclick="return confirm('¿Eliminar este servicio definitivamente?');">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--color-text-muted); padding: 2.5rem;">No hay servicios configurados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

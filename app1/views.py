@@ -6,12 +6,13 @@ from django.utils import timezone
 from .models import Blog
 from django.contrib.auth.models import User
 
-from app2.models import ProfileConfig
+from app2.models import ProfileConfig, Service
 
 # Create your views here.
 def index(request):
     config = ProfileConfig.objects.first()
-    return render(request, 'index.html', {'config': config})
+    servicios = Service.objects.filter(activo=True)
+    return render(request, 'index.html', {'config': config, 'servicios': servicios})
 
 
 def blog(request):
