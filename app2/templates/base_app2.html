@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Panel - Lumé Estética Avanzada{% endblock %}</title>
+    <title>{% block title %}Panel - Clínica Lume{% endblock %}</title>
     
     <!-- Google Fonts: Cormorant Garamond, Syne & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,52 +43,60 @@
         
         body {
             font-family: var(--font-body);
-            background-color: var(--color-bg-body);
+            background-color: #E6E1D8; /* Fondo tipo OS/escritorio */
+            background-image: radial-gradient(circle at top right, rgba(200, 164, 98, 0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(20, 34, 23, 0.08), transparent 40%);
             color: var(--color-text-main);
             display: flex;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            padding: 1.2rem; /* Espacio para que flote el sistema */
+            gap: 1.2rem;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Styling (Flotante) */
         .sidebar {
             width: 270px;
-            background-color: var(--color-sidebar);
+            background-color: rgba(20, 34, 23, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             color: #FAF6F0;
             display: flex;
             flex-direction: column;
             transition: var(--transition);
             z-index: 100;
-            border-right: 1px solid rgba(200, 164, 98, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
         }
         .sidebar-header {
-            padding: 2rem 1.8rem;
+            padding: 2.5rem 1.8rem 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .sidebar-logo-img {
-            height: 52px;
+            height: 48px;
             width: auto;
             object-fit: contain;
             filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);
-            mix-blend-mode: screen;
         }
         
         .nav-links {
-            padding: 1.8rem 1rem;
+            padding: 1.5rem 1rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
         .nav-link {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 0.9rem 1.2rem;
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255, 255, 255, 0.65);
             text-decoration: none;
             transition: var(--transition);
             border-radius: 14px;
@@ -98,47 +106,58 @@
             letter-spacing: 1.2px;
             text-transform: uppercase;
         }
-        .nav-link i { font-size: 1.3rem; color: var(--color-champagne); transition: var(--transition); }
+        .nav-link i { font-size: 1.3rem; color: rgba(200, 164, 98, 0.7); transition: var(--transition); }
         .nav-link:hover, .nav-link.active {
-            background: rgba(200, 164, 98, 0.15);
-            color: var(--color-champagne-light);
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
             transform: translateX(4px);
+        }
+        .nav-link.active {
+            background: var(--color-champagne);
+            color: #142217;
+            box-shadow: 0 4px 15px rgba(200, 164, 98, 0.3);
         }
         .nav-link.active i, .nav-link:hover i {
             transform: scale(1.15);
+            color: #142217;
         }
+        .nav-link:hover i { color: #FFFFFF; }
 
         .sidebar-footer {
             padding: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
         .site-link-btn {
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-            padding: 0.75rem 1.2rem; border-radius: var(--radius-btn);
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(200, 164, 98, 0.3);
+            padding: 0.85rem 1.2rem; border-radius: 14px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--color-champagne); text-decoration: none;
             font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase; transition: var(--transition);
         }
         .site-link-btn:hover {
-            background: var(--color-champagne); color: #142217;
+            background: rgba(255,255,255,0.1); color: #FFFFFF;
         }
         
-        /* Main Content Layout */
+        /* Main Content Layout (Ventana de App) */
         .main-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            width: calc(100% - 270px);
-            min-height: 100vh;
+            background-color: var(--color-bg-body);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(20, 34, 23, 0.08);
+            overflow: hidden;
+            position: relative;
         }
         
-        /* Topbar Header */
+        /* Topbar Header (Cristalizado) */
         .topbar {
             height: 80px;
-            background: rgba(250, 246, 240, 0.88);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(250, 246, 240, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--color-border);
             display: flex;
             align-items: center;
@@ -163,13 +182,15 @@
         .user-role { font-size: 0.75rem; color: var(--color-champagne); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
 
         .menu-toggle { display: none; background: none; border: none; color: var(--color-text-main); font-size: 1.8rem; cursor: pointer; }
-        
         .content-area {
             padding: 2.5rem;
             flex-grow: 1;
             overflow-y: auto;
+            scrollbar-width: none;
         }
-        
+        .content-area::-webkit-scrollbar {
+            display: none;
+        }
         h1.page-title {
             font-family: var(--font-heading);
             font-size: 2.8rem;
@@ -280,9 +301,10 @@
 
         /* Mobile Styling */
         @media (max-width: 768px) {
-            .sidebar { position: fixed; height: 100vh; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
+            body { padding: 0; gap: 0; }
+            .sidebar { position: fixed; height: 100vh; border-radius: 0; border: none; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
             .sidebar.show { transform: translateX(0); }
-            .main-content { width: 100%; }
+            .main-content { width: 100%; border-radius: 0; border: none; }
             .menu-toggle { display: block; }
             .content-area { padding: 1.5rem; }
             .topbar { padding: 0 1.5rem; }
@@ -294,7 +316,7 @@
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Lumé Estética Avanzada" class="sidebar-logo-img">
+            <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Clínica Lume" class="sidebar-logo-img">
         </div>
         
         <nav class="nav-links">
@@ -302,8 +324,7 @@
             <a href="{% url 'registro_cliente' %}" class="nav-link"><i class="ph-fill ph-users"></i> Clientes</a>
             <a href="{% url 'configuracion_perfil' %}" class="nav-link"><i class="ph-fill ph-storefront"></i> Perfil de Negocio</a>
             <a href="{% url 'gestion_servicios' %}" class="nav-link"><i class="ph-fill ph-sparkle"></i> Servicios</a>
-            <a href="{% url 'configuracion_respuestas' %}" class="nav-link"><i class="ph-fill ph-robot"></i> Bot de WhatsApp</a>
-        </nav>
+            </nav>
 
         <div class="sidebar-footer">
             <a href="/" target="_blank" class="site-link-btn">
@@ -317,7 +338,7 @@
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menú"><i class="ph ph-list"></i></button>
             
             <div style="font-family: var(--font-accent); font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-champagne);">
-                PANEL DE ADMINISTRACIÓN — LUMÉ ESTÉTICA
+                PANEL DE ADMINISTRACIÓN — CLÍNICA LUME
             </div>
 
             <div class="topbar-user">
@@ -326,7 +347,7 @@
                 </div>
                 <div class="user-info">
                     <span class="user-name">{{ user_admin.nombre|default:"Administrador" }}</span>
-                    <span class="user-role">Conserjería Lumé</span>
+                    <span class="user-role">Conserjería Lume</span>
                 </div>
             </div>
         </header>
@@ -366,3 +387,4 @@
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+

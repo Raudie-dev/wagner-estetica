@@ -1,11 +1,11 @@
 {% extends 'base_app2.html' %}
 {% load static %}
-{% block title %}Gestión de Servicios - Lumé Estética Avanzada{% endblock %}
+{% block title %}Gestión de Servicios - Clínica Lume{% endblock %}
 
 {% block content %}
 <h1 class="page-title">Gestión de Servicios</h1>
 
-<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+<div style="display: flex; flex-direction: column; gap: 2rem;">
     <!-- Formulario Agregar Servicio -->
     <div class="card">
         <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Nuevo Tratamiento</h3>
@@ -13,32 +13,40 @@
             {% csrf_token %}
             <input type="hidden" name="action" value="add_service">
             
-            <div class="form-group">
-                <label>Nombre del Servicio</label>
-                <input type="text" name="nombre_servicio" class="form-control" required placeholder="Ej. Ritual Facial Glow">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; align-items: flex-start;">
+                
+                <!-- Columna Izquierda (Inputs Básicos) -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Nombre del Servicio</label>
+                        <input type="text" name="nombre_servicio" class="form-control" required placeholder="Ej. Ritual Facial Glow">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Duración</label>
+                        <input type="text" name="duracion" class="form-control" placeholder="Ej. 60 minutos">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Imagen del Servicio</label>
+                        <input type="file" name="imagen" class="form-control" accept="image/*">
+                    </div>
+                </div>
+
+                <!-- Columna Derecha (Textareas) -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Descripción Corta</label>
+                        <textarea name="descripcion" class="form-control" rows="2" placeholder="Descripción que aparecerá en la landing page..."></textarea>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Beneficios (Uno por línea)</label>
+                        <textarea name="beneficios" class="form-control" rows="3" placeholder="- Piel más luminosa&#10;- Reducción de manchas"></textarea>
+                    </div>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label>Duración</label>
-                <input type="text" name="duracion" class="form-control" placeholder="Ej. 60 minutos">
+            <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="submit" class="btn-primary" style="min-width: 200px;">Guardar Servicio</button>
             </div>
-            
-            <div class="form-group">
-                <label>Descripción Corta</label>
-                <textarea name="descripcion" class="form-control" rows="3" placeholder="Descripción que aparecerá en la landing page..."></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>Beneficios (Uno por línea)</label>
-                <textarea name="beneficios" class="form-control" rows="4" placeholder="- Piel más luminosa&#10;- Reducción de manchas"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>Imagen del Servicio</label>
-                <input type="file" name="imagen" class="form-control" accept="image/*">
-            </div>
-            
-            <button type="submit" class="btn-primary" style="width: 100%;">Guardar Servicio</button>
         </form>
     </div>
     

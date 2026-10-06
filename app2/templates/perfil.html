@@ -1,5 +1,5 @@
 {% extends 'base_app2.html' %}
-{% block title %}Perfil - Lumé Estética Avanzada{% endblock %}
+{% block title %}Perfil - Clínica Lume{% endblock %}
 
 {% block content %}
 <h1 class="page-title">Configuración del Negocio</h1>
@@ -8,11 +8,17 @@
     <h3 style="margin-bottom: 1.8rem; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-text-main);">Información General</h3>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            <label>Nombre del Negocio</label>
-            <input type="text" name="nombre_negocio" class="form-control" value="{{ config.nombre_negocio }}">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Nombre del Negocio</label>
+                <input type="text" name="nombre_negocio" class="form-control" value="{{ config.nombre_negocio }}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Teléfono Principal (WhatsApp)</label>
+                <input type="text" name="telefono_whatsapp" class="form-control" value="{{ config.telefono_whatsapp|default_if_none:'' }}" placeholder="Ej. 5491166380592">
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 1.5rem;">
             <label>Dirección</label>
             <input type="text" name="direccion" class="form-control" value="{{ config.direccion|default_if_none:'' }}">
         </div>
@@ -20,18 +26,8 @@
             <label>Horarios de Atención</label>
             <textarea name="horarios" class="form-control" rows="3">{{ config.horarios|default_if_none:'' }}</textarea>
         </div>
-        <div class="form-group">
-            <label>Mensaje de Bienvenida del Bot</label>
-            <textarea name="mensaje_bienvenida_bot" class="form-control" rows="4">{{ config.mensaje_bienvenida_bot|default_if_none:'' }}</textarea>
-            <small style="color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Este mensaje se enviará automáticamente a las personas que te escriban por primera vez o si el bot no reconoce el comando.</small>
-        </div>
-        <div class="form-group">
-            <label>Datos Bancarios (Bot de Reservas)</label>
-            <textarea name="datos_pago_bot" class="form-control" rows="3" placeholder="Ej. CBU: 00000... Alias: lume.estetica">{{ config.datos_pago_bot|default_if_none:'' }}</textarea>
-            <small style="color: var(--color-text-muted); font-size: 0.8rem;">Instrucciones que enviará el bot al final del proceso de reserva para solicitar el pago.</small>
-        </div>
-        <div style="text-align: right; margin-top: 2rem;">
-            <button type="submit" class="btn-primary">Guardar Cambios</button>
+        <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+            <button type="submit" class="btn-primary" style="min-width: 200px;">Guardar Cambios</button>
         </div>
     </form>
 </div>

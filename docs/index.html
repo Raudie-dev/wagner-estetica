@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Lumé Estética Avanzada</title>
+    <!-- Fonts matching the project -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6.4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Lumé Estética Avanzada - Warm Editorial Luxe Palette */
+            --color-bg-body: #FAF6F0; 
+            --color-bg-surface: #FFFFFF; 
+            --color-bg-subtle: #F3EDE4; 
+            --color-bg-card-hover: #F8F3EC;
+            
+            --color-text-main: #142217; 
+            --color-text-sub: #2D3E31;
+            --color-text-muted: #6B786E;
+            
+            --color-champagne: #C8A462;
+            --color-champagne-light: #E6CA92;
+            --color-terracotta: #E8A598;
+            --color-wa: #25D366; 
+
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+            --font-accent: 'Syne', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --radius-btn: 50px;
+            --radius-card: 24px;
+            
+            --shadow-soft: 0 16px 40px rgba(20, 34, 23, 0.06);
+            --transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-main);
+            background-color: var(--color-bg-body);
+            line-height: 1.65;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .text-champagne { color: var(--color-champagne); }
+        .text-italic-gold {
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--color-champagne);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--color-bg-surface);
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-right: 1px solid rgba(200, 164, 98, 0.2);
+            transition: var(--transition);
+            z-index: 1000;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 2rem;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            flex: 1;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            color: var(--color-text-sub);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 12px;
+            color: var(--color-champagne);
+            width: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--color-bg-subtle);
+            color: var(--color-text-main);
+        }
+        
+        .sidebar-nav a:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            background-color: var(--color-bg-surface);
+            padding: 1rem 1.5rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            border-bottom: 1px solid rgba(200, 164, 98, 0.2);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--color-text-main);
+            cursor: pointer;
+        }
+
+        /* Content Area */
+        .content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            min-height: 100vh;
+            padding: 4rem;
+            position: relative;
+        }
+
+        .section-pane {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards and Elements */
+        .card {
+            background-color: var(--color-bg-surface);
+            border-radius: var(--radius-card);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(200, 164, 98, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: 0 22px 50px rgba(200, 164, 98, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background: var(--color-bg-subtle);
+            padding: 1.8rem;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .feature-item:hover {
+            background: var(--color-bg-surface);
+            border-color: rgba(200, 164, 98, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--color-champagne);
+            margin-bottom: 1.2rem;
+            display: inline-block;
+            background: rgba(200, 164, 98, 0.1);
+            padding: 15px;
+            border-radius: 50%;
+        }
+
+        .feature-item h4 {
+            font-family: var(--font-accent);
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4em 1em;
+            font-size: 0.75rem;
+            font-family: var(--font-accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: var(--radius-btn);
+            background-color: rgba(200, 164, 98, 0.15);
+            color: var(--color-champagne);
+            border: 1px solid rgba(200, 164, 98, 0.3);
+        }
+
+        .alert {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 16px;
+            background-color: rgba(232, 165, 152, 0.1); 
+            border: 1px solid var(--color-terracotta);
+            color: var(--color-text-sub);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .alert i {
+            color: var(--color-terracotta);
+            font-size: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: var(--color-bg-surface);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(200, 164, 98, 0.15);
+        }
+
+        th {
+            font-family: var(--font-accent);
+            color: var(--color-text-main);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: var(--color-bg-subtle);
+        }
+        
+        td {
+            font-size: 0.95rem;
+            color: var(--color-text-sub);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                padding-top: 80px;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+            }
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 6rem 1.5rem 2rem 1.5rem;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <h2 style="font-size: 1.6rem; margin: 0; font-family: var(--font-heading); color: var(--color-text-main);">Lumé <span class="text-italic-gold">Docs</span></h2>
+        <button class="hamburger" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="text-champagne">Lumé</h2>
+            <div style="font-family: var(--font-accent); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-muted); margin-top: 5px;">
+                Estética Avanzada
+            </div>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#intro" class="nav-link active"><i class="fa-solid fa-spa"></i> Introducción</a></li>
+            <li><a href="#arquitectura" class="nav-link"><i class="fa-solid fa-sitemap"></i> Arquitectura</a></li>
+            <li><a href="#gestion" class="nav-link"><i class="fa-regular fa-calendar-check"></i> Módulo Gestión</a></li>
+            <li><a href="#bot" class="nav-link"><i class="fa-brands fa-whatsapp"></i> Bot WhatsApp</a></li>
+            <li><a href="#blog" class="nav-link"><i class="fa-solid fa-pen-nib"></i> Módulo Blog</a></li>
+            <li><a href="#acceso" class="nav-link"><i class="fa-solid fa-key"></i> Credenciales</a></li>
+            <li><a href="#video" class="nav-link"><i class="fa-solid fa-video"></i> Video Explicativo</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+        
+        <!-- Intro Section -->
+        <section id="intro" class="section-pane active">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">Documentación <span class="text-italic-gold">Técnica</span></h1>
+            <p style="font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 2.5rem; font-family: var(--font-accent);">SISTEMA INTEGRAL - LUMÉ ESTÉTICA AVANZADA</p>
+            
+            <div class="card">
+                <h2 class="text-champagne">Visión General</h2>
+                <p>El proyecto es una plataforma web desarrollada en <strong>Django</strong> para la administración completa de un centro de estética. Combina un front-end público de alto nivel estético con un back-end operativo robusto, diseñado para optimizar las reservas y la comunicación automatizada.</p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fa-regular fa-address-book"></i>
+                        <h4>Gestión de Clientes</h4>
+                        <p>Registro centralizado de pacientes y su información de contacto (WhatsApp/Email).</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <h4>Control de Turnos</h4>
+                        <p>Agenda completa con estados dinámicos (Pendiente, Confirmada, Cancelada).</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-robot"></i>
+                        <h4>Bot Interactivo</h4>
+                        <p>Respuestas automáticas e integración de webhook para atención 24/7 vía WhatsApp.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <h4>Blog CMS</h4>
+                        <p>Publicación de artículos y noticias categorizadas para posicionamiento SEO.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arquitectura Section -->
+        <section id="arquitectura" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Arquitectura del <span class="text-italic-gold">Sistema</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne mb-4">Estructura Modular (Apps)</h2>
+                <p>El proyecto Django está dividido en dos aplicaciones principales para separar responsabilidades:</p>
+                
+                <div style="margin-top: 2rem; background: var(--color-bg-subtle); padding: 2rem; border-radius: 16px;">
+                    <h4 style="font-family: var(--font-accent); font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-leaf text-champagne me-2"></i> APP1 (Módulo de Contenido / CMS)</h4>
+                    <p style="margin-bottom: 0;">Gestiona el contenido público. Contiene los modelos <strong>Blog</strong> (Entradas con autor, extracto, imagen destacada, control de publicación) y <strong>Category</strong> (Categorías de artículos con generación automática de URLs amigables o <em>slugs</em>).</p>
+                </div>
+                
+                <div style="margin-top: 1.5rem; background: var(--color-bg-subtle); padding: 2rem; border-radius: 16px;">
+                    <h4 style="font-family: var(--font-accent); font-size: 1.1rem; margin-bottom: 1rem;"><i class="fa-solid fa-briefcase text-champagne me-2"></i> APP2 (Gestión Core & Negocio)</h4>
+                    <p style="margin-bottom: 0;">Es el núcleo administrativo del centro. Maneja modelos de negocio como <strong>Client</strong>, <strong>Service</strong> (Servicios con duración y precio), <strong>Appointment</strong> (Citas y agenda), y toda la lógica del Bot de WhatsApp (<strong>BotResponse</strong>, <strong>BotSession</strong> y <strong>ProfileConfig</strong>).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gestión Section -->
+        <section id="gestion" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Módulo de <span class="text-italic-gold">Gestión</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne mb-4">Vistas y Entidades Principales</h2>
+                <p>El sistema proporciona un panel de control intuitivo accesible a través de múltiples rutas operativas:</p>
+
+                <div style="overflow-x: auto; margin-top: 2rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vista / Modelo</th>
+                                <th>Descripción de Funcionalidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Dashboard</strong> <code>(/dashboard/)</code></td>
+                                <td>Vista general (<code>dashboard_citas</code>) que muestra métricas rápidas y el listado de las próximas reservas del día.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Clientes</strong> <code>(/clientes/)</code></td>
+                                <td>Administración de pacientes. Guarda nombre, teléfono (formato WhatsApp), email y notas clínicas/observaciones.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Servicios</strong> <code>(/servicios/)</code></td>
+                                <td>Catálogo de tratamientos. Incluye nombre, descripción, duración, precio, imagen y listado de beneficios.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Citas</strong> <code>(/citas/...)</code></td>
+                                <td>Gestión de la agenda. Permite actualizar el estado de la cita (Pendiente, Confirmada, Completada, Cancelada) y exportar el listado completo.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bot Section -->
+        <section id="bot" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Bot de <span class="text-italic-gold">WhatsApp</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne">Automatización de Mensajería</h2>
+                <p>El sistema cuenta con un Gateway de WhatsApp integrado mediante Webhooks (<code>/api/whatsapp/webhook/</code>) para automatizar la atención primaria.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fa-regular fa-comment-dots"></i>
+                        <h4>Respuestas por Keyword</h4>
+                        <p>El modelo <code>BotResponse</code> permite definir palabras clave y las respuestas automáticas exactas que el bot enviará.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <h4>Máquina de Estados</h4>
+                        <p><code>BotSession</code> rastrea el embudo del usuario (INICIO, ELIGIENDO_SERVICIO, ELIGIENDO_FECHA, ESPERANDO_PAGO).</p>
+                    </div>
+                </div>
+
+                <div class="alert mt-4" style="margin-top: 2rem;">
+                    <i class="fa-solid fa-sliders"></i>
+                    <div>
+                        <strong style="font-family: var(--font-accent);">Configuración Dinámica Institucional</strong><br>
+                        A través del modelo <code>ProfileConfig</code>, el administrador define parámetros globales como el mensaje de bienvenida por defecto, la dirección, horarios, y las instrucciones de pago/CBU.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Módulo de <span class="text-italic-gold">Blog</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne">Gestor de Contenidos</h2>
+                <p>Herramienta diseñada para el posicionamiento SEO y la fidelización mediante artículos de estética y salud.</p>
+                
+                <ul style="list-style-type: none; padding-left: 0; margin-top: 2rem;">
+                    <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(200, 164, 98, 0.1);">
+                        <div style="background: rgba(200, 164, 98, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+                            <i class="fa-solid fa-link text-champagne"></i>
+                        </div>
+                        <div>
+                            <strong style="font-family: var(--font-accent); display: block; margin-bottom: 5px;">Generación Automática de Slugs</strong> 
+                            Al crear un artículo (<code>Blog</code>) o categoría (<code>Category</code>), el sistema sobrescribe el método <code>save()</code> para autogenerar una URL amigable, asegurando unicidad incluso si los títulos se repiten.
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(200, 164, 98, 0.1);">
+                        <div style="background: rgba(200, 164, 98, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+                            <i class="fa-solid fa-tags text-champagne"></i>
+                        </div>
+                        <div>
+                            <strong style="font-family: var(--font-accent); display: block; margin-bottom: 5px;">Categorización (M2M)</strong> 
+                            Relación de muchos a muchos (ManyToMany) con el modelo Categorías, permitiendo que un post pertenezca a varios temas a la vez.
+                        </div>
+                    </li>
+                    <li style="display: flex; align-items: flex-start;">
+                        <div style="background: rgba(200, 164, 98, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0;">
+                            <i class="fa-solid fa-eye text-champagne"></i>
+                        </div>
+                        <div>
+                            <strong style="font-family: var(--font-accent); display: block; margin-bottom: 5px;">Control de Publicación</strong> 
+                            Diferenciación entre borradores y artículos publicados utilizando los campos booleanos <code>published</code> y de fecha <code>published_at</code>.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Acceso Section -->
+        <section id="acceso" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Credenciales de <span class="text-italic-gold">Acceso</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne">Autenticación al Panel</h2>
+                
+                <div class="alert" style="background-color: rgba(200, 164, 98, 0.08); border-color: rgba(200, 164, 98, 0.3); margin-top: 1.5rem;">
+                    <i class="fa-solid fa-shield-halved text-champagne"></i>
+                    <div>
+                        <strong style="font-family: var(--font-accent);">Seguridad Activa Integrada</strong><br>
+                        El sistema incluye un modelo de usuarios personalizado (<code>User_admin</code>) con capacidad de bloqueo temporal de cuentas (<code>bloqueado = True/False</code>) en caso de intentos fallidos.
+                    </div>
+                </div>
+
+                <div style="background: var(--color-bg-subtle); padding: 2.5rem; border-radius: 16px; margin-top: 2rem; border: 1px solid rgba(200, 164, 98, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(200, 164, 98, 0.2); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                        <span style="font-weight: 500; color: var(--color-text-sub);">URL del Panel de Administración</span>
+                        <a href="/login/" class="text-champagne" style="font-weight: 700; font-family: var(--font-accent); font-size: 1.1rem; text-decoration: none;">/login/</a>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(200, 164, 98, 0.2); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                        <span style="font-weight: 500; color: var(--color-text-sub);">Usuario Administrativo</span>
+                        <span class="badge">Admin</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 500; color: var(--color-text-sub);">Contraseña Temporal</span>
+                        <span style="font-family: monospace; background: var(--color-text-main); color: var(--color-champagne); padding: 0.5rem 1rem; border-radius: 8px; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px;">12345678</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section id="video" class="section-pane">
+            <h1 style="font-size: 3rem; margin-bottom: 2.5rem;">Recorrido en <span class="text-italic-gold">Video</span></h1>
+            
+            <div class="card">
+                <h2 class="text-champagne mb-4">Uso Práctico del Sistema</h2>
+                <p>Visualiza este breve video para entender mejor la navegación general y el uso del panel administrativo.</p>
+                
+                <div style="background: var(--color-bg-subtle); padding: 1.5rem; border-radius: 16px; margin-top: 1.5rem; border: 1px solid rgba(200, 164, 98, 0.2);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: var(--shadow-soft);">
+                        <iframe src="tutorial.mp4" allow="autoplay" title="Video explicativo del proyecto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const panes = document.querySelectorAll('.section-pane');
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+
+            // Toggle Mobile Menu
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('show');
+                });
+            }
+
+            // SPA Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if(href.startsWith('#')) {
+                        const targetId = href.substring(1);
+                        const targetPane = document.getElementById(targetId);
+                        
+                        if (targetPane) {
+                            e.preventDefault();
+                            
+                            // Update active link
+                            navLinks.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                            
+                            // Update active pane
+                            panes.forEach(p => p.classList.remove('active'));
+                            targetPane.classList.add('active');
+                            
+                            // Close sidebar on mobile
+                            if (window.innerWidth <= 992 && sidebar.classList.contains('show')) {
+                                sidebar.classList.remove('show');
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

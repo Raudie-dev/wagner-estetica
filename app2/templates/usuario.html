@@ -1,0 +1,24 @@
+{% extends 'base_app2.html' %}
+{% block title %}Usuario - Clínica Lume{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Configuración de Usuario</h1>
+
+<div class="card" style="max-width: 600px;">
+    <h3 style="margin-bottom: 1.8rem; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-text-main);">Mis Credenciales</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Nombre de Usuario</label>
+            <input type="text" name="nombre" class="form-control" value="{{ user.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label>Nueva Contraseña</label>
+            <input type="password" name="password" class="form-control" placeholder="Dejar en blanco para no cambiar">
+        </div>
+        <div style="text-align: right; margin-top: 2rem;">
+            <button type="submit" class="btn-primary" style="min-width: 200px;">Guardar Cambios</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

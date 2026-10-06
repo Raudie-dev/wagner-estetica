@@ -4,535 +4,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumé Estética Avanzada | Medicina de la Piel & Rituales de Bienestar</title>
-    <meta name="description" content="Lumé Estética Avanzada en Buenos Aires. Tratamientos faciales glow, remodelación corporal, lifting HIFU y diagnósticos personalizados.">
+    <title>Clínica Lume | Estética Avanzada y Odontología</title>
+    <meta name="description" content="Especialistas en Dermatología, Dermocosmiatría, Odontología, Medicina Estética y Depilación Definitiva en Buenos Aires. Cuidamos tu piel, tu sonrisa y tu bienestar.">
+    <link rel="icon" type="image/x-icon" href="{% static 'wagner-img/lume-logo.png' %}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
-    <!-- Custom Warm Cream Luxe CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=12.00">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=54.00">
 </head>
 <body>
-    <!-- Ambient Light Orbs -->
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
+    <div id="toast-container"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="brand">
-                <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Lumé Estética Avanzada" class="brand-logo-img">
+    <!-- NAVBAR -->
+    <nav class="ed-navbar" id="navbar">
+        <div class="container ed-nav-container">
+            <a href="#" class="ed-brand">
+                <img src="{% static 'wagner-img/lume-logo2.png' %}" alt="Clínica Lume" class="ed-brand-logo">
             </a>
             
-            <div class="nav-links" id="navLinks">
+            <div class="ed-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </div>
+
+            <div class="ed-nav-links" id="navLinks">
                 <a href="#inicio">Inicio</a>
-                <a href="#transformacion">Resultados</a>
-                <a href="#asistente">Asistente de Piel</a>
                 <a href="#tratamientos">Tratamientos</a>
+                <a href="#quienes-somos">Quiénes Somos</a>
                 <a href="#testimonios">Reseñas</a>
                 <a href="#faq">Preguntas</a>
                 <a href="#contacto">Contacto</a>
-            </div>
-            
-            <div class="nav-actions">
-                <a href="#contacto" class="btn btn-champagne" style="padding: 0.75rem 1.5rem; font-size: 0.75rem;">AGENDAR CITA</a>
-                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
-                    <span></span><span></span><span></span>
-                </button>
+                <a href="#contacto" class="ed-btn-nav hide-mobile">AGENDAR CITA</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <!-- SINGLE-COLUMN HORIZONTAL HERO SECTION WITH EDITORIAL BACKGROUND OVERLAY -->
-        <section id="inicio" class="hero-single-col">
+        <!-- HERO EDITORIAL (SCROLL SEQUENCE) -->
+        <header id="inicio" class="ed-hero">
+            <div class="ed-hero-sticky">
+                <img src="{% static 'wagner-img/marble_bg.jpg' %}" alt="Clínica Lume Fondo" class="ed-hero-bg-img">
+                <div class="ed-hero-bg-overlay"></div>
+                
+                <div class="container ed-hero-content">
+                    
+                    <!-- PASO 1: Logo y Eslogan -->
+                    <div class="ed-hero-step step-1 active">
+                        <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Clínica Lume Logo" class="ed-hero-logo">
+                        <span class="ed-overline"><i class="ph-fill ph-sparkle"></i> Cuidamos tu piel, tu sonrisa y tu bienestar.</span>
+                    </div>
+
+                    <!-- PASO 2: Título -->
+                    <div class="ed-hero-step step-2 enter-down">
+                        <h1 class="ed-title">
+                            Salud integral y estética de vanguardia<br>
+                            <em class="ed-italic-gold">en un solo lugar.</em>
+                        </h1>
+                    </div>
+
+                    <!-- PASO 3: Subtítulo y Botones -->
+                    <div class="ed-hero-step step-3 enter-down">
+                        <p class="ed-subtitle">
+                            En <strong>Clínica Lume</strong> integración médica y armonía estética se unen para cuidar de ti. Especialistas dedicados a potenciar tu salud y belleza con tecnología de última generación.
+                        </p>
+                        <div class="ed-hero-actions">
+                            <a href="#contacto" class="ed-btn ed-btn-solid">AGENDAR MI CITA <i class="ph-bold ph-arrow-up-right"></i></a>
+                            <a href="#quienes-somos" class="ed-btn ed-btn-outline">DESCUBRIR LUME <i class="ph-bold ph-caret-down"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <section id="tratamientos" style="padding: 6rem 0 3rem 0; background: var(--color-bg-body);">
             <div class="container">
-                <div class="hero-content-centered">
-                    <span class="hero-top-tag">
-                        <i class="ph-fill ph-sparkle"></i> LUMÉ — ESTÉTICA EDITORIAL
-                    </span>
+                <div class="ed-services-header reveal fade-up" style="text-align: center; margin-bottom: 3rem;">
+                    <span class="ed-section-label">ÁREAS DE EXPERIENCIA</span>
+                    <h2 class="ed-section-title">Nuestros Tratamientos</h2>
+                </div>
+            </div>
+            
+            <div class="ed-marquee-wrapper reveal fade-up delay-1">
+                <div class="ed-marquee-fade left"></div>
+                <div class="ed-marquee-fade right"></div>
+                
+                <div class="ed-marquee-track track-left">
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('todos')">Todos</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('dermatologia')">Dermatología</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('dermocosmiatria')">Dermocosmiatría</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('odontologia')">Odontología Estética</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('medicina-estetica')">Medicina Estética</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('depilacion')">Depilación Definitiva</button>
                     
-                    <h1 class="hero-title-centered">
-                        Donde el ruido se apaga, <br class="hide-mobile">
-                        <span class="text-italic-gold">comienza la experiencia Lumé.</span>
-                    </h1>
-                    
-                    <p class="hero-subtitle-centered">
-                        Tratamientos dermocosméticos y aparatología de última generación diseñados para equilibrar, hidratar y revelar la vitalidad natural de tu rostro y cuerpo.
+                    <!-- Duplicate for infinite scroll -->
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('todos')">Todos</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('dermatologia')">Dermatología</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('dermocosmiatria')">Dermocosmiatría</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('odontologia')">Odontología Estética</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('medicina-estetica')">Medicina Estética</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('depilacion')">Depilación Definitiva</button>
+                </div>
+
+                <div class="ed-marquee-track track-right">
+                    <button class="ed-filter-btn" onclick="scrollToService('odontologia')">Odontología Estética</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('medicina-estetica')">Medicina Estética</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('depilacion')">Depilación Definitiva</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('todos')">Todos</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('dermatologia')">Dermatología</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('dermocosmiatria')">Dermocosmiatría</button>
+
+                    <!-- Duplicate for infinite scroll -->
+                    <button class="ed-filter-btn" onclick="scrollToService('odontologia')">Odontología Estética</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('medicina-estetica')">Medicina Estética</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('depilacion')">Depilación Definitiva</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('todos')">Todos</button>
+                    <button class="ed-filter-btn" onclick="scrollToService('dermatologia')">Dermatología</button>
+                    <button class="ed-filter-btn ed-filter-dark" onclick="scrollToService('dermocosmiatria')">Dermocosmiatría</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIÉNES SOMOS -->
+        <section id="quienes-somos" class="ed-about" style="scroll-margin-top: 80px;">
+            <div class="container ed-about-grid">
+                <div class="ed-about-info reveal fade-up">
+                    <span class="ed-section-label">NUESTRA ESENCIA</span>
+                    <h2 class="ed-section-title">Cuidado Multidisciplinario de Excelencia</h2>
+                    <p class="ed-about-desc">
+                        Somos un centro de salud y estética integral diseñado para acompañarte. Creemos en resultados armónicos y naturales, respaldados por la ciencia, la innovación constante y el calidez humana.
                     </p>
-
-                    <!-- Quick Category Pills -->
-                    <div class="hero-quick-pills">
-                        <a href="#tratamientos" class="quick-pill"><i class="ph-fill ph-sparkle"></i> Faciales Glow</a>
-                        <a href="#tratamientos" class="quick-pill"><i class="ph-fill ph-barbell"></i> Sculpt Corporal</a>
-                        <a href="#tratamientos" class="quick-pill"><i class="ph-fill ph-lightning"></i> Lifting HIFU</a>
-                        <a href="#contacto" class="quick-pill"><i class="ph-fill ph-user-focus"></i> Consulta 1:1</a>
-                    </div>
                     
-                    <div class="hero-cta">
-                        <a href="#contacto" class="btn btn-champagne">
-                            AGENDAR MI CITA VIP <i class="ph-bold ph-arrow-up-right"></i>
-                        </a>
-                        <a href="#transformacion" class="btn btn-outline-dark">
-                            VER RESULTADOS REALES <i class="ph-bold ph-caret-down"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <div class="ed-team-carousel">
+                        <div class="ed-team-profile">
+                            <img loading="lazy" src="{% static 'wagner-img/team-wagner.png' %}" alt="Dra. Karol Montezuma" class="ed-team-img">
+                            <div class="ed-team-text">
+                                <h4>Dra. Karol Montezuma</h4>
+                                <span class="ed-team-role">Médica Posgraduada</span>
+                                <p>Especializada en técnicas avanzadas de rellenos, toxina botulínica y bioestimuladores. Su filosofía: "Entiendo qué te molesta y qué te gusta de vos misma para lograr un resultado natural."</p>
+                            </div>
+                        </div>
 
-        <!-- TRUST BAR STRIP -->
-        <section class="trust-strip">
-            <div class="container">
-                <div class="trust-grid">
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="ph-fill ph-cpu"></i>
-                        </div>
-                        <div class="trust-info">
-                            <h4>Aparatología Nivel II</h4>
-                            <p>Tecnología médica certificada</p>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="ph-fill ph-scan"></i>
-                        </div>
-                        <div class="trust-info">
-                            <h4>Diagnóstico 3D</h4>
-                            <p>Evaluación facial personalizada</p>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="ph-fill ph-plant"></i>
-                        </div>
-                        <div class="trust-info">
-                            <h4>Biocosmética Orgánica</h4>
-                            <p>Principios activos de alta pureza</p>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="ph-fill ph-star"></i>
-                        </div>
-                        <div class="trust-info">
-                            <h4>Atención VIP Conserjería</h4>
-                            <p>Protocolos exclusivos de confort</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- INTERACTIVE BEFORE / AFTER TRANSFORMATION SLIDER & DIRECT COMPARISON -->
-        <section id="transformacion" class="before-after-section reveal fade-up">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="overline"><i class="ph-fill ph-sparkle"></i> TRANSFORMACIONES REALES</span>
-                    <h2>Resultados Visibles en tu Piel</h2>
-                    <p style="color: var(--color-text-muted); margin-top: 0.8rem;">Arrastra el control deslizante o navega entre los casos clínicos reales de nuestras pacientes.</p>
-                    
-                    <!-- Result Case Selector Tabs -->
-                    <div class="result-case-tabs" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
-                        <button class="filter-btn active" onclick="switchResultCase('body', this)">Modelado Abdominal</button>
-                        <button class="filter-btn" onclick="switchResultCase('legs', this)">Firmeza & Piernas</button>
-                    </div>
-                </div>
-
-                <div class="before-after-container" style="margin-top: 2.5rem;">
-                    <!-- Draggable Comparison Slider -->
-                    <div class="slider-wrapper" id="beforeAfterSlider">
-                        <div class="slider-img slider-img-after">
-                            <img id="sliderAfterImg" src="{% static 'wagner-img/real_after_body.jpg' %}" alt="Resultado Después del Tratamiento">
-                            <span class="slider-badge-label label-after">DESPUÉS</span>
-                        </div>
-                        <div class="slider-img slider-img-before" id="beforeImgContainer">
-                            <img id="sliderBeforeImg" src="{% static 'wagner-img/real_before_body.jpg' %}" alt="Resultado Antes del Tratamiento">
-                            <span class="slider-badge-label label-before">ANTES</span>
-                        </div>
-                        <div class="slider-handle" id="sliderHandle">
-                            <div class="handle-button">
-                                <i class="ph-bold ph-caret-left-right"></i>
+                        <div class="ed-team-profile">
+                            <img loading="lazy" src="{% static 'wagner-img/wagner_da_silva.jpg' %}" alt="Wagner Da Silva" class="ed-team-img">
+                            <div class="ed-team-text">
+                                <h4>Wagner Da Silva</h4>
+                                <span class="ed-team-role">Dermocosmiatría</span>
+                                <p>Especialista en el cuidado profundo de la piel. Su enfoque combina la tecnología con activos de grado médico para devolverle a tu rostro su luminosidad y vitalidad natural.</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Direct Side-by-Side Cards Display -->
-                    <div class="side-by-side-grid">
-                        <div class="side-card">
-                            <div class="side-card-img-box">
-                                <img id="sideBeforeImg" src="{% static 'wagner-img/real_before_body.jpg' %}" alt="Evaluación Inicial Antes">
-                            </div>
-                            <span class="side-card-title">FOTO DE DIAGNÓSTICO (ANTES)</span>
-                        </div>
-                        <div class="side-card">
-                            <div class="side-card-img-box">
-                                <img id="sideAfterImg" src="{% static 'wagner-img/real_after_body.jpg' %}" alt="Resultado Obtenido Después">
-                            </div>
-                            <span class="side-card-title">RESULTADO FINAL (DESPUÉS)</span>
-                        </div>
+                    <!-- Puntos del carrusel -->
+                    <div class="ed-team-dots">
+                        <span class="ed-dot active" onclick="scrollToTeam(0)"></span>
+                        <span class="ed-dot" onclick="scrollToTeam(1)"></span>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SMART SKIN GOAL SELECTOR -->
-        <section id="asistente" class="quiz-section reveal fade-up">
-            <div class="container">
-                <div class="quiz-card">
-                    <div class="quiz-header">
-                        <span class="overline"><i class="ph-fill ph-sparkle"></i> ASISTENTE DE PIEL INTELIGENTE</span>
-                        <h3>¿Qué busca tu piel o cuerpo hoy?</h3>
-                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">Haz clic en tu objetivo principal y obtén una recomendación directa con opción de agendar.</p>
-                    </div>
-
-                    <div class="quiz-steps">
-                        <div class="quiz-opt-btn" onclick="selectQuizGoal('facial')">
-                            <i class="ph-fill ph-sparkle"></i>
-                            <span>Luminosidad & Hidratación</span>
-                        </div>
-                        <div class="quiz-opt-btn" onclick="selectQuizGoal('corporal')">
-                            <i class="ph-fill ph-barbell"></i>
-                            <span>Remodelación Corporal</span>
-                        </div>
-                        <div class="quiz-opt-btn" onclick="selectQuizGoal('rejuvenecimiento')">
-                            <i class="ph-fill ph-lightning"></i>
-                            <span>Firmeza & Lifting Sin Cirugía</span>
-                        </div>
-                        <div class="quiz-opt-btn" onclick="selectQuizGoal('consulta')">
-                            <i class="ph-fill ph-user-focus"></i>
-                            <span>Diagnóstico Personalizado</span>
-                        </div>
-                    </div>
-
-                    <div id="quizResult" class="quiz-result-box">
-                        <div class="quiz-result-info">
-                            <h4 id="quizResultTitle">Tratamiento Recomendado</h4>
-                            <p id="quizResultDesc">Descripción del tratamiento ideal para tu piel y cuerpo.</p>
-                        </div>
-                        <a id="quizResultCta" href="#contacto" class="btn btn-champagne">AGENDAR ESTE RITUAL <i class="ph-bold ph-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICES (BEST SELLERS) SECTION -->
-        <section id="tratamientos" class="services-section">
-            <div class="container">
-                <div class="section-header reveal fade-up">
-                    <span class="overline">CATÁLOGO EXCLUSIVO</span>
-                    <h2>Nuestros Tratamientos Destacados</h2>
-                    <p style="color: var(--color-text-muted); margin-top: 0.8rem;">Diseñados con protocolos de grado médico para maximizar resultados visibles.</p>
-                </div>
-
-                <div class="filter-tabs reveal fade-up">
-                    <button class="filter-btn active" onclick="filterServices('todos', this)">Todos</button>
-                    <button class="filter-btn" onclick="filterServices('faciales', this)">Faciales Glow</button>
-                    <button class="filter-btn" onclick="filterServices('corporales', this)">Corporales</button>
-                    <button class="filter-btn" onclick="filterServices('vanguardia', this)">Alta Tecnología</button>
                 </div>
                 
-                <div class="services-grid">
+                <div class="ed-about-visual reveal fade-up delay-2">
+                    <div class="ed-about-img-box">
+                        <img loading="lazy" src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="Clínica Lume Facial" class="ed-about-img">
+                    </div>
+                    
+                    <div class="ed-pillars">
+                        <div class="ed-pillar"><i class="ph-light ph-sparkle"></i> <span>Dermatología & Dermocosmiatría</span></div>
+                        <div class="ed-pillar"><i class="ph-light ph-smiley"></i> <span>Odontología Estética</span></div>
+                        <div class="ed-pillar"><i class="ph-light ph-first-aid-kit"></i> <span>Medicina Estética & Depilación</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS -->
+        <section id="servicios" class="ed-services" style="scroll-margin-top: 80px;">
+            <div class="container">
+                <div class="ed-services-header reveal fade-up">
+                    <span class="ed-section-label">CATÁLOGO DE SERVICIOS</span>
+                    <h2 class="ed-section-title">Servicios & Especialidades</h2>
+                    <p class="ed-services-desc">Diseñados bajo estrictos protocolos médicos para garantizar la máxima seguridad y efectividad.</p>
+                </div>
+
+                <!-- FILTROS ESTÁTICOS -->
+                <div class="ed-filters-static reveal fade-up delay-1">
+                    <button class="ed-filter-static-btn active" data-filter="todos" onclick="filterServices('todos', this)">Todos</button>
+                    <button class="ed-filter-static-btn" data-filter="dermatologia" onclick="filterServices('dermatologia', this)">Dermatología</button>
+                    <button class="ed-filter-static-btn" data-filter="dermocosmiatria" onclick="filterServices('dermocosmiatria', this)">Dermocosmiatría</button>
+                    <button class="ed-filter-static-btn" data-filter="odontologia" onclick="filterServices('odontologia', this)">Odontología Estética</button>
+                    <button class="ed-filter-static-btn" data-filter="medicina-estetica" onclick="filterServices('medicina-estetica', this)">Medicina Estética</button>
+                    <button class="ed-filter-static-btn" data-filter="depilacion" onclick="filterServices('depilacion', this)">Depilación Definitiva</button>
+                </div>
+                
+                <div class="ed-services-list">
                     {% for s in servicios %}
-                    <div class="service-card reveal fade-up" data-category="{% if 'facial' in s.nombre|lower or 'glow' in s.nombre|lower or 'bb' in s.nombre|lower %}faciales{% elif 'body' in s.nombre|lower or 'sculpt' in s.nombre|lower or 'peptonas' in s.nombre|lower %}corporales{% else %}vanguardia{% endif %}">
-                        <div class="service-img">
+                    <div class="ed-service-row reveal fade-up" data-category="{% if 'dermatolog' in s.nombre|lower %}dermatologia{% elif 'dermocosmiatr' in s.nombre|lower %}dermocosmiatria{% elif 'odontolog' in s.nombre|lower %}odontologia{% elif 'medicina' in s.nombre|lower or 'armoniza' in s.nombre|lower %}medicina-estetica{% elif 'depila' in s.nombre|lower or 'l%C3%A1ser' in s.nombre|lower or 'laser' in s.nombre|lower %}depilacion{% else %}dermatologia{% endif %}">
+                        <div class="ed-sr-img">
                             {% if s.imagen %}
-                                <img src="{{ s.imagen.url }}" alt="{{ s.nombre }}">
+                                <img loading="lazy" src="{{ s.imagen.url }}" alt="{{ s.nombre }}">
                             {% else %}
-                                <img src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="{{ s.nombre }}">
+                                <img loading="lazy" src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="{{ s.nombre }}">
                             {% endif %}
-                            <div class="card-duration-badge">
-                                <i class="ph-bold ph-clock"></i> {{ s.duracion|default:'60 MIN' }}
-                            </div>
                         </div>
-                        <div class="service-info">
+                        <div class="ed-sr-content">
                             <h3>{{ s.nombre }}</h3>
-                            <p>{{ s.descripcion|truncatechars:110 }}</p>
-                            <div class="service-action">
-                                <span class="service-price">CONSULTAR CITAS</span>
-                                <a href="#contacto" class="add-btn book-service-btn" data-service="{{ s.nombre|escapejs }}"><i class="ph-bold ph-arrow-right"></i></a>
-                            </div>
+                            <p>{{ s.descripcion|truncatechars:150 }}</p>
+                        </div>
+                        <div class="ed-sr-meta">
+                            <span class="ed-sr-time"><i class="ph-light ph-clock"></i> {{ s.duracion|default:'60 MIN' }}</span>
+                            <a href="#contacto" class="ed-btn-book book-service-btn" data-service="{{ s.nombre|escapejs }}" aria-label="Ver tratamiento">AGENDAR <i class="ph-bold ph-arrow-right"></i></a>
                         </div>
                     </div>
                     {% empty %}
-                    <!-- Static Fallback Cards if DB is empty -->
-                    <div class="service-card reveal fade-up" data-category="faciales">
-                        <div class="service-img">
-                            <img src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="Facial Glow & Dermapen">
-                            <div class="card-duration-badge"><i class="ph-bold ph-clock"></i> 60 MIN</div>
+                    <!-- Static Fallback -->
+                    <div class="ed-service-row reveal fade-up" data-category="dermatologia">
+                        <div class="ed-sr-img">
+                            <img loading="lazy" src="{% static 'wagner-img/service_facial_glow.jpg' %}" alt="Dermatología Médica">
                         </div>
-                        <div class="service-info">
-                            <h3>Limpieza Facial Glow Premium</h3>
-                            <p>Higiene profunda con espátula ultrasónica, microdermoabrasión y suero concentrado de ácido hialurónico.</p>
-                            <div class="service-action">
-                                <span class="service-price">CONSULTAR</span>
-                                <div class="add-btn"><i class="ph-bold ph-arrow-right"></i></div>
-                            </div>
+                        <div class="ed-sr-content">
+                            <h3>Dermatología Médica & Clínica</h3>
+                            <p>Consulta clínica especializada para el diagnóstico, prevención y tratamiento de afecciones de la piel y salud cutánea.</p>
                         </div>
-                    </div>
-
-                    <div class="service-card reveal fade-up" data-category="corporales">
-                        <div class="service-img">
-                            <img src="{% static 'wagner-img/service_body_sculpt.jpg' %}" alt="Modelado Corporal">
-                            <div class="card-duration-badge"><i class="ph-bold ph-clock"></i> 75 MIN</div>
-                        </div>
-                        <div class="service-info">
-                            <h3>Body Sculpting & Ultracavitación</h3>
-                            <p>Protocolo intensivo reductores con aparatología médica y drenaje linfático manual.</p>
-                            <div class="service-action">
-                                <span class="service-price">CONSULTAR</span>
-                                <div class="add-btn"><i class="ph-bold ph-arrow-right"></i></div>
-                            </div>
+                        <div class="ed-sr-meta">
+                            <span class="ed-sr-time"><i class="ph-light ph-clock"></i> 45 MIN</span>
+                            <a href="#contacto" class="ed-btn-book" aria-label="Ver tratamiento">AGENDAR <i class="ph-bold ph-arrow-right"></i></a>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-            </div>
-        </section>
-
-        <!-- TESTIMONIALS SECTION -->
-        <section id="testimonios" class="testimonials-section">
-            <div class="container">
-                <div class="section-header text-center reveal fade-up">
-                    <span class="overline">TESTIMONIOS REALES</span>
-                    <h2>Experiencias de Nuestras Clientas</h2>
-                </div>
-
-                <div class="testimonials-grid reveal fade-up">
-                    <div class="testimonial-card">
-                        <div class="stars-row">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="testimonial-text">"La atención en Lumé es de otro nivel. El facial Glow dejó mi piel luminosa e hidratada al instante. Recomiendo 100% sus protocolos."</p>
-                        <div class="client-info">
-                            <div class="client-avatar">MC</div>
-                            <div class="client-details">
-                                <h5>Mariana Costa</h5>
-                                <span>Tratamiento Facial Glow</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card">
-                        <div class="stars-row">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Espacio impecable y super cálido. La tecnología de remodelación corporal me dio cambios visibles desde la segunda sesión."</p>
-                        <div class="client-info">
-                            <div class="client-avatar">VR</div>
-                            <div class="client-details">
-                                <h5>Valentina R.</h5>
-                                <span>Modelado Corporal</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card">
-                        <div class="stars-row">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Agendé directamente por WhatsApp y la respuesta fue super rápida. Los mejores profesionales de CABA sin dudas."</p>
-                        <div class="client-info">
-                            <div class="client-avatar">SG</div>
-                            <div class="client-details">
-                                <h5>Sofia Gomez</h5>
-                                <span>HIFU Facial</span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <!-- BOTÓN VER MÁS -->
+                <div class="ed-services-footer text-center reveal fade-up" style="margin-top: 3rem; display: none;" id="showMoreContainer">
+                    <button class="ed-btn ed-btn-outline" id="btnShowMore" onclick="showMoreServices()">Ver más tratamientos <i class="ph-bold ph-caret-down"></i></button>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ ACCORDION SECTION -->
-        <section id="faq" class="faq-section reveal fade-up">
+
+        <!-- TESTIMONIOS -->
+        <section id="testimonios" class="ed-testimonials" style="scroll-margin-top: 80px;">
             <div class="container">
-                <div class="section-header text-center">
-                    <span class="overline">RESOLVEMOS TUS DUDAS</span>
-                    <h2>Preguntas Frecuentes</h2>
+                <div class="ed-testi-header text-center reveal fade-up">
+                    <span class="ed-section-label">TESTIMONIOS REALES</span>
+                    <h2 class="ed-section-title">Experiencias en Clínica Lume</h2>
                 </div>
 
-                <div class="faq-grid">
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span>¿Cómo puedo agendar mi primera sesión?</span>
-                            <i class="ph-bold ph-caret-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            Puedes completar el formulario en esta web o enviarnos un WhatsApp directo. Nuestro equipo de conserjería coordinará contigo el día y horario que mejor te convenga.
-                        </div>
-                    </div>
+                <!-- WIDGET ELFSIGHT GOOGLE REVIEWS -->
+                <div style="margin-top: 3rem; width: 100%; min-height: 250px;">
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-d44460ff-eaf1-4d99-869c-e2bba22e35e9" data-elfsight-app-lazy></div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+        <!-- PREGUNTAS FRECUENTES -->
+        <section id="faq" class="ed-faq" style="scroll-margin-top: 80px;">
+            <div class="container ed-faq-container">
+                <div class="ed-faq-header reveal fade-up">
+                    <span class="ed-section-label">RESOLVEMOS TUS DUDAS</span>
+                    <h2 class="ed-section-title">Preguntas Frecuentes</h2>
+                </div>
+                
+                <div class="ed-faq-list reveal fade-up delay-1">
+                    <div class="ed-faq-item">
+                        <div class="ed-faq-question" onclick="toggleFaq(this)">
+                            <span>¿Cómo puedo agendar mi primera sesión en Clínica Lume?</span>
+                            <i class="ph-bold ph-plus"></i>
+                        </div>
+                        <div class="ed-faq-answer">Puedes completar el formulario de contacto en esta web o escribirnos directamente a nuestro WhatsApp. Nuestro equipo coordinará tu cita con el especialista idóneo.</div>
+                    </div>
+                    <div class="ed-faq-item">
+                        <div class="ed-faq-question" onclick="toggleFaq(this)">
+                            <span>¿Qué especialidades médicas ofrecen?</span>
+                            <i class="ph-bold ph-plus"></i>
+                        </div>
+                        <div class="ed-faq-answer">Contamos con atención integral en Dermatología Médica, Dermocosmiatría, Odontología Estética, Medicina Estética y Depilación Definitiva Láser.</div>
+                    </div>
+                    <div class="ed-faq-item">
+                        <div class="ed-faq-question" onclick="toggleFaq(this)">
                             <span>¿Los tratamientos requieren evaluación previa?</span>
-                            <i class="ph-bold ph-caret-down"></i>
+                            <i class="ph-bold ph-plus"></i>
                         </div>
-                        <div class="faq-answer">
-                            Sí. Antes de iniciar cualquier protocolo realizamos un diagnóstico sin cargo de tu tipo de piel o zona corporal para asegurarnos resultados óptimos y seguros.
-                        </div>
+                        <div class="ed-faq-answer">Sí. Antes de iniciar cualquier procedimiento realizamos una evaluación personalizada para adaptar el protocolo a las necesidades específicas de tu piel y tu salud.</div>
                     </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                    <div class="ed-faq-item">
+                        <div class="ed-faq-question" onclick="toggleFaq(this)">
                             <span>¿Qué métodos de pago aceptan?</span>
-                            <i class="ph-bold ph-caret-down"></i>
+                            <i class="ph-bold ph-plus"></i>
                         </div>
-                        <div class="faq-answer">
-                            Aceptamos Mercado Pago, transferencia bancaria, tarjetas de débito/crédito y efectivo en nuestro centro.
-                        </div>
+                        <div class="ed-faq-answer">Aceptamos Mercado Pago, transferencia bancaria, tarjetas de débito/crédito y efectivo en nuestra clínica.</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CONTACT & BOOKING SECTION -->
-        <section id="contacto" class="contact-banner">
-            <div class="container">
-                <div class="contact-container">
-                    <div class="contact-info-col reveal fade-up">
-                        <span class="overline" style="color: var(--color-champagne); border-color: rgba(200,164,98,0.4);">RESERVA TU EXPERIENCIA</span>
-                        <h2>Eleva tu Ritual de Cuidado</h2>
-                        <p class="contact-desc">
-                            Experimenta la combinación perfecta de tecnología y serenidad en Lumé Estética Avanzada. Completa tus datos y te contactaremos de inmediato.
-                        </p>
-                        
-                        <ul class="contact-info-list">
-                            <li><i class="ph-fill ph-map-pin"></i> Av. Corrientes 2565, Piso 9, Of. 3, CABA</li>
-                            <li><i class="ph-fill ph-whatsapp-logo"></i> {% if config and config.telefono_whatsapp %}+{{ config.telefono_whatsapp }}{% else %}+54 9 11 6638-0592{% endif %}</li>
-                            <li><i class="ph-fill ph-clock"></i> Lunes a Sábados — 08:00 a 21:00 hs</li>
-                        </ul>
+        <!-- CONTACTO -->
+        <section id="contacto" class="ed-contact" style="scroll-margin-top: 80px;">
+            <div class="container ed-contact-grid">
+                <div class="ed-contact-info reveal fade-up">
+                    <span class="ed-section-label">RESERVA TU CONSULTA</span>
+                    <h2 class="ed-section-title">Agenda tu Turno en Clínica Lume</h2>
+                    <p class="ed-contact-desc">Cuidamos tu piel, tu sonrisa y tu bienestar. Completa el formulario y nuestro equipo médico te contactará a la brevedad para confirmar tu turno.</p>
+                    
+                    <div class="ed-contact-details">
+                        <a href="https://maps.app.goo.gl/wusEQMJvw1foshLX9" target="_blank" class="ed-cd-item"><i class="ph-light ph-map-pin"></i> Rodríguez Peña 434, C1020ADJ CABA</a>
+                        <div class="ed-cd-item"><i class="ph-light ph-whatsapp-logo"></i> {% if config and config.telefono_whatsapp %}+{{ config.telefono_whatsapp }}{% else %}+54 9 11 6638-0592{% endif %}</div>
+                        <div class="ed-cd-item"><i class="ph-light ph-clock"></i> Lunes a Sábados – 08:00 a 21:00 hs</div>
                     </div>
                     
-                    <div class="contact-form-col reveal fade-up delay-2">
-                        <form id="appointment-form" class="contact-form">
-                            <div class="form-group">
-                                <label for="name">Nombre y Apellido</label>
-                                <input type="text" id="name" class="form-control" placeholder="Ej. Ana Pérez" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Teléfono / WhatsApp</label>
-                                <input type="tel" id="phone" class="form-control" placeholder="+54 9 11..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="service">Servicio de Interés</label>
-                                <select id="service" class="form-control" required>
-                                    <option value="" disabled selected>Selecciona un tratamiento...</option>
-                                    {% for s in servicios %}
-                                    <option value="{{ s.nombre }}">{{ s.nombre }}</option>
-                                    {% empty %}
-                                    <option value="Limpieza Facial Glow">Limpieza Facial Glow</option>
-                                    <option value="Body Sculpting">Body Sculpting</option>
-                                    {% endfor %}
-                                    <option value="Consulta General / Diagnóstico">Consulta General / Diagnóstico</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha">Fecha y Hora Preferida</label>
-                                <input type="datetime-local" id="fecha" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-champagne form-submit" style="width:100%; font-size: 0.95rem;">
-                                AGENDAR MI CITA VIA WHATSAPP <i class="ph-bold ph-calendar-plus" style="margin-left:8px;"></i>
-                            </button>
-                        </form>
+                    <div class="ed-map-container reveal fade-up delay-1">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d290.268235947195!2d-58.39123091955252!3d-34.60390337938234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb66174a0b77%3A0x14c3c52733f8f3c!2sEst%C3%A9tica%20Wagner!5e0!3m2!1ses!2sar!4v1791131641254!5m2!1ses!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
+                </div>
+
+                <div class="ed-contact-form-wrap reveal fade-up delay-2">
+                    <form id="appointment-form" class="ed-form">
+                        <div class="ed-form-group">
+                            <label for="name">Nombre y Apellido</label>
+                            <input type="text" id="name" placeholder="Ej. Ana Pérez" required>
+                        </div>
+                        <div class="ed-form-group">
+                            <label for="phone">Teléfono / WhatsApp</label>
+                            <input type="tel" id="phone" placeholder="+54 9 11..." required>
+                        </div>
+                        <div class="ed-form-group">
+                            <label for="service">Especialidad o Servicio</label>
+                            <select id="service" required>
+                                <option value="" disabled selected>Selecciona una opción...</option>
+                                <option value="Dermatología Médica & Clínica">Dermatología Médica & Clínica</option>
+                                <option value="Dermocosmiatría & Rituales Faciales">Dermocosmiatría & Rituales Faciales</option>
+                                <option value="Odontología Estética & Diseño de Sonrisa">Odontología Estética & Diseño de Sonrisa</option>
+                                <option value="Medicina Estética & Armonización Facial">Medicina Estética & Armonización Facial</option>
+                                <option value="Depilación Definitiva Láser">Depilación Definitiva Láser</option>
+                                <option value="Consulta General / Diagnóstico Integral">Consulta General / Diagnóstico Integral</option>
+                            </select>
+                        </div>
+                        <div class="ed-form-group">
+                            <label for="fecha">Fecha y Hora Preferida</label>
+                            <input type="datetime-local" id="fecha">
+                        </div>
+                        <div class="ed-form-group">
+                            <label for="comentarios">Comentarios o Notas</label>
+                            <textarea id="comentarios" rows="3" placeholder="Alergias, dudas adicionales, etc."></textarea>
+                        </div>
+                        <button type="submit" class="ed-btn ed-btn-solid w-100">AGENDAR VIA WHATSAPP <i class="ph-bold ph-arrow-right" style="margin-left:8px;"></i></button>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
     
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <div class="footer-logo">
-                        <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Lumé Estética Avanzada" class="footer-logo-img">
-                    </div>
-                    <p class="footer-desc">
-                        Centro especializado en medicina estética, aparatología de última generación y rituales de bienestar en Buenos Aires.
-                    </p>
-                </div>
-                
-                <div class="footer-col">
-                    <div class="footer-links">
-                        <h4>Navegación</h4>
-                        <a href="#inicio">Inicio</a>
-                        <a href="#transformacion">Resultados</a>
-                        <a href="#asistente">Asistente de Piel</a>
-                        <a href="#tratamientos">Tratamientos</a>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <div class="footer-links">
-                        <h4>Atención</h4>
-                        <a href="#contacto">Reserva de Citas</a>
-                        <a href="#faq">Preguntas Frecuentes</a>
-                        <a href="https://wa.me/{{ config.telefono_whatsapp|default:'5491166380592' }}" target="_blank">Consultas por WhatsApp</a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <div class="footer-links">
-                        <h4>Contacto Directo</h4>
-                        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 0.8rem;">Av. Corrientes 2565, CABA</p>
-                        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Lun - Sáb: 08:00 a 21:00 hs</p>
-                    </div>
+    <footer class="ed-footer">
+        <div class="container ed-footer-grid">
+            <div class="ed-footer-col">
+                <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Clínica Lume" class="ed-footer-logo">
+                <p>Especialistas en Dermatología, Dermocosmiatría, Odontología, Medicina Estética y Depilación Definitiva en Buenos Aires.</p>
+            </div>
+            <div class="ed-footer-col">
+                <h4>Navegación</h4>
+                <a href="#inicio">Inicio</a>
+                <a href="#quienes-somos">Quiénes Somos</a>
+                <a href="#tratamientos">Tratamientos</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            <div class="ed-footer-col">
+                <h4>Legal</h4>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </div>
+            <div class="ed-footer-col">
+                <h4>Redes Sociales</h4>
+                <div class="ed-socials">
+                    <a href="{% if config and config.instagram %}{{ config.instagram }}{% else %}#{% endif %}" target="_blank" aria-label="Instagram"><i class="ph-bold ph-instagram-logo"></i></a>
+                    <a href="{% if config and config.facebook %}{{ config.facebook }}{% else %}#{% endif %}" target="_blank" aria-label="Facebook"><i class="ph-bold ph-facebook-logo"></i></a>
+                    <a href="{% if config and config.tiktok %}{{ config.tiktok }}{% else %}#{% endif %}" target="_blank" aria-label="TikTok"><i class="ph-bold ph-tiktok-logo"></i></a>
                 </div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2024 Lumé Estética Avanzada. Todos los derechos reservados.</p>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/lume.estetica" target="_blank" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
-                    <a href="https://wa.me/{{ config.telefono_whatsapp|default:'5491166380592' }}" target="_blank" aria-label="WhatsApp"><i class="ph-fill ph-whatsapp-logo"></i></a>
-                </div>
-            </div>
+        </div>
+        <div class="ed-footer-bottom">
+            <p>&copy; {% now "Y" %} Clínica Lume. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- Service Details Modal -->
-    <div id="serviceModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal()"><i class="ph-bold ph-x"></i></div>
-            <div class="modal-img-col">
-                <img id="modalImg" src="" alt="Tratamiento">
-            </div>
-            <div class="modal-info-col">
+    <!-- MODAL -->
+    <div id="serviceModal" class="ed-modal">
+        <div class="ed-modal-content">
+            <span class="ed-modal-close" onclick="closeModal()"><i class="ph-bold ph-x"></i></span>
+            <img id="modalImg" src="" alt="Servicio" class="ed-modal-img">
+            <div class="ed-modal-body">
+                <div class="ed-modal-meta"><i class="ph-bold ph-clock"></i> <span id="modalDuration"></span></div>
                 <h3 id="modalTitle">Título</h3>
-                <div class="modal-duration"><i class="ph-bold ph-clock"></i> <span id="modalDuration">60 min</span></div>
-                <p id="modalDesc" style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">Descripción del tratamiento.</p>
-                <ul class="modal-benefits" id="modalBenefits">
-                    <!-- Dinámico -->
-                </ul>
-                <div style="margin-top: auto;">
-                    <a href="#contacto" class="btn btn-champagne" style="width: 100%;" onclick="closeModal()">RESERVAR ESTE TRATAMIENTO</a>
-                </div>
+                <p id="modalDesc">Descripción</p>
+                <h4>Beneficios:</h4>
+                <ul id="modalBenefits" class="ed-modal-benefits"></ul>
+                <a href="#contacto" class="ed-btn ed-btn-solid w-100" onclick="closeModal()">RESERVAR TURNO</a>
             </div>
         </div>
     </div>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/{{ config.telefono_whatsapp|default:'5491166380592' }}?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n.%20%23INICIO_BOT" target="_blank" class="floating-btn" aria-label="Agendar por WhatsApp">
+    <!-- WHATSAPP FLOATING -->
+    <a href="https://wa.me/{% if config and config.telefono_whatsapp %}{{ config.telefono_whatsapp }}{% else %}5491166380592{% endif %}?text=%C2%A1Hola!%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20tratamientos." class="ed-whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
         <i class="ph-fill ph-whatsapp-logo"></i>
     </a>
-
-    <!-- Mobile Sticky Bottom Booking Bar -->
-    <div class="mobile-sticky-bar">
-        <a href="#contacto" class="btn btn-champagne">
-            AGENDAR CITA VIP <i class="ph-bold ph-arrow-up-right"></i>
-        </a>
-    </div>
-
-    <!-- Toast Notifications Container -->
-    <div id="toast-container"></div>
 
     <script>
         // Toast Notification System
@@ -540,289 +418,263 @@
             const container = document.getElementById('toast-container');
             if(!container) return;
             const toast = document.createElement('div');
-            toast.className = `toast-notification ${type}`;
+            toast.className = 'ed-toast ' + type;
             const icon = type === 'success' ? 'ph-check-circle' : 'ph-warning-circle';
-            toast.innerHTML = `<i class="ph-fill ${icon}"></i> <span>${message}</span>`;
+            toast.innerHTML = '<i class="ph-fill ' + icon + '"></i> <span>' + message + '</span>';
             container.appendChild(toast);
-            
             setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 5000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 5000);
         }
 
-        // Navbar Scroll Effect & Hamburger Toggle
+        // Navbar & Hero Scroll Sequence
         const navbar = document.getElementById('navbar');
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
-
+        const heroSection = document.getElementById('inicio');
+        const heroSteps = document.querySelectorAll('.ed-hero-step');
+        
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            let scrollY = window.scrollY;
+            
+            // Navbar
+            if (scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            
+            // Hero Scrollytelling Logic
+            if (heroSection && heroSteps.length > 0) {
+                const rect = heroSection.getBoundingClientRect();
+                const scrollableHeight = rect.height - window.innerHeight;
+                
+                let progress = 0;
+                if (rect.top < 0) {
+                    progress = Math.min(1, Math.max(0, -rect.top / scrollableHeight));
+                }
+                
+                let activeIndex = 0;
+                if (progress > 0.33 && progress < 0.66) activeIndex = 1;
+                else if (progress >= 0.66) activeIndex = 2;
+                
+                heroSteps.forEach((step, index) => {
+                    if (index === activeIndex) {
+                        step.classList.add('active');
+                        step.classList.remove('exit-up', 'enter-down');
+                    } else if (index < activeIndex) {
+                        step.classList.remove('active', 'enter-down');
+                        step.classList.add('exit-up'); // Already scrolled past
+                    } else {
+                        step.classList.remove('active', 'exit-up');
+                        step.classList.add('enter-down'); // Not yet reached
+                    }
+                });
             }
         });
-
         if (menuToggle && navLinks) {
             menuToggle.addEventListener('click', () => {
                 navLinks.classList.toggle('active');
+                menuToggle.classList.toggle('active');
             });
         }
 
-        // Scroll Reveal Animations
-        document.addEventListener('DOMContentLoaded', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            reveals.forEach(reveal => revealObserver.observe(reveal));
-        });
+        // Reveals
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); obs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        reveals.forEach(r => revealObserver.observe(r));
 
-        // Interactive Real Before / After Slider Logic & Case Switcher
-        const caseImages = {
-            body: {
-                before: "{% static 'wagner-img/real_before_body.jpg' %}",
-                after: "{% static 'wagner-img/real_after_body.jpg' %}"
-            },
-            legs: {
-                before: "{% static 'wagner-img/real_before_legs.jpg' %}",
-                after: "{% static 'wagner-img/real_after_legs.jpg' %}"
-            }
-        };
-
-        function updateInnerImageWidth() {
-            const slider = document.getElementById('beforeAfterSlider');
-            const beforeImg = document.querySelector('#beforeImgContainer img');
-            if (slider && beforeImg) {
-                const rect = slider.getBoundingClientRect();
-                beforeImg.style.width = `${rect.width}px`;
-                beforeImg.style.height = `${rect.height}px`;
-            }
-        }
-
-        function switchResultCase(caseKey, btn) {
-            document.querySelectorAll('.result-case-tabs .filter-btn').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
-            
-            const data = caseImages[caseKey];
-            if(data) {
-                const sliderBeforeImg = document.getElementById('sliderBeforeImg');
-                const sliderAfterImg = document.getElementById('sliderAfterImg');
-                const sideBeforeImg = document.getElementById('sideBeforeImg');
-                const sideAfterImg = document.getElementById('sideAfterImg');
-                
-                if(sliderBeforeImg) sliderBeforeImg.src = data.before;
-                if(sliderAfterImg) sliderAfterImg.src = data.after;
-                if(sideBeforeImg) sideBeforeImg.src = data.before;
-                if(sideAfterImg) sideAfterImg.src = data.after;
-                
-                setTimeout(updateInnerImageWidth, 50);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.getElementById('beforeAfterSlider');
-            const beforeImgContainer = document.getElementById('beforeImgContainer');
-            const handle = document.getElementById('sliderHandle');
-
-            updateInnerImageWidth();
-            window.addEventListener('resize', updateInnerImageWidth);
-
-            if (slider && beforeImgContainer && handle) {
-                let isDragging = false;
-
-                const setSliderPosition = (x) => {
-                    const rect = slider.getBoundingClientRect();
-                    let offsetX = x - rect.left;
-                    if (offsetX < 0) offsetX = 0;
-                    if (offsetX > rect.width) offsetX = rect.width;
-                    const percentage = (offsetX / rect.width) * 100;
-
-                    beforeImgContainer.style.width = `${percentage}%`;
-                    handle.style.left = `${percentage}%`;
-                };
-
-                slider.addEventListener('mousedown', (e) => { isDragging = true; setSliderPosition(e.clientX); });
-                window.addEventListener('mouseup', () => { isDragging = false; });
-                window.addEventListener('mousemove', (e) => { if (isDragging) setSliderPosition(e.clientX); });
-
-                slider.addEventListener('touchstart', (e) => { isDragging = true; setSliderPosition(e.touches[0].clientX); });
-                window.addEventListener('touchend', () => { isDragging = false; });
-                window.addEventListener('touchmove', (e) => { if (isDragging) setSliderPosition(e.touches[0].clientX); });
-            }
-        });
-
-        // FAQ Accordion Toggle
-        function toggleFaq(element) {
-            const item = element.parentElement;
+        // FAQ
+        function toggleFaq(el) {
+            const item = el.parentElement;
             item.classList.toggle('active');
+            const icon = el.querySelector('i');
+            if(item.classList.contains('active')) { icon.classList.replace('ph-plus', 'ph-minus'); }
+            else { icon.classList.replace('ph-minus', 'ph-plus'); }
         }
 
-        // Treatment Category Filters
-        function filterServices(category, btnElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
+        // Filters and Pagination
+        let currentServiceLimit = 6;
+        let currentServiceCategory = 'todos';
 
-            const cards = document.querySelectorAll('.service-card');
+        function applyServicesDisplay() {
+            const cards = document.querySelectorAll('.ed-service-row');
+            let visibleCount = 0;
+            let matchCount = 0;
+
             cards.forEach(card => {
-                const cardCat = card.getAttribute('data-category');
-                if (category === 'todos' || cardCat === category) {
-                    card.style.display = 'flex';
+                const isMatch = currentServiceCategory === 'todos' || card.getAttribute('data-category') === currentServiceCategory;
+                
+                if (isMatch) {
+                    matchCount++;
+                    if (visibleCount < currentServiceLimit) {
+                        if (card.style.display !== 'flex') {
+                            card.style.display = 'flex';
+                            card.classList.remove('active');
+                            void card.offsetWidth; // Trigger reflow
+                            card.classList.add('active');
+                        }
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
                 } else {
                     card.style.display = 'none';
                 }
             });
-        }
 
-        // Interactive Quiz Logic
-        const quizData = {
-            facial: {
-                title: "Limpieza Facial Glow & Bio-Nutrición",
-                desc: "Ideal para renovar la luminosidad, eliminar impurezas y restaurar la barrera de hidratación natural de tu rostro."
-            },
-            corporal: {
-                title: "Body Sculpting & Modelado Corporal",
-                desc: "Aparatología reductora avanzada para tonificar, reducir medidas y mejorar la firmeza del tejido."
-            },
-            rejuvenecimiento: {
-                title: "Lifting Facial HIFU & Peptonas",
-                desc: "Tecnología de ultrasonido focalizado para estimular colágeno profundo sin cirugía."
-            },
-            consulta: {
-                title: "Diagnóstico Estético Personalizado",
-                desc: "Evaluación completa sin cargo con nuestras especialistas para diseñar tu plan a medida."
-            }
-        };
-
-        function selectQuizGoal(key) {
-            document.querySelectorAll('.quiz-opt-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            const resultBox = document.getElementById('quizResult');
-            const data = quizData[key];
-            if (data && resultBox) {
-                document.getElementById('quizResultTitle').textContent = data.title;
-                document.getElementById('quizResultDesc').textContent = data.desc;
-                resultBox.classList.add('active');
+            const showMoreContainer = document.getElementById('showMoreContainer');
+            if (showMoreContainer) {
+                if (matchCount > currentServiceLimit) {
+                    showMoreContainer.style.display = 'block';
+                } else {
+                    showMoreContainer.style.display = 'none';
+                }
             }
         }
 
-        // Service Modal Logic
+        function filterServices(category, btnElement) {
+            currentServiceCategory = category;
+            currentServiceLimit = 6; // Reset limit on category change
+            
+            // Update static buttons state
+            document.querySelectorAll('.ed-filter-static-btn').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) {
+                btnElement.classList.add('active');
+            } else {
+                const targetBtn = document.querySelector('.ed-filter-static-btn[data-filter="' + category + '"]');
+                if(targetBtn) targetBtn.classList.add('active');
+            }
+            
+            applyServicesDisplay();
+        }
+
+        function showMoreServices() {
+            currentServiceLimit += 6;
+            applyServicesDisplay();
+        }
+
+        function scrollToService(category) {
+            filterServices(category, null);
+            const targetSection = document.getElementById('servicios');
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Team Carousel logic
+        function scrollToTeam(index) {
+            const teamCarousel = document.querySelector('.ed-team-carousel');
+            if(teamCarousel) {
+                const cardWidth = teamCarousel.clientWidth * 0.85 + 24; // 24 = gap
+                teamCarousel.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+                updateTeamDots(index);
+            }
+        }
+        function updateTeamDots(index) {
+            const dots = document.querySelectorAll('.ed-team-dots .ed-dot');
+            dots.forEach((dot, i) => {
+                if(i === index) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        // Initialize scripts on load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyServicesDisplay();
+
+            // Auto-scroll Team Carousel
+            const teamCarousel = document.querySelector('.ed-team-carousel');
+            if (teamCarousel) {
+                let currentIndex = 0;
+                const totalCards = 2; // Dra. Karol and Wagner
+                
+                // Optional: Update dots based on user manual scroll
+                teamCarousel.addEventListener('scroll', () => {
+                    const cardWidth = teamCarousel.clientWidth * 0.85;
+                    const index = Math.round(teamCarousel.scrollLeft / cardWidth);
+                    updateTeamDots(index);
+                    currentIndex = index;
+                });
+
+                setInterval(() => {
+                    currentIndex++;
+                    if (currentIndex >= totalCards) currentIndex = 0;
+                    scrollToTeam(currentIndex);
+                }, 5000);
+            }
+        });
+
+        // Modal
         const serviceDetails = {
             {% for s in servicios %}
             "{{ s.nombre|escapejs }}": {
                 img: "{% if s.imagen %}{{ s.imagen.url }}{% else %}{% static 'wagner-img/service_facial_glow.jpg' %}{% endif %}",
                 duration: "{{ s.duracion|default:'60 min'|escapejs }}",
                 desc: "{{ s.descripcion|escapejs }}",
-                benefits: [
-                    {% if s.beneficios %}
-                        {% for b in s.beneficios.splitlines %}
-                            "{{ b|escapejs }}"{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    {% else %}
-                        "Resultados visibles desde la primera sesión",
-                        "Protocolo 100% no invasivo",
-                        "Atención por profesionales certificadas"
-                    {% endif %}
-                ]
+                benefits: [{% if s.beneficios %}{% for b in s.beneficios.splitlines %}"{{ b|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}{% else %}"Resultados visibles","Protocolo médico no invasivo"{% endif %}]
             }{% if not forloop.last %},{% endif %}
             {% endfor %}
         };
-
         const modal = document.getElementById('serviceModal');
-
-        document.querySelectorAll('.service-card').forEach(card => {
-            const link = card.querySelector('.book-service-btn');
-            if (link) {
-                const serviceName = link.getAttribute('data-service');
-                card.addEventListener('click', (e) => {
-                    if (serviceDetails[serviceName]) {
-                        openModal(serviceName);
-                    }
-                });
-            }
-        });
-
-        function openModal(serviceName) {
-            const data = serviceDetails[serviceName];
-            if(!data || !modal) return;
-            
-            document.getElementById('modalImg').src = data.img;
-            document.getElementById('modalTitle').textContent = serviceName;
-            document.getElementById('modalDuration').textContent = data.duration;
-            document.getElementById('modalDesc').textContent = data.desc;
-            
-            const benefitsList = document.getElementById('modalBenefits');
-            benefitsList.innerHTML = '';
-            data.benefits.forEach(b => {
-                const li = document.createElement('li');
-                li.innerHTML = `<i class="ph-fill ph-check-circle"></i> <span>${b}</span>`;
-                benefitsList.appendChild(li);
+        document.querySelectorAll('.book-service-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sName = btn.getAttribute('data-service');
+                if (serviceDetails[sName]) openModal(sName);
             });
-            
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        });
+        function openModal(sName) {
+            const d = serviceDetails[sName];
+            if(!d || !modal) return;
+            document.getElementById('modalImg').src = d.img;
+            document.getElementById('modalTitle').textContent = sName;
+            document.getElementById('modalDuration').textContent = d.duration;
+            document.getElementById('modalDesc').textContent = d.desc;
+            const bList = document.getElementById('modalBenefits');
+            bList.innerHTML = '';
+            d.benefits.forEach(b => { bList.innerHTML += '<li><i class="ph-fill ph-check-circle"></i> <span>' + b + '</span></li>'; });
+            modal.classList.add('active'); document.body.style.overflow = 'hidden';
         }
+        function closeModal() { if(modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } }
+        if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
 
-        function closeModal() {
-            if(modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        if(modal) {
-            modal.addEventListener('click', (e) => {
-                if(e.target === modal) closeModal();
+        // Form
+        const form = document.getElementById('appointment-form');
+        if(form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const service = document.getElementById('service').value;
+                const fecha = document.getElementById('fecha').value;
+                const comentarios = document.getElementById('comentarios').value;
+                
+                const wNum = '{% if config and config.telefono_whatsapp %}{{ config.telefono_whatsapp }}{% else %}5491166380592{% endif %}';
+                
+                let msg = `¡Hola Clínica Lume! Quisiera agendar una cita.\n\n`;
+                msg += `*Nombre:* ${name}\n`;
+                msg += `*Servicio:* ${service}\n`;
+                if(fecha) {
+                    const dateObj = new Date(fecha);
+                    const formattedDate = dateObj.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    msg += `*Fecha preferida:* ${formattedDate} hs\n`;
+                }
+                if(comentarios) {
+                    msg += `*Notas:* ${comentarios}\n`;
+                }
+                msg += `\nMi número es ${phone}. Quedo atento/a para confirmar el turno.`;
+                
+                const wUrl = 'https://wa.me/' + wNum + '?text=' + encodeURIComponent(msg);
+                
+                fetch('/app2/api/clientes/registrar/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre: name, telefono: phone, servicio: service, fecha: fecha, notas: comentarios })
+                }).then(res => res.json()).then(data => {
+                    showToast('¡Cita registrada! Abriendo WhatsApp...', 'success');
+                    setTimeout(() => { window.open(wUrl, '_blank'); form.reset(); }, 1200);
+                }).catch(() => { window.open(wUrl, '_blank'); });
             });
         }
-
-        // Form Submit Handler
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('appointment-form');
-            if(form) {
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('name').value;
-                    const phone = document.getElementById('phone').value;
-                    const service = document.getElementById('service').value;
-                    const fecha = document.getElementById('fecha').value;
-                    
-                    let message = `%23CONFIRMAR_WEB`;
-                    const whatsappNumber = '{% if config and config.telefono_whatsapp %}{{ config.telefono_whatsapp }}{% else %}5491166380592{% endif %}';
-                    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-                    
-                    fetch('/app2/api/clientes/registrar/', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nombre: name, telefono: phone, servicio: service, fecha: fecha })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            showToast('¡Cita registrada! Redirigiendo a WhatsApp...', 'success');
-                            setTimeout(() => {
-                                window.open(whatsappUrl, '_blank');
-                                form.reset();
-                            }, 1200);
-                        } else {
-                            showToast(data.message || 'Cita procesada. Abriendo WhatsApp...', 'success');
-                            setTimeout(() => { window.open(whatsappUrl, '_blank'); }, 1200);
-                        }
-                    })
-                    .catch(() => {
-                        window.open(whatsappUrl, '_blank');
-                    });
-                });
-            }
-        });
     </script>
 </body>
 </html>

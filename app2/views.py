@@ -329,8 +329,8 @@ def whatsapp_webhook(request):
                         cliente=cliente,
                         fecha_hora=fecha_dt,
                         servicio=servicio,
-                        estado='Pendiente'
-                    )
+                        estado='Pendiente', notas=data.get('notas', '')
+                )
                     
                     session.estado = 'INICIO'
                     session.datos_reserva = {}
@@ -418,7 +418,7 @@ def api_registrar_cliente(request):
                     cliente=cliente,
                     fecha_hora=fecha_obj,
                     servicio=servicio,
-                    estado='Pendiente'
+                    estado='Pendiente', notas=data.get('notas', '')
                 )
                 
                 # Configurar la sesión del bot para saltarse los pasos
@@ -511,3 +511,28 @@ def actualizar_cita(request, cita_id):
         messages.success(request, 'Cita actualizada correctamente.')
         
     return redirect('dashboard_citas')
+
+def logout_view(request):
+    request.session.flush()
+    return redirect('login')
+
+def configuracion_usuario(request):
+    user = get_logged_user(request)
+    if not user:
+        return redirect('login')
+        
+    if request.method == 'POST':
+        nuevo_nombre = request.POST.get('nombre', '').strip()
+        nueva_clave = request.POST.get('password', '').strip()
+        
+        if nuevo_nombre:
+            user.nombre = nuevo_nombre
+        if nueva_clave:
+            from django.contrib.auth.hashers import make_password
+            user.password = make_password(nueva_clave)
+            
+        user.save()
+        messages.success(request, 'Datos de usuario actualizados correctamente.')
+        return redirect('configuracion_usuario')
+        
+    return render(request, 'usuario.html', {'user': user})

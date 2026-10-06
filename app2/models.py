@@ -74,7 +74,7 @@ class BotSession(models.Model):
         return f"{self.telefono} - {self.estado}"
 
 class ProfileConfig(models.Model):
-    nombre_negocio = models.CharField(max_length=150, default="Lumé Estética Avanzada")
+    nombre_negocio = models.CharField(max_length=150, default="Clínica Lume")
     direccion = models.CharField(max_length=255, blank=True, null=True)
     horarios = models.TextField(blank=True, null=True)
     mensaje_bienvenida_bot = models.TextField(blank=True, null=True, help_text="Mensaje por defecto que enviará el bot cuando no reconozca un comando. Dejar vacío para desactivar respuesta por defecto.")

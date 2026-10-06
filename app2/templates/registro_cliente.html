@@ -1,33 +1,37 @@
 {% extends 'base_app2.html' %}
-{% block title %}Clientes - Lumé Estética Avanzada{% endblock %}
+{% block title %}Clientes - Clínica Lume{% endblock %}
 
 {% block content %}
 <h1 class="page-title">Directorio de Clientes</h1>
 
-<div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem;">
+<div style="display: flex; flex-direction: column; gap: 2rem;">
     <!-- Add Client Form -->
     <div class="card">
         <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Nuevo Cliente</h3>
         <form method="POST">
             {% csrf_token %}
-            <div class="form-group">
-                <label>Nombre y Apellido</label>
-                <input type="text" name="nombre" class="form-control" required placeholder="Ej. Ana Pérez">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: flex-start;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Nombre y Apellido</label>
+                    <input type="text" name="nombre" class="form-control" required placeholder="Ej. Ana Pérez">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>WhatsApp</label>
+                    <input type="text" name="telefono" class="form-control" required placeholder="5491166380592">
+                    <small style="color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Solo números, con código de país.</small>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Correo Electrónico (opcional)</label>
+                    <input type="email" name="email" class="form-control" placeholder="ana@email.com">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Notas / Historial Médico</label>
+                    <input type="text" name="notas" class="form-control" placeholder="Alergias, observaciones...">
+                </div>
             </div>
-            <div class="form-group">
-                <label>WhatsApp</label>
-                <input type="text" name="telefono" class="form-control" required placeholder="5491166380592">
-                <small style="color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">Solo números, con código de país.</small>
+            <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="submit" class="btn-primary" style="min-width: 200px;">Registrar Cliente</button>
             </div>
-            <div class="form-group">
-                <label>Correo Electrónico (opcional)</label>
-                <input type="email" name="email" class="form-control" placeholder="ana@email.com">
-            </div>
-            <div class="form-group">
-                <label>Notas / Historial Médico</label>
-                <textarea name="notas" class="form-control" rows="4" placeholder="Alergias, observaciones de la piel..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary" style="width: 100%;">Registrar Cliente</button>
         </form>
     </div>
     
@@ -70,10 +74,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    @media (max-width: 1024px) { 
-        div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; } 
-    }
-</style>
 {% endblock %}
