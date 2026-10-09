@@ -57,6 +57,7 @@
         /* Sidebar Styling (Flotante) */
         .sidebar {
             width: 270px;
+            flex-shrink: 0;
             background-color: rgba(20, 34, 23, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -71,21 +72,21 @@
             overflow: hidden;
         }
         .sidebar-header {
-            padding: 2.5rem 1.8rem 1.5rem;
+            padding: 1.5rem 1.5rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .sidebar-logo-img {
-            height: 48px;
+            height: 42px;
             width: auto;
             object-fit: contain;
             filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);
         }
         
         .nav-links {
-            padding: 1.5rem 1rem;
+            padding: 1.2rem 1rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -95,18 +96,18 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 0.9rem 1.2rem;
+            padding: 0.8rem 1.1rem;
             color: rgba(255, 255, 255, 0.65);
             text-decoration: none;
             transition: var(--transition);
             border-radius: 14px;
             font-family: var(--font-accent);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 1.2px;
             text-transform: uppercase;
         }
-        .nav-link i { font-size: 1.3rem; color: rgba(200, 164, 98, 0.7); transition: var(--transition); }
+        .nav-link i { font-size: 1.25rem; color: rgba(200, 164, 98, 0.7); transition: var(--transition); }
         .nav-link:hover, .nav-link.active {
             background: rgba(255, 255, 255, 0.08);
             color: #FFFFFF;
@@ -124,15 +125,15 @@
         .nav-link:hover i { color: #FFFFFF; }
 
         .sidebar-footer {
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
         .site-link-btn {
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-            padding: 0.85rem 1.2rem; border-radius: 14px;
+            padding: 0.8rem 1.1rem; border-radius: 14px;
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--color-champagne); text-decoration: none;
-            font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700;
+            font-family: var(--font-accent); font-size: 0.7rem; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase; transition: var(--transition);
         }
         .site-link-btn:hover {
@@ -154,7 +155,8 @@
         
         /* Topbar Header (Cristalizado) */
         .topbar {
-            height: 80px;
+            height: 75px;
+            flex-shrink: 0;
             background: rgba(250, 246, 240, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -168,22 +170,22 @@
             z-index: 90;
         }
         .topbar-user {
-            display: flex; align-items: center; gap: 0.9rem;
+            display: flex; align-items: center; gap: 0.8rem;
         }
         .user-avatar {
-            width: 42px; height: 42px; border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: var(--color-sidebar); color: var(--color-champagne);
             display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-accent); font-weight: 700; font-size: 1rem;
+            font-family: var(--font-accent); font-weight: 700; font-size: 0.9rem;
             border: 1px solid var(--color-champagne);
         }
         .user-info { display: flex; flex-direction: column; }
-        .user-name { font-weight: 600; font-size: 0.95rem; color: var(--color-text-main); }
-        .user-role { font-size: 0.75rem; color: var(--color-champagne); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+        .user-name { font-weight: 600; font-size: 0.85rem; color: var(--color-text-main); }
+        .user-role { font-size: 0.7rem; color: var(--color-champagne); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
 
         .menu-toggle { display: none; background: none; border: none; color: var(--color-text-main); font-size: 1.8rem; cursor: pointer; }
         .content-area {
-            padding: 2.5rem;
+            padding: 1.8rem 2rem;
             flex-grow: 1;
             overflow-y: auto;
             scrollbar-width: none;
@@ -193,10 +195,10 @@
         }
         h1.page-title {
             font-family: var(--font-heading);
-            font-size: 2.8rem;
-            font-weight: 500;
+            font-size: 2.2rem;
+            font-weight: 600;
             color: var(--color-text-main);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.1;
         }
         
@@ -302,7 +304,7 @@
         /* Mobile Styling */
         @media (max-width: 768px) {
             body { padding: 0; gap: 0; }
-            .sidebar { position: fixed; height: 100vh; border-radius: 0; border: none; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
+            .sidebar { position: fixed; top: 0; left: 0; z-index: 9999; height: 100vh; border-radius: 0; border: none; transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.3); }
             .sidebar.show { transform: translateX(0); }
             .main-content { width: 100%; border-radius: 0; border: none; }
             .menu-toggle { display: block; }
@@ -337,18 +339,20 @@
         <header class="topbar">
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menú"><i class="ph ph-list"></i></button>
             
-            <div style="font-family: var(--font-accent); font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--color-champagne);">
-                PANEL DE ADMINISTRACIÓN — CLÍNICA LUME
+            <div style="font-family: var(--font-body); font-size: 1.25rem; font-weight: 800; color: #121A21; display: flex; align-items: center; gap: 1rem;">
+                Calendario Interactivo de Citas
             </div>
 
-            <div class="topbar-user">
-                <div class="user-avatar">
-                    {{ user_admin.nombre|default:"A"|slice:":1" }}
-                </div>
-                <div class="user-info">
-                    <span class="user-name">{{ user_admin.nombre|default:"Administrador" }}</span>
-                    <span class="user-role">Conserjería Lume</span>
-                </div>
+            <div class="topbar-user" style="gap: 1rem;">
+                <button style="background: #FFF5F7; border: 1px solid #F9E4E8; color: #7C2132; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="width: 6px; height: 6px; background: #7C2132; border-radius: 50%;"></div> Portal Reservas 24/7
+                </button>
+                <button style="background: #121A21; color: #FFFFFF; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer;">
+                    + Nueva Venta POS
+                </button>
+                <button style="background: transparent; border: 1px solid #E9ECEF; color: #495057; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                    <i class="ph ph-sign-out"></i> Salir
+                </button>
             </div>
         </header>
         

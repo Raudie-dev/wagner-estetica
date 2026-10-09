@@ -439,6 +439,8 @@ from django.http import HttpResponse
 import datetime
 from django.utils import timezone
 
+import csv
+
 def exportar_citas(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
@@ -446,50 +448,34 @@ def exportar_citas(request):
     start_str = request.GET.get('start')
     end_str = request.GET.get('end')
     
-    citas = Appointment.objects.all()
+    citas = Appointment.objects.all().order_by('fecha_hora')
     
     if start_str and end_str:
         try:
-            # Fullcalendar sends ISO strings like 2026-08-30T00:00:00-04:00
             start_date = datetime.datetime.fromisoformat(start_str.replace('Z', '+00:00'))
             end_date = datetime.datetime.fromisoformat(end_str.replace('Z', '+00:00'))
             citas = citas.filter(fecha_hora__gte=start_date, fecha_hora__lt=end_date)
         except ValueError:
             pass
             
-    # Generate ICS content
-    ics_lines = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//Lume Estetica Avanzada//NONSGML v1.0//EN",
-        "CALSCALE:GREGORIAN"
-    ]
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="citas_lume.csv"'
+    response.write(u'\ufeff'.encode('utf8'))
+    
+    writer = csv.writer(response, delimiter=';')
+    writer.writerow(['Fecha y Hora', 'Cliente', 'Teléfono', 'Servicio', 'Estado', 'Notas'])
     
     for cita in citas:
-        ics_lines.append("BEGIN:VEVENT")
-        uid = f"cita-{cita.id}@lume.estetica"
-        ics_lines.append(f"UID:{uid}")
+        fecha_str = cita.fecha_hora.strftime("%d/%m/%Y %H:%M") if cita.fecha_hora else ""
+        writer.writerow([
+            fecha_str,
+            cita.cliente.nombre,
+            cita.cliente.telefono,
+            cita.servicio,
+            cita.estado,
+            cita.notas
+        ])
         
-        # Format dates to UTC: YYYYMMDDTHHMMSSZ
-        start_utc = cita.fecha_hora.astimezone(datetime.timezone.utc)
-        # Assume 1 hour duration if not specified
-        end_utc = start_utc + datetime.timedelta(hours=1)
-        
-        dtstart = start_utc.strftime("%Y%m%dT%H%M%SZ")
-        dtend = end_utc.strftime("%Y%m%dT%H%M%SZ")
-        dtstamp = timezone.now().strftime("%Y%m%dT%H%M%SZ")
-        
-        ics_lines.append(f"DTSTAMP:{dtstamp}")
-        ics_lines.append(f"DTSTART:{dtstart}")
-        ics_lines.append(f"DTEND:{dtend}")
-        ics_lines.append(f"SUMMARY:Cita: {cita.cliente.nombre} - {cita.servicio}")
-        ics_lines.append(f"DESCRIPTION:Cliente: {cita.cliente.nombre}\\nTel: {cita.cliente.telefono}\\nServicio: {cita.servicio}\\nEstado: {cita.estado}")
-        ics_lines.append("END:VEVENT")
-        
-    ics_lines.append("END:VCALENDAR")
-    
-    response = HttpResponse('\r\n'.join(ics_lines), content_type='text/calendar')
-    response['Content-Disposition'] = 'attachment; filename="citas_lume.ics"'
     return response
 
 def actualizar_cita(request, cita_id):

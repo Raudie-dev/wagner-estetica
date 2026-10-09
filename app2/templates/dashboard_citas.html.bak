@@ -1,0 +1,240 @@
+{% extends 'base_app2.html' %}
+{% load static %}
+{% block title %}Citas Programadas - Clínica Lume{% endblock %}
+
+{% block extra_head %}
+<!-- FullCalendar CSS & JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<style>
+    /* FullCalendar Lumé Warm Cream Theme Overrides */
+    :root {
+        --fc-neutral-bg-color: #FAF6F0;
+        --fc-border-color: rgba(200, 164, 98, 0.25);
+        --fc-page-bg-color: #FFFFFF;
+        --fc-button-bg-color: #142217;
+        --fc-button-border-color: #142217;
+        --fc-button-hover-bg-color: #C8A462;
+        --fc-button-hover-border-color: #C8A462;
+        --fc-button-active-bg-color: #C8A462;
+        --fc-button-active-border-color: #C8A462;
+    }
+    
+    .fc-theme-standard td, .fc-theme-standard th { border-color: rgba(200, 164, 98, 0.25); background-color: #FFFFFF; }
+    .fc .fc-toolbar-title { font-family: var(--font-heading); font-weight: 600; font-size: 1.6rem; color: var(--color-text-main); }
+    /* Separate calendar toolbar buttons */
+    .fc .fc-button-group {
+        display: inline-flex !important;
+        gap: 0.6rem !important;
+    }
+    .fc .fc-button-group > .fc-button {
+        border-radius: 20px !important;
+        margin: 0 !important;
+    }
+    .fc .fc-button-primary {
+        background-color: var(--color-sidebar); border-color: var(--color-sidebar);
+        color: #FAF6F0; font-family: var(--font-accent); font-size: 0.70rem; font-weight: 700;
+        letter-spacing: 1px; text-transform: uppercase; border-radius: 20px !important; padding: 0.4rem 0.8rem;
+        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(20, 34, 23, 0.1);
+    }
+    .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:hover {
+        background-color: var(--color-champagne) !important;
+        border-color: var(--color-champagne) !important;
+        color: #142217 !important;
+    }
+    .fc-daygrid-day-number { color: var(--color-text-main); text-decoration: none; padding: 8px; font-weight: 600; font-family: var(--font-body); }
+    .fc-col-header-cell-cushion { color: var(--color-text-muted); text-decoration: none; padding: 12px 0; font-family: var(--font-accent); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1.5px; }
+    .fc-day-today { background-color: rgba(200, 164, 98, 0.12) !important; }
+    
+    .fc-event { border: none; padding: 4px 8px; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(20,34,23,0.08); margin-bottom: 3px; }
+    .fc-event-main { color: #142217; font-weight: 600; font-size: 0.8rem; font-family: var(--font-body); }
+    
+    .dashboard-header {
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+    }
+    
+    .grid-dashboard { 
+        display: grid; 
+        grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); 
+        gap: 2rem; 
+        align-items: start;
+    }
+    
+    @media (max-width: 1350px) { 
+        .grid-dashboard { grid-template-columns: 1fr; } 
+        .dashboard-header { flex-direction: column; align-items: flex-start; }
+        #exportBtn { width: 100%; justify-content: center; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1 class="page-title" style="margin-bottom: 0;">Calendario de Citas</h1>
+    <button id="exportBtn" class="btn-primary" style="background: var(--color-bg-surface); border: 1px solid var(--color-champagne); color: var(--color-text-main);">
+        <i class="ph-bold ph-calendar-arrow-down" style="color: var(--color-champagne);"></i> Exportar a Google Calendar
+    </button>
+</div>
+
+<div class="grid-dashboard">
+    <!-- Calendar Column -->
+    <div class="card" style="padding: 1.8rem;">
+        <div id="calendar"></div>
+    </div>
+    
+    <!-- Sidebar / Action Column -->
+    <div>
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-text-main);">Nueva Cita</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <select name="cliente_id" class="form-control" required>
+                        <option value="">Seleccione un cliente...</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fecha y Hora</label>
+                    <input type="datetime-local" name="fecha_hora" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Tratamiento</label>
+                    <select name="servicio" class="form-control" required>
+                        <option value="">Seleccione un servicio...</option>
+                        {% for s in servicios_activos %}
+                            <option value="{{ s.nombre }}">{{ s.nombre }}</option>
+                        {% endfor %}
+                        <option value="Consulta General">Consulta General</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">Agendar Cita</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-text-main);">Próximas 5 Citas</h3>
+            {% if citas %}
+                {% for cita in citas|slice:":5" %}
+                <div style="padding-bottom: 1.2rem; border-bottom: 1px solid var(--color-border); margin-bottom: 1.2rem;">
+                    <div style="font-weight: 600; margin-bottom: 6px; font-size: 1.05rem;">{{ cita.cliente.nombre }}</div>
+                    <div style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 10px;"><i class="ph-fill ph-clock" style="color: var(--color-champagne); margin-right: 3px;"></i> {{ cita.fecha_hora|date:"d/m/Y - H:i" }} hs</div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;">
+                        <span class="badge {% if cita.estado == 'Pendiente' %}badge-pending{% else %}badge-confirmed{% endif %}">{{ cita.estado }}</span>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--color-text-main); text-align: right;">{{ cita.servicio }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--color-text-muted); font-size: 0.9rem;">No hay citas programadas.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detalles de Cita -->
+<div id="citaModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 34, 23, 0.85); backdrop-filter: blur(12px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem;">
+    <div class="card" style="width: 100%; max-width: 520px; position: relative; margin-bottom: 0; border: 1px solid var(--color-champagne);">
+        <button type="button" onclick="document.getElementById('citaModal').style.display='none'" style="position: absolute; right: 20px; top: 20px; background: rgba(20, 34, 23, 0.08); border: 1px solid var(--color-border); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--color-text-main); font-size: 1.2rem; cursor: pointer;">&times;</button>
+        
+        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Detalles de la Cita</h3>
+        
+        <div style="margin-bottom: 1.5rem; background: var(--color-bg-subtle); padding: 1.2rem; border-radius: 16px; border: 1px solid rgba(200, 164, 98, 0.2);">
+            <p style="margin-bottom: 0.4rem;"><strong>Cliente:</strong> <span id="modalCliente"></span></p>
+            <p style="margin-bottom: 0.4rem;"><strong>Teléfono:</strong> <span id="modalTelefono"></span></p>
+            <p><strong>Servicio:</strong> <span id="modalServicio"></span></p>
+        </div>
+        
+        <form id="citaUpdateForm" method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" id="modalCitaId" name="cita_id">
+            
+            <div class="form-group">
+                <label>Estado</label>
+                <select id="modalEstado" name="estado" class="form-control">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Completada">Completada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Notas (Solo visibles para staff)</label>
+                <textarea id="modalNotas" name="notas" class="form-control" rows="4" placeholder="Escribe aquí observaciones o detalles de la cita..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            height: 'auto',
+            buttonText: {
+                today: 'Hoy',
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día'
+            },
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            allDaySlot: false,
+            events: [
+                {% for cita in citas %}
+                {
+                    id: '{{ cita.id }}',
+                    title: '{{ cita.cliente.nombre|escapejs }} - {{ cita.servicio|escapejs }}',
+                    start: '{{ cita.fecha_hora|date:"Y-m-d\TH:i:s" }}',
+                    backgroundColor: '{% if cita.estado == "Pendiente" %}#E6CA92{% elif cita.estado == "Confirmada" %}#25D366{% else %}#142217{% endif %}',
+                    borderColor: 'transparent',
+                    textColor: '{% if cita.estado == "Confirmada" or cita.estado == "Pendiente" %}#142217{% else %}#FAF6F0{% endif %}',
+                    extendedProps: {
+                        cliente_nombre: '{{ cita.cliente.nombre|escapejs }}',
+                        cliente_telefono: '{{ cita.cliente.telefono|escapejs }}',
+                        servicio: '{{ cita.servicio|escapejs }}',
+                        estado: '{{ cita.estado|escapejs }}',
+                        notas: '{{ cita.notas|escapejs|default:"" }}'
+                    }
+                },
+                {% endfor %}
+            ],
+            eventClick: function(info) {
+                var props = info.event.extendedProps;
+                document.getElementById('modalCitaId').value = info.event.id;
+                document.getElementById('modalCliente').textContent = props.cliente_nombre;
+                document.getElementById('modalTelefono').textContent = props.cliente_telefono;
+                document.getElementById('modalServicio').textContent = props.servicio;
+                document.getElementById('modalEstado').value = props.estado;
+                document.getElementById('modalNotas').value = props.notas;
+                
+                var form = document.getElementById('citaUpdateForm');
+                form.action = '/app2/citas/' + info.event.id + '/actualizar/';
+                
+                document.getElementById('citaModal').style.display = 'flex';
+            }
+        });
+        calendar.render();
+        
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            var view = calendar.view;
+            var start = view.activeStart.toISOString();
+            var end = view.activeEnd.toISOString();
+            window.location.href = "{% url 'exportar_citas' %}?start=" + encodeURIComponent(start) + "&end=" + encodeURIComponent(end);
+        });
+    });
+</script>
+{% endblock %}
