@@ -114,15 +114,14 @@ def configuracion_respuestas(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
 
-    config = ProfileConfig.objects.first()
+    config, _ = ProfileConfig.objects.get_or_create(id=1)
 
     if request.method == 'POST':
         action = request.POST.get('action')
         
         if action == 'update_phone':
-            if config:
-                config.telefono_whatsapp = request.POST.get('telefono_whatsapp', '')
-                config.save()
+            config.telefono_whatsapp = request.POST.get('telefono_whatsapp', '')
+            config.save()
             messages.success(request, 'Número de WhatsApp actualizado')
             return redirect('configuracion_respuestas')
             
