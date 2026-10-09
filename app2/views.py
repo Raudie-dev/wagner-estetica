@@ -99,6 +99,7 @@ def configuracion_perfil(request):
 
     if request.method == 'POST':
         config.nombre_negocio = request.POST.get('nombre_negocio', '')
+        config.telefono_whatsapp = request.POST.get('telefono_whatsapp', '')
         config.direccion = request.POST.get('direccion', '')
         config.horarios = request.POST.get('horarios', '')
         config.mensaje_bienvenida_bot = request.POST.get('mensaje_bienvenida_bot', '')
