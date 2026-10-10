@@ -344,15 +344,12 @@
             </div>
 
             <div class="topbar-user" style="gap: 1rem;">
-                <button style="background: #FFF5F7; border: 1px solid #F9E4E8; color: #7C2132; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
-                    <div style="width: 6px; height: 6px; background: #7C2132; border-radius: 50%;"></div> Portal Reservas 24/7
-                </button>
-                <button style="background: #121A21; color: #FFFFFF; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer;">
-                    + Nueva Venta POS
-                </button>
-                <button style="background: transparent; border: 1px solid #E9ECEF; color: #495057; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                <a href="{% url 'configuracion_usuario' %}" style="text-decoration: none; background: transparent; border: 1px solid var(--color-champagne); color: var(--color-text-main); padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <i class="ph ph-user"></i> Usuario
+                </a>
+                <a href="{% url 'logout' %}" style="text-decoration: none; background: transparent; border: 1px solid #E9ECEF; color: #495057; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;">
                     <i class="ph ph-sign-out"></i> Salir
-                </button>
+                </a>
             </div>
         </header>
         

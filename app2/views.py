@@ -76,16 +76,31 @@ def registro_cliente(request):
     if not user: return redirect('login')
 
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        telefono = request.POST.get('telefono')
-        email = request.POST.get('email')
-        notas = request.POST.get('notas')
-        if nombre and telefono:
-            Client.objects.create(nombre=nombre, telefono=telefono, email=email, notas=notas)
-            messages.success(request, 'Cliente registrado')
+        action = request.POST.get('action')
+        if action == 'edit_client':
+            cliente_id = request.POST.get('cliente_id')
+            cliente = get_object_or_404(Client, id=cliente_id)
+            cliente.nombre = request.POST.get('nombre')
+            cliente.telefono = request.POST.get('telefono')
+            cliente.email = request.POST.get('email')
+            cliente.notas = request.POST.get('notas')
+            if cliente.nombre and cliente.telefono:
+                cliente.save()
+                messages.success(request, 'Cliente actualizado')
+            else:
+                messages.error(request, 'Nombre y teléfono son requeridos')
             return redirect('registro_cliente')
         else:
-            messages.error(request, 'Nombre y teléfono son requeridos')
+            nombre = request.POST.get('nombre')
+            telefono = request.POST.get('telefono')
+            email = request.POST.get('email')
+            notas = request.POST.get('notas')
+            if nombre and telefono:
+                Client.objects.create(nombre=nombre, telefono=telefono, email=email, notas=notas)
+                messages.success(request, 'Cliente registrado')
+                return redirect('registro_cliente')
+            else:
+                messages.error(request, 'Nombre y teléfono son requeridos')
 
     clientes = Client.objects.all().order_by('-fecha_registro')
     return render(request, 'registro_cliente.html', {'user_admin': user, 'clientes': clientes})
@@ -170,6 +185,19 @@ def gestion_servicios(request):
                     servicio.imagen = request.FILES['imagen']
                 servicio.save()
                 messages.success(request, 'Servicio agregado exitosamente')
+
+        elif action == 'edit_service':
+            service_id = request.POST.get('service_id')
+            if service_id:
+                servicio = get_object_or_404(Service, id=service_id)
+                servicio.nombre = request.POST.get('nombre_servicio', '')
+                servicio.duracion = request.POST.get('duracion', '')
+                servicio.descripcion = request.POST.get('descripcion', '')
+                servicio.beneficios = request.POST.get('beneficios', '')
+                if 'imagen' in request.FILES:
+                    servicio.imagen = request.FILES['imagen']
+                servicio.save()
+                messages.success(request, 'Servicio actualizado')
             
         elif action == 'delete_service':
             service_id = request.POST.get('service_id')

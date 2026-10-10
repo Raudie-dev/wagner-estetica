@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=54.00">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=55.00">
 </head>
 <body>
     <div id="toast-container"></div>
@@ -56,8 +56,30 @@
                     
                     <!-- PASO 1: Logo y Eslogan -->
                     <div class="ed-hero-step step-1 active">
-                        <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Clínica Lume Logo" class="ed-hero-logo">
-                        <span class="ed-overline"><i class="ph-fill ph-sparkle"></i> Cuidamos tu piel, tu sonrisa y tu bienestar.</span>
+                        <style>
+                            .ed-hero-logo-large { max-width: 220px; height: auto; filter: brightness(0.9); margin-bottom: 0.5rem; width: 100%; }
+                            .ed-hero-slogan { font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 400; color: var(--color-text-main); line-height: 1; margin-bottom: 2.5rem; letter-spacing: -1.5px; }
+                            .ed-scroll-mouse { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0.6; margin-top: 1rem; }
+                            .ed-scroll-mouse i.ph-mouse { font-size: 2rem; font-weight: 300; }
+                            .ed-scroll-mouse span { font-family: var(--font-accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; }
+                            .ed-scroll-mouse i.ph-arrow-down { font-size: 1.2rem; margin-top: 0.2rem; animation: ed-bounce 2s infinite; }
+                            @keyframes ed-bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(8px); } 60% { transform: translateY(4px); } }
+                            @media (max-width: 768px) { 
+                                .ed-hero-logo-large { max-width: 180px; margin-bottom: 0.5rem; }
+                                .ed-hero-slogan { margin-bottom: 1.5rem; font-size: 1.8rem; line-height: 1; letter-spacing: -1px; }
+                                .ed-scroll-mouse { margin-top: 0.5rem; }
+                            }
+                        </style>
+                        <img src="{% static 'wagner-img/lume-logo.png' %}" alt="Clínica Lume Logo" class="ed-hero-logo-large">
+                        <h2 class="ed-hero-slogan">
+                            Cuidamos tu piel, tu sonrisa y tu bienestar.
+                        </h2>
+                        
+                        <div class="ed-scroll-mouse">
+                            <i class="ph ph-mouse"></i>
+                            <span>Desliza</span>
+                            <i class="ph ph-arrow-down"></i>
+                        </div>
                     </div>
 
                     <!-- PASO 2: Título -->
@@ -191,7 +213,11 @@
                 </div>
 
                 <!-- FILTROS ESTÁTICOS -->
-                <div class="ed-filters-static reveal fade-up delay-1">
+                <div class="ed-filters-static reveal fade-up delay-1" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 0.8rem; padding-bottom: 1rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; justify-content: flex-start; width: 100%; max-width: 100vw;">
+                    <style>
+                        .ed-filters-static::-webkit-scrollbar { display: none; }
+                        .ed-filter-static-btn { flex-shrink: 0; white-space: nowrap; }
+                    </style>
                     <button class="ed-filter-static-btn active" data-filter="todos" onclick="filterServices('todos', this)">Todos</button>
                     <button class="ed-filter-static-btn" data-filter="dermatologia" onclick="filterServices('dermatologia', this)">Dermatología</button>
                     <button class="ed-filter-static-btn" data-filter="dermocosmiatria" onclick="filterServices('dermocosmiatria', this)">Dermocosmiatría</button>
@@ -351,7 +377,11 @@
                             <label for="comentarios">Comentarios o Notas</label>
                             <textarea id="comentarios" rows="3" placeholder="Alergias, dudas adicionales, etc."></textarea>
                         </div>
-                        <button type="submit" class="ed-btn ed-btn-solid w-100">AGENDAR VIA WHATSAPP <i class="ph-bold ph-arrow-right" style="margin-left:8px;"></i></button>
+                        <div style="text-align: left; margin-top: 1rem;">
+                            <button type="submit" class="ed-btn ed-btn-solid">
+                                AGENDAR VIA WHATSAPP <i class="ph-bold ph-arrow-right" style="margin-left:8px;"></i>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

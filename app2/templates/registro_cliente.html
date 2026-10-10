@@ -60,9 +60,41 @@
                         </td>
                         <td><span class="badge" style="background: rgba(200, 164, 98, 0.15); color: var(--color-text-main);">{{ cliente.citas.count }}</span></td>
                         <td style="color: var(--color-text-muted); font-size: 0.85rem;">{{ cliente.fecha_registro|date:"d/m/Y" }}</td>
-                        <td>
-                            <button class="btn-primary" style="padding: 0.45rem 1rem; font-size: 0.72rem; background: var(--color-bg-surface); color: var(--color-text-main); border: 1px solid var(--color-champagne);">Ver Ficha</button>
+                        <td style="display: flex; gap: 0.5rem; flex-wrap: nowrap;">
+                            <button class="btn-primary" style="padding: 0.45rem 1rem; font-size: 0.72rem; background: var(--color-champagne); color: #142217; border: 1px solid var(--color-champagne);" onclick="document.getElementById('modal-edit-client-{{ cliente.id }}').style.display='flex'">Editar</button>
                         </td>
+
+                        <!-- Modal Edit Client -->
+                        <div id="modal-edit-client-{{ cliente.id }}" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+                            <div class="card" style="width: 100%; max-width: 500px; position: relative;">
+                                <button type="button" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-main);" onclick="document.getElementById('modal-edit-client-{{ cliente.id }}').style.display='none'">&times;</button>
+                                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.8rem;">Editar Cliente</h3>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="edit_client">
+                                    <input type="hidden" name="cliente_id" value="{{ cliente.id }}">
+                                    <div class="form-group">
+                                        <label>Nombre y Apellido</label>
+                                        <input type="text" name="nombre" class="form-control" required value="{{ cliente.nombre }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>WhatsApp</label>
+                                        <input type="text" name="telefono" class="form-control" required value="{{ cliente.telefono }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Correo Electrónico</label>
+                                        <input type="email" name="email" class="form-control" value="{{ cliente.email|default_if_none:'' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Notas / Historial</label>
+                                        <input type="text" name="notas" class="form-control" value="{{ cliente.notas|default_if_none:'' }}">
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                                        <button type="submit" class="btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </tr>
                     {% empty %}
                     <tr>

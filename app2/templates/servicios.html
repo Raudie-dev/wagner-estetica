@@ -90,14 +90,54 @@
                                 {% endif %}
                             </form>
                         </td>
-                        <td>
-                            <form method="POST" style="display:inline;">
+                        <td style="display: flex; gap: 0.5rem; flex-wrap: nowrap;">
+                            <button class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.7rem; background: var(--color-champagne); color: #142217; border: 1px solid var(--color-champagne);" onclick="document.getElementById('modal-edit-service-{{ servicio.id }}').style.display='flex'">Editar</button>
+                            <form method="POST" style="display:inline; margin: 0;">
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="delete_service">
                                 <input type="hidden" name="service_id" value="{{ servicio.id }}">
                                 <button type="submit" class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.7rem; background: var(--color-bg-surface); color: #e74c3c; border: 1px solid #e74c3c;" onclick="return confirm('¿Eliminar este servicio definitivamente?');">Borrar</button>
                             </form>
                         </td>
+
+                        <!-- Modal Edit Service -->
+                        <div id="modal-edit-service-{{ servicio.id }}" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+                            <div class="card" style="width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; position: relative;">
+                                <button type="button" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-main);" onclick="document.getElementById('modal-edit-service-{{ servicio.id }}').style.display='none'">&times;</button>
+                                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.8rem;">Editar Servicio</h3>
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="edit_service">
+                                    <input type="hidden" name="service_id" value="{{ servicio.id }}">
+                                    <div class="form-group">
+                                        <label>Nombre del Servicio</label>
+                                        <input type="text" name="nombre_servicio" class="form-control" required value="{{ servicio.nombre }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Duración</label>
+                                        <input type="text" name="duracion" class="form-control" value="{{ servicio.duracion|default_if_none:'' }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Imagen del Servicio</label>
+                                        <input type="file" name="imagen" class="form-control" accept="image/*">
+                                        {% if servicio.imagen %}
+                                        <small style="display:block; margin-top:5px;">Actual: {{ servicio.imagen.name }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción Corta</label>
+                                        <textarea name="descripcion" class="form-control" rows="2">{{ servicio.descripcion|default_if_none:'' }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Beneficios (Uno por línea)</label>
+                                        <textarea name="beneficios" class="form-control" rows="3">{{ servicio.beneficios|default_if_none:'' }}</textarea>
+                                    </div>
+                                    <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                                        <button type="submit" class="btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </tr>
                     {% empty %}
                     <tr>
