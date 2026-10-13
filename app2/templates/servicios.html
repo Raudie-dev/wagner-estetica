@@ -6,6 +6,32 @@
 <h1 class="page-title">Gestión de Servicios</h1>
 
 <div style="display: flex; flex-direction: column; gap: 2rem;">
+    <!-- Gestión de Categorías -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.2rem;">
+            <h3 style="margin: 0; font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-text-main);">Categorías de Servicios</h3>
+            <form method="POST" style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_category">
+                <input type="text" name="nombre_categoria" class="form-control" required placeholder="Nueva categoría (ej. Corporal)" style="width: 240px; padding: 0.65rem 1rem;">
+                <button type="submit" class="btn-primary" style="padding: 0.65rem 1.2rem;">+ Agregar Categoría</button>
+            </form>
+        </div>
+        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            {% for cat_obj in categorias_objs %}
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.9rem; border-radius: 30px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                <span>{{ cat_obj.nombre }}</span>
+                <form method="POST" style="display: inline; margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_category">
+                    <input type="hidden" name="category_id" value="{{ cat_obj.id }}">
+                    <button type="submit" title="Eliminar categoría" onclick="return confirm('¿Eliminar la categoría {{ cat_obj.nombre }}?');" style="background: none; border: none; color: #e74c3c; font-weight: bold; font-size: 0.95rem; cursor: pointer; line-height: 1; padding: 0 2px;">&times;</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- Formulario Agregar Servicio -->
     <div class="card">
         <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Nuevo Tratamiento</h3>
@@ -22,7 +48,24 @@
                         <input type="text" name="nombre_servicio" class="form-control" required placeholder="Ej. Ritual Facial Glow">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label>Duración</label>
+                        <label>Categoría</label>
+                        <select name="categoria" class="form-control" required onchange="toggleNuevaCategoriaInput(this, 'nuevaCatAddWrap')">
+                            {% for cat_val, cat_label in categorias %}
+                                <option value="{{ cat_val }}">{{ cat_label }}</option>
+                            {% empty %}
+                                <option value="dermocosmiatria">Dermocosmiatría</option>
+                                <option value="medicina-estetica">Medicina Estética</option>
+                                <option value="odontologia">Odontología</option>
+                                <option value="depilacion">Depilación Láser</option>
+                            {% endfor %}
+                            <option value="__nueva__">+ Agregar nueva categoría...</option>
+                        </select>
+                        <div id="nuevaCatAddWrap" style="display: none; margin-top: 0.8rem;">
+                            <input type="text" name="nueva_categoria" class="form-control" placeholder="Escribe el nombre de la nueva categoría...">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Duración / Horario Estimado</label>
                         <input type="text" name="duracion" class="form-control" placeholder="Ej. 60 minutos">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
@@ -35,11 +78,11 @@
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label>Descripción Corta</label>
-                        <textarea name="descripcion" class="form-control" rows="2" placeholder="Descripción que aparecerá en la landing page..."></textarea>
+                        <textarea name="descripcion" class="form-control" rows="3" placeholder="Descripción que aparecerá en la landing page..."></textarea>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label>Beneficios (Uno por línea)</label>
-                        <textarea name="beneficios" class="form-control" rows="3" placeholder="- Piel más luminosa&#10;- Reducción de manchas"></textarea>
+                        <textarea name="beneficios" class="form-control" rows="4" placeholder="- Piel más luminosa&#10;- Reducción de manchas"></textarea>
                     </div>
                 </div>
             </div>
@@ -52,7 +95,17 @@
     
     <!-- Lista de Servicios -->
     <div class="card">
-        <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Catálogo de Servicios</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0; font-family: var(--font-heading); font-size: 2rem; color: var(--color-text-main);">Catálogo de Servicios</h3>
+            
+            <!-- Filtro por categoría en el Dashboard -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="btn-filter-cat active" data-cat="todos" onclick="filterAdminServices('todos', this)" style="padding: 0.5rem 1.1rem; border-radius: 30px; border: 1px solid var(--color-champagne); background: var(--color-sidebar); color: #FAF6F0; font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">Todos</button>
+                {% for cat_val, cat_label in categorias %}
+                <button type="button" class="btn-filter-cat" data-cat="{{ cat_val }}" onclick="filterAdminServices('{{ cat_val }}', this)" style="padding: 0.5rem 1.1rem; border-radius: 30px; border: 1px solid var(--color-border); background: var(--color-bg-body); color: var(--color-text-main); font-family: var(--font-accent); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">{{ cat_label }}</button>
+                {% endfor %}
+            </div>
+        </div>
         
         <div class="table-responsive">
             <table>
@@ -60,13 +113,14 @@
                     <tr>
                         <th>Imagen</th>
                         <th>Tratamiento</th>
+                        <th>Categoría</th>
                         <th>Estado</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for servicio in servicios %}
-                    <tr>
+                    <tr class="admin-service-row" data-category="{{ servicio.categoria|default:'dermocosmiatria' }}">
                         <td>
                             {% if servicio.imagen %}
                                 <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 12px; border: 1px solid var(--color-champagne);">
@@ -79,14 +133,19 @@
                             <small style="color: var(--color-text-muted); font-size: 0.8rem;">{{ servicio.duracion|default_if_none:'' }}</small>
                         </td>
                         <td>
+                            <span class="badge badge-pending" style="border-radius: 20px;">
+                                {{ servicio.categoria_nombre }}
+                            </span>
+                        </td>
+                        <td>
                             <form method="POST" style="display:inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="toggle_service">
                                 <input type="hidden" name="service_id" value="{{ servicio.id }}">
                                 {% if servicio.activo %}
-                                    <button type="submit" class="badge badge-confirmed" style="border:none; cursor:pointer;" title="Click para desactivar">Activo</button>
+                                    <button type="submit" class="badge badge-confirmed" style="border:none; cursor:pointer; border-radius: 20px;" title="Click para desactivar">Activo</button>
                                 {% else %}
-                                    <button type="submit" class="badge" style="background: var(--color-bg-subtle); color: var(--color-text-muted); border:1px solid rgba(20,34,23,0.15); cursor:pointer;" title="Click para activar">Inactivo</button>
+                                    <button type="submit" class="badge" style="background: var(--color-bg-subtle); color: var(--color-text-muted); border:1px solid rgba(20,34,23,0.15); cursor:pointer; border-radius: 20px;" title="Click para activar">Inactivo</button>
                                 {% endif %}
                             </form>
                         </td>
@@ -114,7 +173,24 @@
                                         <input type="text" name="nombre_servicio" class="form-control" required value="{{ servicio.nombre }}">
                                     </div>
                                     <div class="form-group">
-                                        <label>Duración</label>
+                                        <label>Categoría</label>
+                                        <select name="categoria" class="form-control" required onchange="toggleNuevaCategoriaInput(this, 'nuevaCatEditWrap-{{ servicio.id }}')">
+                                            {% for cat_val, cat_label in categorias %}
+                                                <option value="{{ cat_val }}" {% if servicio.categoria == cat_val %}selected{% endif %}>{{ cat_label }}</option>
+                                            {% empty %}
+                                                <option value="dermocosmiatria" {% if servicio.categoria == 'dermocosmiatria' %}selected{% endif %}>Dermocosmiatría</option>
+                                                <option value="medicina-estetica" {% if servicio.categoria == 'medicina-estetica' %}selected{% endif %}>Medicina Estética</option>
+                                                <option value="odontologia" {% if servicio.categoria == 'odontologia' %}selected{% endif %}>Odontología</option>
+                                                <option value="depilacion" {% if servicio.categoria == 'depilacion' %}selected{% endif %}>Depilación Láser</option>
+                                            {% endfor %}
+                                            <option value="__nueva__">+ Agregar nueva categoría...</option>
+                                        </select>
+                                        <div id="nuevaCatEditWrap-{{ servicio.id }}" style="display: none; margin-top: 0.8rem;">
+                                            <input type="text" name="nueva_categoria" class="form-control" placeholder="Escribe el nombre de la nueva categoría...">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Duración / Horario Estimado</label>
                                         <input type="text" name="duracion" class="form-control" value="{{ servicio.duracion|default_if_none:'' }}">
                                     </div>
                                     <div class="form-group">
@@ -141,7 +217,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" style="text-align: center; color: var(--color-text-muted); padding: 2.5rem;">No hay servicios configurados.</td>
+                        <td colspan="5" style="text-align: center; color: var(--color-text-muted); padding: 2.5rem;">No hay servicios configurados.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -149,4 +225,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    function toggleNuevaCategoriaInput(selectEl, wrapId) {
+        const wrap = document.getElementById(wrapId);
+        if (!wrap) return;
+        const input = wrap.querySelector('input');
+        if (selectEl.value === '__nueva__') {
+            wrap.style.display = 'block';
+            if (input) {
+                input.required = true;
+                input.focus();
+            }
+        } else {
+            wrap.style.display = 'none';
+            if (input) {
+                input.required = false;
+                input.value = '';
+            }
+        }
+    }
+
+    function filterAdminServices(category, btnEl) {
+        document.querySelectorAll('.btn-filter-cat').forEach(btn => {
+            btn.style.background = 'var(--color-bg-body)';
+            btn.style.color = 'var(--color-text-main)';
+            btn.style.borderColor = 'var(--color-border)';
+        });
+        if (btnEl) {
+            btnEl.style.background = 'var(--color-sidebar)';
+            btnEl.style.color = '#FAF6F0';
+            btnEl.style.borderColor = 'var(--color-champagne)';
+        }
+        document.querySelectorAll('.admin-service-row').forEach(row => {
+            const rowCat = row.getAttribute('data-category');
+            if (category === 'todos' || rowCat === category) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
 {% endblock %}

@@ -20,8 +20,28 @@ class Client(models.Model):
     def __str__(self):
         return self.nombre
 
+class ServiceCategory(models.Model):
+    slug = models.CharField(max_length=60, unique=True)
+    nombre = models.CharField(max_length=100)
+    orden = models.IntegerField(default=10)
+
+    class Meta:
+        ordering = ['orden', 'id']
+
+    def __str__(self):
+        return self.nombre
+
+
 class Service(models.Model):
+    CATEGORIA_CHOICES = (
+        ('dermocosmiatria', 'Dermocosmiatría'),
+        ('medicina-estetica', 'Medicina Estética'),
+        ('odontologia', 'Odontología'),
+        ('depilacion', 'Depilación Láser'),
+    )
+
     nombre = models.CharField(max_length=150)
+    categoria = models.CharField(max_length=60, default='dermocosmiatria', blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     duracion = models.CharField(max_length=50, blank=True, null=True, help_text="Ej: 60 minutos")
     imagen = models.ImageField(upload_to='servicios/', blank=True, null=True)
@@ -29,8 +49,68 @@ class Service(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     activo = models.BooleanField(default=True)
 
+    @property
+    def categoria_nombre(self):
+        cat_slug = self.categoria or 'dermocosmiatria'
+        try:
+            cat_obj = ServiceCategory.objects.filter(slug=cat_slug).first()
+            if cat_obj:
+                return cat_obj.nombre
+        except Exception:
+            pass
+        return dict(self.CATEGORIA_CHOICES).get(cat_slug, cat_slug.replace('-', ' ').title())
+
     def __str__(self):
         return self.nombre
+
+
+def infer_service_category(nombre):
+    n = (nombre or '').lower()
+    if 'dermocosmiatr' in n or 'facial' in n or 'limpieza' in n or 'peeling' in n:
+        return 'dermocosmiatria'
+    if 'medicina' in n or 'armoniza' in n or 'botox' in n or 'toxina' in n or 'hialur' in n or 'hifu' in n:
+        return 'medicina-estetica'
+    if 'odontolog' in n or 'dental' in n or 'sonrisa' in n or 'blanqueamiento' in n:
+        return 'odontologia'
+    if 'depila' in n or 'láser' in n or 'laser' in n:
+        return 'depilacion'
+    return 'dermocosmiatria'
+
+
+def ensure_service_categoria_column():
+    from django.db import connection
+    try:
+        column_added = False
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS app2_servicecategory ("
+                "id integer NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                "slug varchar(60) NOT NULL UNIQUE, "
+                "nombre varchar(100) NOT NULL, "
+                "orden integer NOT NULL DEFAULT 10)"
+            )
+            cursor.execute("PRAGMA table_info(app2_service)")
+            cols = [row[1] for row in cursor.fetchall()]
+            if 'categoria' not in cols:
+                cursor.execute("ALTER TABLE app2_service ADD COLUMN categoria varchar(60)")
+                column_added = True
+
+        defaults = [
+            ('dermocosmiatria', 'Dermocosmiatría', 1),
+            ('medicina-estetica', 'Medicina Estética', 2),
+            ('odontologia', 'Odontología', 3),
+            ('depilacion', 'Depilación Láser', 4),
+        ]
+        if ServiceCategory.objects.count() == 0:
+            for slug, nombre, orden in defaults:
+                ServiceCategory.objects.get_or_create(slug=slug, defaults={'nombre': nombre, 'orden': orden})
+
+        for s in Service.objects.all():
+            if column_added or not s.categoria:
+                s.categoria = infer_service_category(s.nombre)
+                s.save(update_fields=['categoria'])
+    except Exception:
+        pass
 
 class Appointment(models.Model):
     STATUS_CHOICES = (

@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 
-from .models import User_admin, Client, Appointment, BotResponse, ProfileConfig, Service, BotSession
+from .models import User_admin, Client, Appointment, BotResponse, ProfileConfig, Service, ServiceCategory, BotSession, ensure_service_categoria_column
 
 # Decorador o helper simple para verificar login
 def get_logged_user(request):
@@ -46,17 +46,38 @@ def login(request):
 def dashboard_citas(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
+    ensure_service_categoria_column()
 
     if request.method == 'POST':
         # Crear nueva cita
         cliente_id = request.POST.get('cliente_id')
+        nuevo_cliente_nombre = request.POST.get('nuevo_cliente_nombre', '').strip()
+        nuevo_cliente_telefono = request.POST.get('nuevo_cliente_telefono', '').strip()
         fecha_hora = request.POST.get('fecha_hora')
         servicio = request.POST.get('servicio')
-        if cliente_id and fecha_hora and servicio:
-            cliente = Client.objects.get(id=cliente_id)
-            Appointment.objects.create(cliente=cliente, fecha_hora=fecha_hora, servicio=servicio)
+
+        cliente = None
+        if cliente_id:
+            cliente = Client.objects.filter(id=cliente_id).first()
+        elif nuevo_cliente_nombre and nuevo_cliente_telefono:
+            cliente, _ = Client.objects.get_or_create(
+                telefono=nuevo_cliente_telefono,
+                defaults={'nombre': nuevo_cliente_nombre}
+            )
+
+        if cliente and fecha_hora and servicio:
+            import datetime
+            from django.utils import timezone
+            try:
+                naive_dt = datetime.datetime.strptime(fecha_hora, "%Y-%m-%dT%H:%M")
+                fecha_obj = timezone.make_aware(naive_dt) if timezone.is_naive(naive_dt) else naive_dt
+            except ValueError:
+                fecha_obj = fecha_hora
+            Appointment.objects.create(cliente=cliente, fecha_hora=fecha_obj, servicio=servicio)
             messages.success(request, 'Cita creada exitosamente')
             return redirect('dashboard_citas')
+        else:
+            messages.error(request, 'Por favor complete cliente, fecha/hora y servicio.')
 
     citas = Appointment.objects.all().order_by('fecha_hora')
     clientes = Client.objects.all()
@@ -110,17 +131,21 @@ def configuracion_perfil(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
 
-    config, created = ProfileConfig.objects.get_or_create(id=1)
+    config = ProfileConfig.objects.first()
+    if not config:
+        config = ProfileConfig.objects.create(nombre_negocio="Clínica Lume")
 
     if request.method == 'POST':
-        config.nombre_negocio = request.POST.get('nombre_negocio', '')
-        config.telefono_whatsapp = request.POST.get('telefono_whatsapp', '')
-        config.direccion = request.POST.get('direccion', '')
-        config.horarios = request.POST.get('horarios', '')
-        config.mensaje_bienvenida_bot = request.POST.get('mensaje_bienvenida_bot', '')
-        config.datos_pago_bot = request.POST.get('datos_pago_bot', '')
+        config.nombre_negocio = request.POST.get('nombre_negocio', '').strip() or 'Clínica Lume'
+        config.telefono_whatsapp = request.POST.get('telefono_whatsapp', '').strip()
+        config.direccion = request.POST.get('direccion', '').strip()
+        config.horarios = request.POST.get('horarios', '').strip()
+        if 'mensaje_bienvenida_bot' in request.POST:
+            config.mensaje_bienvenida_bot = request.POST.get('mensaje_bienvenida_bot', '')
+        if 'datos_pago_bot' in request.POST:
+            config.datos_pago_bot = request.POST.get('datos_pago_bot', '')
         config.save()
-        messages.success(request, 'Perfil actualizado')
+        messages.success(request, 'Perfil y horarios actualizados correctamente')
         return redirect('configuracion_perfil')
 
     return render(request, 'perfil.html', {'user_admin': user, 'config': config})
@@ -130,7 +155,7 @@ def configuracion_respuestas(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
 
-    config, _ = ProfileConfig.objects.get_or_create(id=1)
+    config = ProfileConfig.objects.first() or ProfileConfig.objects.create(nombre_negocio="Clínica Lume")
 
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -169,18 +194,51 @@ def configuracion_respuestas(request):
 def gestion_servicios(request):
     user = get_logged_user(request)
     if not user: return redirect('login')
+    ensure_service_categoria_column()
+    from django.utils.text import slugify
 
     if request.method == 'POST':
         action = request.POST.get('action')
         
-        if action == 'add_service':
+        if action == 'add_category':
+            nombre_cat = request.POST.get('nombre_categoria', '').strip()
+            if nombre_cat:
+                slug_cat = slugify(nombre_cat) or 'categoria'
+                cat, created = ServiceCategory.objects.get_or_create(
+                    slug=slug_cat,
+                    defaults={'nombre': nombre_cat, 'orden': ServiceCategory.objects.count() + 1}
+                )
+                if not created:
+                    cat.nombre = nombre_cat
+                    cat.save()
+                messages.success(request, f'Categoría "{nombre_cat}" agregada exitosamente')
+
+        elif action == 'delete_category':
+            cat_id = request.POST.get('category_id')
+            if cat_id:
+                cat = ServiceCategory.objects.filter(id=cat_id).first()
+                if cat:
+                    cat.delete()
+                    messages.success(request, 'Categoría eliminada')
+
+        elif action == 'add_service':
             nombre = request.POST.get('nombre_servicio', '')
+            categoria = request.POST.get('categoria', 'dermocosmiatria')
+            nueva_categoria = request.POST.get('nueva_categoria', '').strip()
+            if (categoria == '__nueva__' or not categoria) and nueva_categoria:
+                slug_cat = slugify(nueva_categoria) or 'categoria'
+                ServiceCategory.objects.get_or_create(
+                    slug=slug_cat,
+                    defaults={'nombre': nueva_categoria, 'orden': ServiceCategory.objects.count() + 1}
+                )
+                categoria = slug_cat
+
             duracion = request.POST.get('duracion', '')
             descripcion = request.POST.get('descripcion', '')
             beneficios = request.POST.get('beneficios', '')
             
             if nombre:
-                servicio = Service(nombre=nombre, duracion=duracion, descripcion=descripcion, beneficios=beneficios, activo=True)
+                servicio = Service(nombre=nombre, categoria=categoria, duracion=duracion, descripcion=descripcion, beneficios=beneficios, activo=True)
                 if 'imagen' in request.FILES:
                     servicio.imagen = request.FILES['imagen']
                 servicio.save()
@@ -191,6 +249,16 @@ def gestion_servicios(request):
             if service_id:
                 servicio = get_object_or_404(Service, id=service_id)
                 servicio.nombre = request.POST.get('nombre_servicio', '')
+                categoria = request.POST.get('categoria', 'dermocosmiatria')
+                nueva_categoria = request.POST.get('nueva_categoria', '').strip()
+                if categoria == '__nueva__' and nueva_categoria:
+                    slug_cat = slugify(nueva_categoria) or 'categoria'
+                    ServiceCategory.objects.get_or_create(
+                        slug=slug_cat,
+                        defaults={'nombre': nueva_categoria, 'orden': ServiceCategory.objects.count() + 1}
+                    )
+                    categoria = slug_cat
+                servicio.categoria = categoria
                 servicio.duracion = request.POST.get('duracion', '')
                 servicio.descripcion = request.POST.get('descripcion', '')
                 servicio.beneficios = request.POST.get('beneficios', '')
@@ -217,9 +285,13 @@ def gestion_servicios(request):
         return redirect('gestion_servicios')
 
     servicios = Service.objects.all()
+    categorias_objs = list(ServiceCategory.objects.all())
+    categorias = [(c.slug, c.nombre) for c in categorias_objs] if categorias_objs else list(Service.CATEGORIA_CHOICES)
     return render(request, 'servicios.html', {
         'user_admin': user, 
         'servicios': servicios,
+        'categorias': categorias,
+        'categorias_objs': categorias_objs,
     })
 
 
@@ -515,11 +587,18 @@ def actualizar_cita(request, cita_id):
         
         notas = request.POST.get('notas')
         estado = request.POST.get('estado')
+        fecha_hora = request.POST.get('fecha_hora')
         
         if notas is not None:
             cita.notas = notas
         if estado:
             cita.estado = estado
+        if fecha_hora:
+            try:
+                naive_dt = datetime.datetime.strptime(fecha_hora, "%Y-%m-%dT%H:%M")
+                cita.fecha_hora = timezone.make_aware(naive_dt) if timezone.is_naive(naive_dt) else naive_dt
+            except ValueError:
+                pass
             
         cita.save()
         messages.success(request, 'Cita actualizada correctamente.')

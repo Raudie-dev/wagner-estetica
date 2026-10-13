@@ -6,13 +6,50 @@ from django.utils import timezone
 from .models import Blog
 from django.contrib.auth.models import User
 
-from app2.models import ProfileConfig, Service
+from app2.models import ProfileConfig, Service, ServiceCategory, ensure_service_categoria_column
+
+def _service_category_order(service):
+    cat = (getattr(service, 'categoria', None) or '').lower()
+    order_map = {
+        'dermocosmiatria': 0,
+        'medicina-estetica': 1,
+        'odontologia': 2,
+        'depilacion': 3,
+    }
+    if cat in order_map:
+        return order_map[cat]
+    nombre = (service.nombre or '').lower()
+    if 'dermocosmiatr' in nombre:
+        return 0
+    if 'medicina' in nombre or 'armoniza' in nombre:
+        return 1
+    if 'odontolog' in nombre:
+        return 2
+    if 'depila' in nombre or 'láser' in nombre or 'laser' in nombre:
+        return 3
+    return 4
+
 
 # Create your views here.
 def index(request):
+    ensure_service_categoria_column()
     config = ProfileConfig.objects.first()
-    servicios = Service.objects.filter(activo=True)
-    return render(request, 'index.html', {'config': config, 'servicios': servicios})
+    servicios_qs = list(Service.objects.filter(activo=True))
+    for s in servicios_qs:
+        if s.nombre and 'definitiva' in s.nombre.lower():
+            s.nombre = (
+                s.nombre.replace('Depilación Definitiva Láser', 'Depilación Láser')
+                .replace('Depilación Definitiva', 'Depilación Láser')
+                .replace('depilación definitiva', 'depilación láser')
+            )
+            s.save(update_fields=['nombre'])
+    servicios = sorted(servicios_qs, key=_service_category_order)
+    categorias_servicios = list(ServiceCategory.objects.all())
+    return render(request, 'index.html', {
+        'config': config,
+        'servicios': servicios,
+        'categorias_servicios': categorias_servicios,
+    })
 
 
 def blog(request):

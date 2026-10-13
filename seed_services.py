@@ -17,13 +17,6 @@ else:
 
 servicios_iniciales = [
     {
-        "nombre": "Dermatología Médica & Clínica",
-        "duracion": "45 minutos",
-        "descripcion": "Consulta médica especializada para el diagnóstico, prevención y tratamiento integral de afecciones de la piel, acné, rosácea, lesiones pigmentarias y salud cutánea.",
-        "beneficios": "Evaluación por médicos dermatólogos certificados\nDiagnóstico dermatológico personalizado\nTratamiento específico de acné, manchas y afecciones\nPlan clínico preventivo y de seguimiento",
-        "imagen_path": "wagner-img/service_facial_glow.jpg"
-    },
-    {
         "nombre": "Dermocosmiatría & Rituales Faciales",
         "duracion": "60 minutos",
         "descripcion": "Protocolos dermo-cosmiátricos de vanguardia para renovar la textura, exfoliar profundamente e hidratar la piel mediante sueros concentrados de alta tecnología y peelings médicos.",
@@ -31,11 +24,11 @@ servicios_iniciales = [
         "imagen_path": "wagner-img/service_bbglow.jpg"
     },
     {
-        "nombre": "Odontología Estética & Diseño de Sonrisa",
-        "duracion": "60 minutos",
-        "descripcion": "Tratamientos odontológicos de precisión dedicados a la estética y salud dental: blanqueamiento profesional, limpieza ultrasónica, carillas y armonización de la sonrisa.",
-        "beneficios": "Blanqueamiento dental seguro y de alta eficacia\nArmonización de la sonrisa con la estética facial\nDiagnóstico odontológico integral\nCuidado preventivo y restauración estética",
-        "imagen_path": "wagner-img/service_hifu.jpg"
+        "nombre": "Dermatología Médica & Clínica",
+        "duracion": "45 minutos",
+        "descripcion": "Consulta médica especializada para el diagnóstico, prevención y tratamiento integral de afecciones de la piel, acné, rosácea, lesiones pigmentarias y salud cutánea.",
+        "beneficios": "Evaluación por médicos dermatólogos certificados\nDiagnóstico dermatológico personalizado\nTratamiento específico de acné, manchas y afecciones\nPlan clínico preventivo y de seguimiento",
+        "imagen_path": "wagner-img/service_facial_glow.jpg"
     },
     {
         "nombre": "Medicina Estética & Armonización Facial",
@@ -45,10 +38,17 @@ servicios_iniciales = [
         "imagen_path": "wagner-img/service_peptonas.jpg"
     },
     {
-        "nombre": "Depilación Definitiva Láser",
+        "nombre": "Odontología Estética y General",
+        "duracion": "60 minutos",
+        "descripcion": "Tratamientos odontológicos de precisión dedicados a la estética y salud dental: blanqueamiento profesional, limpieza ultrasónica, carillas y armonización de la sonrisa.",
+        "beneficios": "Blanqueamiento dental seguro y de alta eficacia\nArmonización de la sonrisa con la estética facial\nDiagnóstico odontológico integral\nCuidado preventivo y restauración estética",
+        "imagen_path": "wagner-img/service_hifu.jpg"
+    },
+    {
+        "nombre": "Depilación Láser",
         "duracion": "30-60 minutos",
-        "descripcion": "Sistema de depilación láser de diodo con tecnología de enfriamiento continuo. Rápido, inofensivo, indoloro e ideal para la eliminación progresiva y definitiva del vello.",
-        "beneficios": "Eliminación permanente del vello no deseado\nSistema indoloro apto para todo tipo de piel\nTratamiento rápido y seguro con enfriamiento constante\nSolución definitiva a la foliculitis y vellos encarnados",
+        "descripcion": "Sistema de depilación láser de diodo con tecnología de enfriamiento continuo. Rápido, inofensivo, indoloro e ideal para la eliminación progresiva del vello.",
+        "beneficios": "Eliminación duradera del vello no deseado\nSistema indoloro apto para todo tipo de piel\nTratamiento rápido y seguro con enfriamiento constante\nSolución eficaz a la foliculitis y vellos encarnados",
         "imagen_path": "wagner-img/service_laser.jpg"
     }
 ]

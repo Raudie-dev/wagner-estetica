@@ -222,9 +222,9 @@
     </div>
     
     <div class="action-controls">
-        <select class="control-select">
-            <option>Formato 12 Horas (AM/PM)</option>
-            <option>Formato 24 Horas</option>
+        <select id="timeFormatSelect" class="control-select">
+            <option value="12">Formato 12 Horas (AM/PM)</option>
+            <option value="24">Formato 24 Horas</option>
         </select>
         <button class="btn-agendar" onclick="document.getElementById('nuevaCitaModal').style.display='flex'">
             + Agendar Cita
@@ -241,31 +241,41 @@
 
 <!-- Modal Nueva Cita (Moved from Sidebar) -->
 <div id="nuevaCitaModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 26, 33, 0.7); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; padding: 1.5rem;">
-    <div class="card" style="width: 100%; max-width: 480px; position: relative; margin-bottom: 0; padding: 2rem;">
+    <div class="card" style="width: 100%; max-width: 480px; position: relative; margin-bottom: 0; padding: 2rem; max-height: 90vh; overflow-y: auto;">
         <button type="button" onclick="document.getElementById('nuevaCitaModal').style.display='none'" style="position: absolute; right: 20px; top: 20px; background: #F3F5F7; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: #495057; font-size: 1.2rem; cursor: pointer;">&times;</button>
         
         <h3 style="margin-bottom: 1.5rem; font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-text-main);">Nueva Cita</h3>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label>Cliente</label>
-                <select name="cliente_id" class="form-control" required>
-                    <option value="">Seleccione un cliente...</option>
+                <label>Cliente Existente</label>
+                <select name="cliente_id" id="selectClienteExistente" class="form-control" onchange="toggleNuevoCliente(this.value)">
+                    <option value="">-- Nuevo cliente (completar abajo) --</option>
                     {% for cliente in clientes %}
-                        <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                        <option value="{{ cliente.id }}">{{ cliente.nombre }} ({{ cliente.telefono }})</option>
                     {% endfor %}
                 </select>
             </div>
+            <div id="nuevoClienteFields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.4rem;">
+                <div>
+                    <label>Nombre Nuevo Cliente</label>
+                    <input type="text" name="nuevo_cliente_nombre" id="inputNuevoNombre" class="form-control" placeholder="Ej. Ana Pérez">
+                </div>
+                <div>
+                    <label>Teléfono</label>
+                    <input type="text" name="nuevo_cliente_telefono" id="inputNuevoTelefono" class="form-control" placeholder="54911...">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Fecha y Hora</label>
-                <input type="datetime-local" name="fecha_hora" class="form-control" required>
+                <input type="datetime-local" id="nuevaCitaFechaHora" name="fecha_hora" class="form-control" required onclick="if(this.showPicker) this.showPicker()" style="cursor: pointer;">
             </div>
             <div class="form-group">
                 <label>Tratamiento</label>
                 <select name="servicio" class="form-control" required>
                     <option value="">Seleccione un servicio...</option>
                     {% for s in servicios_activos %}
-                        <option value="{{ s.nombre }}">{{ s.nombre }}</option>
+                        <option value="{{ s.nombre }}">{{ s.nombre }} ({{ s.categoria_nombre }})</option>
                     {% endfor %}
                     <option value="Consulta General">Consulta General</option>
                 </select>
@@ -293,6 +303,11 @@
             <input type="hidden" id="modalCitaId" name="cita_id">
             
             <div class="form-group">
+                <label>Fecha y Hora</label>
+                <input type="datetime-local" id="modalFechaHora" name="fecha_hora" class="form-control" onclick="if(this.showPicker) this.showPicker()" style="cursor: pointer;">
+            </div>
+
+            <div class="form-group">
                 <label>Estado</label>
                 <select id="modalEstado" name="estado" class="form-control">
                     <option value="Pendiente">Pendiente</option>
@@ -304,7 +319,7 @@
             
             <div class="form-group">
                 <label>Notas (Solo visibles para staff)</label>
-                <textarea id="modalNotas" name="notas" class="form-control" rows="4" placeholder="Escribe aquí observaciones o detalles de la cita..."></textarea>
+                <textarea id="modalNotas" name="notas" class="form-control" rows="3" placeholder="Escribe aquí observaciones o detalles de la cita..."></textarea>
             </div>
             
             <button type="submit" class="btn-agendar" style="width: 100%; justify-content: center; margin-top: 1rem; padding: 0.8rem;">Guardar Cambios</button>
@@ -315,6 +330,12 @@
 
 {% block extra_js %}
 <script>
+    function toggleNuevoCliente(val) {
+        var box = document.getElementById('nuevoClienteFields');
+        if (!box) return;
+        box.style.display = val ? 'none' : 'grid';
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -333,6 +354,17 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             allDaySlot: false,
+            dateClick: function(info) {
+                var input = document.getElementById('nuevaCitaFechaHora');
+                if (input) {
+                    if (info.dateStr.indexOf('T') !== -1) {
+                        input.value = info.dateStr.slice(0, 16);
+                    } else {
+                        input.value = info.dateStr + 'T10:00';
+                    }
+                }
+                document.getElementById('nuevaCitaModal').style.display = 'flex';
+            },
             events: [
                 {% for cita in citas %}
                 {
@@ -347,6 +379,7 @@
                         cliente_telefono: '{{ cita.cliente.telefono|escapejs }}',
                         servicio: '{{ cita.servicio|escapejs }}',
                         estado: '{{ cita.estado|escapejs }}',
+                        fecha_iso: '{{ cita.fecha_hora|date:"Y-m-d\TH:i" }}',
                         notas: '{{ cita.notas|escapejs|default:"" }}'
                     }
                 },
@@ -360,6 +393,10 @@
                 document.getElementById('modalServicio').textContent = props.servicio;
                 document.getElementById('modalEstado').value = props.estado;
                 document.getElementById('modalNotas').value = props.notas;
+                var fechaInput = document.getElementById('modalFechaHora');
+                if (fechaInput && props.fecha_iso) {
+                    fechaInput.value = props.fecha_iso;
+                }
                 
                 var form = document.getElementById('citaUpdateForm');
                 form.action = '/app2/citas/' + info.event.id + '/actualizar/';
@@ -368,6 +405,23 @@
             }
         });
         calendar.render();
+
+        var timeFormatSelect = document.getElementById('timeFormatSelect');
+        if (timeFormatSelect) {
+            timeFormatSelect.addEventListener('change', function() {
+                var is24 = this.value === '24';
+                calendar.setOption('eventTimeFormat', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: !is24
+                });
+                calendar.setOption('slotLabelFormat', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: !is24
+                });
+            });
+        }
         
         document.getElementById('exportBtn').addEventListener('click', function() {
             var view = calendar.view;
